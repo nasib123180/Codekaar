@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#07070a" />
+<title>Pashtoons — A social platform for our people | Coming Soon</title>
+<meta name="description" content="Pashtoons is a modern social media platform built for the Pashto-speaking community. Posts, real-time chat, friends, likes, comments, shares — launching soon. A QMR project." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1. TOKENS
+   ============================================================ */
+:root{
+  --bg:            #07070a;
+  --bg-2:          #0d0d12;
+  --bg-3:          #12121a;
+  --surface:       rgba(255,255,255,.045);
+  --surface-2:     rgba(255,255,255,.08);
+  --text:          #f2f0ed;
+  --muted:         #8b8a90;
+  --accent:        #7c5cff;
+  --accent-2:      #a48bff;
+  --accent-3:      #ff8a5c;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(124,92,255,.22);
+  --glow:          rgba(124,92,255,.14);
+  --glow-warm:     rgba(255,138,92,.10);
+  --border:        rgba(255,255,255,.09);
+  --border-strong: rgba(255,255,255,.20);
+  --shadow:        0 34px 80px -34px rgba(0,0,0,.95);
+  --radius:        22px;
+  --nav-h:         78px;
+  --ease:          cubic-bezier(.22,1,.36,1);
+  --serif:         'Playfair Display', Georgia, serif;
+  --mono:          'JetBrains Mono', ui-monospace, monospace;
+}
+
+html[data-theme="light"]{
+  --bg:            #fbfaf8;
+  --bg-2:          #f2f0ec;
+  --bg-3:          #ffffff;
+  --surface:       rgba(255,255,255,.78);
+  --surface-2:     #ffffff;
+  --text:          #131316;
+  --muted:         #6b6a72;
+  --accent:        #6741e0;
+  --accent-2:      #8364ff;
+  --accent-3:      #e5653a;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(103,65,224,.16);
+  --glow:          rgba(103,65,224,.10);
+  --glow-warm:     rgba(229,101,58,.08);
+  --border:        rgba(19,19,22,.10);
+  --border-strong: rgba(19,19,22,.22);
+  --shadow:        0 34px 70px -36px rgba(60,40,140,.30);
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 20px); -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Inter', system-ui, -apple-system, sans-serif;
+  font-size:16px; line-height:1.65;
+  color:var(--text); background-color:var(--bg);
+  background-image:
+    radial-gradient(60vw 55vw at 88% -10%, var(--glow), transparent 62%),
+    radial-gradient(45vw 45vw at -8% 30%, var(--glow-warm), transparent 62%);
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  transition:background-color .45s ease, color .45s ease;
+}
+body.lock{ overflow:hidden; }
+img{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+input,textarea,select{ font:inherit; }
+ul{ list-style:none; }
+::selection{ background:var(--accent); color:var(--accent-ink); }
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:var(--bg-2); }
+::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:99px; border:3px solid var(--bg-2); }
+::-webkit-scrollbar-thumb:hover{ background:var(--accent); }
+
+.container{ width:min(1220px, 92vw); margin-inline:auto; }
+.section{ padding:clamp(72px,9vw,124px) 0; position:relative; }
+
+/* Loader */
+.loader{
+  position:fixed; inset:0; z-index:9999;
+  display:grid; place-items:center;
+  background:var(--bg);
+  transition:opacity .75s var(--ease), visibility .75s;
+}
+.loader.hide{ opacity:0; visibility:hidden; }
+.loader-inner{ display:flex; flex-direction:column; align-items:center; gap:24px; }
+.code-mark{
+  font-family:var(--mono); font-size:2.2rem; font-weight:500;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.04em;
+}
+.loader-name{ font-family:var(--serif); font-size:1.6rem; letter-spacing:.02em; color:var(--text); }
+.loader-name em{ font-style:italic; color:var(--accent); }
+.loader-track{ width:180px; height:2px; border-radius:99px; background:var(--border); overflow:hidden; }
+.loader-track span{
+  display:block; height:100%; width:42%;
+  background:linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  animation:load 1.15s ease-in-out infinite;
+}
+@keyframes load{ 0%{ transform:translateX(-110%) } 100%{ transform:translateX(360%) } }
+
+/* Nav */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:900;
+  height:var(--nav-h); display:flex; align-items:center;
+  border-bottom:1px solid transparent;
+  transition:background .45s var(--ease), backdrop-filter .45s, border-color .45s, height .45s var(--ease);
+}
+.nav.scrolled{
+  height:66px;
+  background:color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom-color:var(--border);
+}
+.nav-inner{
+  position:relative; z-index:2;
+  width:min(1220px, 92vw); margin-inline:auto;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.brand{
+  display:inline-flex; align-items:center; gap:11px;
+  font-size:1.16rem; font-weight:700; letter-spacing:-.02em; white-space:nowrap;
+}
+.brand .mark{
+  position:relative; display:grid; place-items:center;
+  width:36px; height:36px; border-radius:11px;
+  background:linear-gradient(140deg, var(--accent-2), var(--accent));
+  color:#fff; font-family:var(--mono); font-size:.92rem; font-weight:500;
+  box-shadow:0 10px 26px -10px var(--accent);
+}
+.brand .mark::after{ content:''; position:absolute; inset:0; border-radius:11px; border:1px solid rgba(255,255,255,.22); }
+.brand span.name{ color:var(--text); }
+.brand span.name em{ font-style:normal; color:var(--accent); }
+
+.nav-links{ display:flex; align-items:center; gap:26px; }
+.nav-links a{
+  position:relative; font-size:.87rem; font-weight:500;
+  color:var(--muted); transition:color .3s; padding:6px 0;
+}
+.nav-links a::after{
+  content:''; position:absolute; left:0; bottom:0;
+  width:100%; height:1.5px; border-radius:2px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-3));
+  transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease);
+}
+.nav-links a:hover{ color:var(--text); }
+.nav-links a:hover::after,
+.nav-links a.active::after{ transform:scaleX(1); transform-origin:left; }
+.nav-links a.active{ color:var(--text); }
+
+.nav-actions{ display:flex; align-items:center; gap:10px; }
+.icon-btn{
+  display:grid; place-items:center;
+  width:40px; height:40px; border-radius:11px;
+  border:1px solid var(--border); background:var(--surface);
+  font-size:.95rem; line-height:1;
+  transition:transform .3s var(--ease), border-color .3s, background .3s;
+}
+.icon-btn:hover{ transform:translateY(-2px); border-color:var(--accent); }
+
+.lang-switch{
+  display:flex; align-items:center;
+  border:1px solid var(--border); background:var(--surface);
+  border-radius:11px; padding:3px; gap:2px;
+}
+.lang-switch button{
+  padding:6px 10px; font-size:.72rem; font-weight:600;
+  color:var(--muted); border-radius:8px; letter-spacing:.02em;
+  transition:background .3s, color .3s;
+}
+.lang-switch button:hover{ color:var(--text); }
+.lang-switch button.active{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent)); color:#fff;
+}
+
+.burger{ display:none; flex-direction:column; gap:4.5px; }
+.burger span{
+  display:block; width:17px; height:1.8px; border-radius:2px;
+  background:var(--text); transition:transform .4s var(--ease), opacity .3s;
+}
+.burger.open span:nth-child(1){ transform:translateY(6.3px) rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ transform:translateY(-6.3px) rotate(-45deg); }
+
+@media (max-width:1040px){
+  .nav-links{
+    position:fixed; inset:0; z-index:1;
+    flex-direction:column; justify-content:center; gap:26px;
+    background:var(--bg);
+    clip-path:circle(0% at calc(100% - 44px) 40px);
+    transition:clip-path .65s var(--ease);
+  }
+  .nav-links.open{ clip-path:circle(150% at calc(100% - 44px) 40px); }
+  .nav-links a{ font-size:1.6rem; font-family:var(--serif); }
+  .burger{ display:flex; }
+  .nav-cta{ display:none; }
+}
+@media (min-width:1041px){ .nav-links{ clip-path:none !important; } }
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:15px 30px; border-radius:999px;
+  font-size:.92rem; font-weight:600; letter-spacing:.01em;
+  border:1px solid transparent; white-space:nowrap;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease),
+             background .35s, color .35s, border-color .35s;
+}
+.btn-sm{ padding:11px 22px; font-size:.85rem; }
+.btn-primary{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent));
+  color:var(--accent-ink); box-shadow:0 16px 38px -16px var(--accent);
+}
+.btn-primary:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px var(--accent); }
+.btn-ghost{
+  background:var(--surface); border-color:var(--border); color:var(--text);
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{ transform:translateY(-3px); border-color:var(--accent); color:var(--accent); }
+.btn-wa{
+  background:linear-gradient(135deg, #37d67a, #1faa5a); color:#fff;
+  box-shadow:0 16px 38px -16px rgba(31,170,90,.85);
+}
+.btn-wa:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px rgba(31,170,90,.9); }
+
+/* ============================================================
+   PASHT00NS HERO
+   ============================================================ */
+.ps-hero{
+  position:relative;
+  min-height:94svh;
+  display:grid; place-items:center;
+  padding:150px 5vw 90px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.ps-hero-bg{
+  position:absolute; inset:0; z-index:-2;
+  background:
+    radial-gradient(60% 55% at 50% 30%, var(--glow), transparent 65%),
+    radial-gradient(45% 45% at 85% 80%, var(--glow-warm), transparent 60%);
+}
+.ps-hero-grid{
+  position:absolute; inset:0; z-index:-1; opacity:.32;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(circle at 50% 40%, black 15%, transparent 72%);
+  -webkit-mask-image:radial-gradient(circle at 50% 40%, black 15%, transparent 72%);
+}
+.ps-hero-content{ position:relative; max-width:940px; text-align:center; }
+
+.ps-logo-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:96px; height:96px;
+  border-radius:26px;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+  box-shadow:0 24px 60px -28px var(--accent);
+  overflow:hidden;
+  margin-bottom:26px;
+  animation:float 6s ease-in-out infinite;
+}
+.ps-logo-badge img{ width:100%; height:100%; object-fit:cover; }
+@keyframes float{
+  0%,100%{ transform:translateY(0) }
+  50%{ transform:translateY(-8px) }
+}
+
+/* Coming soon badge */
+.coming-badge{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:9px 20px; border-radius:999px;
+  font-size:.72rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+  color:#fff;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  box-shadow:0 16px 40px -14px var(--accent);
+  animation:shine 3s ease-in-out infinite;
+}
+.coming-badge .dot{
+  width:6px; height:6px; border-radius:50%; background:#fff;
+  animation:pulse-b 1.6s infinite;
+}
+@keyframes pulse-b{
+  0%,100%{ opacity:1; transform:scale(1) }
+  50%{ opacity:.5; transform:scale(1.4) }
+}
+@keyframes shine{
+  0%,100%{ box-shadow:0 16px 40px -14px var(--accent) }
+  50%{ box-shadow:0 20px 50px -14px var(--accent-3) }
+}
+
+.ps-hero h1{
+  margin-top:26px;
+  font-weight:700;
+  font-size:clamp(2.4rem, 7.5vw, 5.2rem);
+  line-height:1.02;
+  letter-spacing:-.04em;
+}
+.ps-hero h1 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.02em;
+}
+.ps-hero-sub{
+  margin:22px auto 0; max-width:640px;
+  color:var(--muted); font-size:clamp(1rem, 1.6vw, 1.14rem); font-weight:300;
+}
+.ps-hero-sub strong{ color:var(--text); font-weight:500; }
+
+.ps-hero-btns{
+  margin-top:38px;
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+}
+
+.ps-hero-proof{
+  margin-top:52px;
+  display:flex; flex-wrap:wrap; justify-content:center; gap:14px 40px;
+  font-size:.83rem; color:var(--muted); letter-spacing:.02em;
+}
+.ps-hero-proof span{ display:inline-flex; align-items:center; gap:8px; }
+.ps-hero-proof b{ color:var(--text); font-weight:600; }
+
+/* Mockup devices */
+.devices{
+  margin:70px auto 0;
+  max-width:900px;
+  display:grid;
+  grid-template-columns:1fr 1.4fr 1fr;
+  gap:18px;
+  align-items:end;
+}
+@media (max-width:760px){ .devices{ display:none; } }
+
+.device{
+  position:relative;
+  border-radius:20px;
+  background:var(--bg-3);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  transition:transform .8s var(--ease);
+}
+.device:hover{ transform:translateY(-6px); }
+
+.device-phone{ aspect-ratio:9/17; }
+.device-tablet{ aspect-ratio:4/5; }
+
+.device-bar{
+  display:flex; align-items:center; gap:6px;
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg-2);
+}
+.device-dot{ width:7px; height:7px; border-radius:50%; background:var(--border-strong); }
+
+.device-body{
+  padding:16px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.device-row{
+  display:flex; align-items:center; gap:9px;
+}
+.device-avatar{
+  width:26px; height:26px; border-radius:50%;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  flex:none;
+}
+.device-line{
+  height:8px; border-radius:4px; flex:1;
+  background:linear-gradient(90deg, var(--surface-2), transparent);
+}
+.device-line.short{ flex:0 0 55%; }
+.device-line.accent{ background:linear-gradient(90deg, var(--accent), var(--accent-3)); flex:0 0 40%; }
+.device-img{
+  height:100px; border-radius:10px;
+  background:linear-gradient(135deg, var(--accent-soft), var(--glow-warm));
+  border:1px solid var(--border);
+}
+.device-img.tall{ height:160px; }
+.device-img.small{ height:64px; }
+
+/* Sec head */
+.sec-head{ max-width:760px; margin:0 auto clamp(46px,6vw,72px); text-align:center; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:.72rem; font-weight:500;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:18px;
+}
+.eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent); }
+.sec-head h2{
+  font-weight:700;
+  font-size:clamp(1.9rem, 4.4vw, 3.15rem);
+  line-height:1.12; letter-spacing:-.03em;
+}
+.sec-head h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.sec-sub{ margin-top:18px; color:var(--muted); font-size:1.02rem; font-weight:300; }
+
+/* What is it */
+.what-grid{
+  display:grid; grid-template-columns:1.1fr 1fr; gap:34px; align-items:center;
+}
+@media (max-width:900px){ .what-grid{ grid-template-columns:1fr; } }
+
+.what-text p{
+  color:var(--muted); font-size:1.02rem; font-weight:300; margin-bottom:18px;
+}
+.what-text p strong{ color:var(--text); font-weight:500; }
+.what-text p em{ font-style:italic; color:var(--accent-2); }
+
+.what-panel{
+  padding:38px;
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.what-panel .tag{
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:22px;
+}
+.what-row{
+  display:flex; align-items:flex-start; gap:14px;
+  padding:14px 0; border-bottom:1px dashed var(--border);
+}
+.what-row:last-child{ border-bottom:none; }
+.what-row .ico{
+  flex:none; width:38px; height:38px; border-radius:12px;
+  display:grid; place-items:center; font-size:1.05rem;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+}
+.what-row h4{ font-size:.95rem; font-weight:600; margin-bottom:3px; letter-spacing:-.01em; }
+.what-row p{ color:var(--muted); font-size:.85rem; font-weight:300; }
+
+/* Features */
+.features-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+}
+@media (max-width:1000px){ .features-grid{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:620px){ .features-grid{ grid-template-columns:1fr; } }
+
+.feature-card{
+  position:relative; overflow:hidden;
+  padding:34px 28px;
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  transition:transform .55s var(--ease), border-color .45s, box-shadow .55s;
+}
+.feature-card:hover{ transform:translateY(-8px); border-color:var(--accent); box-shadow:var(--shadow); }
+.feature-icon{
+  width:56px; height:56px; border-radius:16px;
+  display:grid; place-items:center; font-size:1.5rem;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+  margin-bottom:22px;
+  transition:transform .55s var(--ease);
+}
+.feature-card:hover .feature-icon{ transform:rotate(-7deg) scale(1.07); }
+.feature-num{
+  font-family:var(--mono); font-size:.7rem; color:var(--accent);
+  letter-spacing:.16em; margin-bottom:12px;
+}
+.feature-card h3{ font-size:1.15rem; font-weight:600; letter-spacing:-.015em; margin-bottom:10px; }
+.feature-card p{ color:var(--muted); font-size:.92rem; font-weight:300; }
+
+/* Why different */
+.why-band{
+  padding:clamp(50px,7vw,72px) 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:var(--bg-2);
+  transition:background .45s ease;
+}
+.why-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:26px;
+}
+@media (max-width:900px){ .why-grid{ grid-template-columns:1fr; } }
+
+.why-card{
+  padding:26px 22px;
+}
+.why-num{
+  font-family:var(--serif); font-style:italic;
+  font-size:2rem; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  margin-bottom:14px;
+}
+.why-card h4{ font-size:1.05rem; font-weight:600; letter-spacing:-.01em; margin-bottom:8px; }
+.why-card p{ color:var(--muted); font-size:.9rem; font-weight:300; }
+
+/* Progress timeline */
+.progress-wrap{
+  max-width:820px; margin-inline:auto;
+  padding:38px 32px;
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+}
+.progress-bar{
+  display:flex; align-items:center; gap:0;
+  margin-bottom:26px;
+}
+.progress-step{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:12px;
+  position:relative;
+}
+.progress-step::before{
+  content:''; position:absolute; top:14px; left:0; right:50%;
+  height:2px; background:var(--border);
+}
+.progress-step:first-child::before{ display:none; }
+.progress-step.done::before,
+.progress-step.active::before{ background:linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+.progress-dot{
+  width:30px; height:30px; border-radius:50%;
+  display:grid; place-items:center;
+  background:var(--surface-2);
+  border:2px solid var(--border);
+  color:var(--muted);
+  font-size:.72rem; font-weight:700;
+  position:relative; z-index:1;
+}
+.progress-step.done .progress-dot{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent));
+  border-color:transparent; color:#fff;
+}
+.progress-step.active .progress-dot{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  border-color:transparent; color:#fff;
+  box-shadow:0 0 0 6px var(--accent-soft);
+  animation:pulse-b 2s infinite;
+}
+.progress-step span{
+  font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); text-align:center;
+  max-width:110px;
+}
+.progress-step.done span,
+.progress-step.active span{ color:var(--text); }
+
+.progress-note{
+  text-align:center; font-size:.9rem; color:var(--muted); font-weight:300;
+}
+.progress-note strong{ color:var(--accent-2); font-weight:600; }
+
+/* Waitlist */
+.waitlist{
+  position:relative; overflow:hidden;
+  padding:clamp(70px,10vw,120px) 5vw;
+  text-align:center;
+  border-top:1px solid var(--border);
+  background:var(--bg-2);
+  transition:background .45s ease;
+}
+.waitlist::before{
+  content:''; position:absolute; left:50%; top:50%;
+  width:900px; height:900px; transform:translate(-50%,-50%);
+  background:radial-gradient(circle, var(--accent-soft), transparent 62%);
+  pointer-events:none;
+}
+.waitlist > *{ position:relative; z-index:1; }
+.waitlist h2{
+  font-weight:700;
+  font-size:clamp(1.9rem, 5vw, 3.4rem);
+  line-height:1.1; letter-spacing:-.035em;
+  max-width:820px; margin-inline:auto;
+}
+.waitlist h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.waitlist p{ margin:20px auto 0; max-width:560px; color:var(--muted); font-weight:300; }
+.waitlist-btns{
+  margin-top:34px;
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+}
+
+/* FAQ */
+.faq-list{
+  max-width:760px; margin-inline:auto;
+  display:flex; flex-direction:column; gap:12px;
+}
+.faq-item{
+  border-radius:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:border-color .35s, background .35s;
+}
+.faq-item.open{ border-color:var(--accent); }
+.faq-q{
+  width:100%; text-align:left;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  padding:22px 26px;
+  font-size:1rem; font-weight:500; letter-spacing:-.01em;
+}
+.faq-q .plus{
+  flex:none; position:relative;
+  width:24px; height:24px; border-radius:50%;
+  background:var(--surface-2);
+  transition:transform .4s var(--ease), background .35s;
+}
+.faq-q .plus::before,
+.faq-q .plus::after{
+  content:''; position:absolute; left:50%; top:50%;
+  background:var(--text); border-radius:2px;
+  transform:translate(-50%,-50%);
+}
+.faq-q .plus::before{ width:11px; height:1.6px; }
+.faq-q .plus::after{ width:1.6px; height:11px; transition:transform .35s; }
+.faq-item.open .faq-q .plus{ background:var(--accent); transform:rotate(180deg); }
+.faq-item.open .faq-q .plus::before,
+.faq-item.open .faq-q .plus::after{ background:#fff; }
+.faq-item.open .faq-q .plus::after{ transform:translate(-50%,-50%) scaleY(0); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease); }
+.faq-a-inner{ padding:0 26px 24px; color:var(--muted); font-size:.94rem; font-weight:300; }
+
+/* Footer */
+.footer{
+  border-top:1px solid var(--border);
+  padding:56px 0 40px;
+  font-size:.88rem;
+}
+.footer-top{
+  display:flex; flex-wrap:wrap; gap:28px;
+  align-items:center; justify-content:space-between;
+  padding-bottom:28px; border-bottom:1px solid var(--border);
+}
+.footer-links{ display:flex; flex-wrap:wrap; gap:24px; }
+.footer-links a{ color:var(--muted); transition:color .3s; }
+.footer-links a:hover{ color:var(--accent); }
+.footer-bottom{
+  padding-top:26px;
+  display:flex; flex-wrap:wrap; gap:14px;
+  align-items:center; justify-content:space-between;
+  color:var(--muted); font-size:.82rem;
+}
+
+/* Floating WhatsApp */
+.wa{
+  position:fixed; right:20px; bottom:20px; z-index:800;
+  display:flex; align-items:center; gap:11px;
+  padding:11px 20px 11px 12px; border-radius:999px;
+  background:linear-gradient(135deg, #37d67a, #1faa5a);
+  box-shadow:0 16px 34px -12px rgba(31,170,90,.85);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.wa:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 22px 44px -12px rgba(31,170,90,.9); }
+.wa svg{ width:26px; height:26px; fill:#fff; flex:none; }
+.wa span{ color:#fff; font-size:.88rem; font-weight:600; letter-spacing:.01em; white-space:nowrap; }
+@media (max-width:520px){ .wa{ padding:11px; border-radius:50%; } .wa span{ display:none; } }
+.wa::before{
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  border:2px solid rgba(55,214,122,.55);
+  animation:ring 2.4s ease-out infinite;
+}
+@keyframes ring{ 0%{ transform:scale(1); opacity:.8 } 100%{ transform:scale(1.55); opacity:0 } }
+
+/* Reveal */
+.reveal{
+  opacity:0; transform:translateY(28px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+  transition-delay:var(--d,0ms);
+  will-change:opacity, transform;
+}
+.reveal.in{ opacity:1; transform:none; }
+
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:6px; }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal{ opacity:1; transform:none; }
+}
+
+/* RTL */
+html[dir="rtl"] body{ direction:rtl; }
+html[dir="rtl"] .eyebrow::before{ transform:scaleX(-1); }
+html[dir="rtl"] .progress-step::before{ left:50%; right:0; }
+</style>
+</head>
+
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="code-mark">👥</div>
+    <div class="loader-name">Pash<em>toons</em></div>
+    <div class="loader-track"><span></span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="mark">&lt;/&gt;</span>
+      <span class="name">Code<em>Kaar</em></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="#what" class="active" data-i18n="nav.what">What is it</a>
+      <a href="#features" data-i18n="nav.features">Features</a>
+      <a href="#why" data-i18n="nav.why">Why Us</a>
+      <a href="#progress" data-i18n="nav.progress">Progress</a>
+      <a href="#waitlist" data-i18n="nav.waitlist">Waitlist</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" class="active" aria-label="English">EN</button>
+        <button data-lang="ps" aria-label="Pashto">پښتو</button>
+        <button data-lang="fa" aria-label="Dari">دری</button>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+      <a href="https://wa.me/93776669400?text=Hi!%20I%27d%20like%20to%20join%20the%20Pashtoons%20waitlist."
+         target="_blank" rel="noopener"
+         class="btn btn-primary btn-sm nav-cta" data-i18n="nav.cta">Join Waitlist</a>
+      <button class="icon-btn burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="ps-hero">
+    <div class="ps-hero-bg"></div>
+    <div class="ps-hero-grid"></div>
+
+    <div class="ps-hero-content">
+      <div class="ps-logo-badge reveal">
+        <img src="assets/images/pashtoons_logo.png" alt="Pashtoons logo">
+      </div>
+
+      <div class="coming-badge reveal" style="--d:80ms">
+        <span class="dot"></span>
+        <span data-i18n="hero.badge">Coming Soon</span>
+      </div>
+
+      <h1 class="reveal" style="--d:160ms">
+        <span data-i18n="hero.title1">A social platform</span><br>
+        <span data-i18n="hero.title2">built for</span> <em data-i18n="hero.title3">our people.</em>
+      </h1>
+
+      <p class="ps-hero-sub reveal" style="--d:240ms">
+        <strong>Pashtoons</strong>
+        <span data-i18n="hero.sub">is a modern social platform for the Pashto-speaking world — posts, real-time chat, friends, likes, comments and shares. Built by QMR, from Khost.</span>
+      </p>
+
+      <div class="ps-hero-btns reveal" style="--d:320ms">
+        <a href="#waitlist" class="btn btn-primary" data-i18n="hero.btnWait">Join the Waitlist →</a>
+        <a href="#features" class="btn btn-ghost" data-i18n="hero.btnFeat">See Features</a>
+      </div>
+
+      <div class="ps-hero-proof reveal" style="--d:400ms">
+        <span><b data-i18n="hero.proof1n">5+</b> <span data-i18n="hero.proof1">core features</span></span>
+        <span><b data-i18n="hero.proof2n">Pashto</b> <span data-i18n="hero.proof2">first</span></span>
+        <span><b data-i18n="hero.proof3n">2025</b> <span data-i18n="hero.proof3">launch target</span></span>
+      </div>
+
+      <!-- Device mockups -->
+      <div class="devices reveal" style="--d:480ms">
+        <div class="device device-phone">
+          <div class="device-bar">
+            <span class="device-dot"></span><span class="device-dot"></span><span class="device-dot"></span>
+          </div>
+          <div class="device-body">
+            <div class="device-row"><div class="device-avatar"></div><div class="device-line short"></div></div>
+            <div class="device-img"></div>
+            <div class="device-line"></div>
+            <div class="device-line short"></div>
+          </div>
+        </div>
+        <div class="device device-tablet">
+          <div class="device-bar">
+            <span class="device-dot"></span><span class="device-dot"></span><span class="device-dot"></span>
+          </div>
+          <div class="device-body">
+            <div class="device-row"><div class="device-avatar"></div><div class="device-line short"></div></div>
+            <div class="device-img tall"></div>
+            <div class="device-line"></div>
+            <div class="device-line short"></div>
+            <div class="device-line accent"></div>
+          </div>
+        </div>
+        <div class="device device-phone">
+          <div class="device-bar">
+            <span class="device-dot"></span><span class="device-dot"></span><span class="device-dot"></span>
+          </div>
+          <div class="device-body">
+            <div class="device-row"><div class="device-avatar"></div><div class="device-line short"></div></div>
+            <div class="device-img small"></div>
+            <div class="device-line"></div>
+            <div class="device-line short"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IS IT -->
+  <section class="section" id="what">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="what.eyebrow">What is Pashtoons</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="what.title1">A home for our community</span> <em data-i18n="what.title2">online.</em>
+        </h2>
+        <p class="sec-sub reveal" style="--d:160ms" data-i18n="what.sub">
+          A place where Pashto speakers can connect, share, and be themselves — without translation, without compromise.
+        </p>
+      </header>
+
+      <div class="what-grid">
+        <div class="what-text reveal">
+          <p data-i18n="what.p1">
+            Most social platforms were built for English speakers first — everyone else is an afterthought. <strong>Pashtoons is different.</strong> It's designed from day one for our language, our culture, and our community.
+          </p>
+          <p data-i18n="what.p2">
+            Built by the team behind <em>CodeKaar</em> and <em>QMR</em> in Khost, Afghanistan — Pashtoons brings together everything you'd expect from a modern social app, but with a <strong>Pashto-first</strong> experience.
+          </p>
+          <p data-i18n="what.p3">
+            Posts, real-time chat, friends, likes, comments, shares — all in one place. And it's <strong>coming soon</strong>.
+          </p>
+        </div>
+
+        <div class="what-panel reveal" style="--d:120ms">
+          <div class="tag" data-i18n="what.tag">At a glance</div>
+
+          <div class="what-row">
+            <div class="ico">👥</div>
+            <div>
+              <h4 data-i18n="what.v1.title">Who it's for</h4>
+              <p data-i18n="what.v1.desc">Pashto speakers worldwide</p>
+            </div>
+          </div>
+
+          <div class="what-row">
+            <div class="ico">🗣️</div>
+            <div>
+              <h4 data-i18n="what.v2.title">Languages</h4>
+              <p data-i18n="what.v2.desc">Pashto (primary) · Dari · English</p>
+            </div>
+          </div>
+
+          <div class="what-row">
+            <div class="ico">📱</div>
+            <div>
+              <h4 data-i18n="what.v3.title">Platforms</h4>
+              <p data-i18n="what.v3.desc">Web · iOS · Android</p>
+            </div>
+          </div>
+
+          <div class="what-row">
+            <div class="ico">🚀</div>
+            <div>
+              <h4 data-i18n="what.v4.title">Status</h4>
+              <p data-i18n="what.v4.desc">In development · Launching 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features" style="padding-top:0">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="feat.eyebrow">Features</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="feat.title1">Everything you need,</span> <em data-i18n="feat.title2">nothing you don't.</em>
+        </h2>
+        <p class="sec-sub reveal" style="--d:160ms" data-i18n="feat.sub">
+          Six core features that make Pashtoons a real social home — not just another feed.
+        </p>
+      </header>
+
+      <div class="features-grid">
+
+        <article class="feature-card reveal">
+          <div class="feature-icon">📝</div>
+          <div class="feature-num">01 / POSTS</div>
+          <h3 data-i18n="feat.f1.title">Posts &amp; Moments</h3>
+          <p data-i18n="feat.f1.desc">Share text, photos and videos with your friends and the wider community — in Pashto, right-to-left, perfectly formatted.</p>
+        </article>
+
+        <article class="feature-card reveal" style="--d:80ms">
+          <div class="feature-icon">💬</div>
+          <div class="feature-num">02 / CHAT</div>
+          <h3 data-i18n="feat.f2.title">Real-Time Chat</h3>
+          <p data-i18n="feat.f2.desc">Instant one-on-one and group messaging with typing indicators, media sharing and read receipts.</p>
+        </article>
+
+        <article class="feature-card reveal" style="--d:160ms">
+          <div class="feature-icon">🤝</div>
+          <div class="feature-num">03 / FRIENDS</div>
+          <h3 data-i18n="feat.f3.title">Friends System</h3>
+          <p data-i18n="feat.f3.desc">Send friend requests, follow people you care about, and build your own circle within the community.</p>
+        </article>
+
+        <article class="feature-card reveal" style="--d:240ms">
+          <div class="feature-icon">❤️</div>
+          <div class="feature-num">04 / LIKES</div>
+          <h3 data-i18n="feat.f4.title">Likes &amp; Reactions</h3>
+          <p data-i18n="feat.f4.desc">Express how you feel with more than just a heart — reactions that match the way we actually talk.</p>
+        </article>
+
+        <article class="feature-card reveal" style="--d:320ms">
+          <div class="feature-icon">💭</div>
+          <div class="feature-num">05 / COMMENTS</div>
+          <h3 data-i18n="feat.f5.title">Comments</h3>
+          <p data-i18n="feat.f5.desc">Join the conversation under every post. Reply, react, and keep discussions alive with your community.</p>
+        </article>
+
+        <article class="feature-card reveal" style="--d:400ms">
+          <div class="feature-icon">🔁</div>
+          <div class="feature-num">06 / SHARES</div>
+          <h3 data-i18n="feat.f6.title">Shares</h3>
+          <p data-i18n="feat.f6.desc">Share posts with friends, groups, or on your own timeline. Let good content travel through the community.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY DIFFERENT -->
+  <section class="why-band" id="why">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="why.eyebrow">Why Pashtoons</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="why.title1">Not just another</span> <em data-i18n="why.title2">social app.</em>
+        </h2>
+      </header>
+
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <div class="why-num">01</div>
+          <h4 data-i18n="why.w1.title">Pashto-first design</h4>
+          <p data-i18n="why.w1.desc">Right-to-left layouts, Pashto typography, and a UI that feels native — not translated.</p>
+        </div>
+        <div class="why-card reveal" style="--d:100ms">
+          <div class="why-num">02</div>
+          <h4 data-i18n="why.w2.title">Built for our community</h4>
+          <p data-i18n="why.w2.desc">Every feature is designed with Pashto speakers in mind — culture, context, and conversation style.</p>
+        </div>
+        <div class="why-card reveal" style="--d:200ms">
+          <div class="why-num">03</div>
+          <h4 data-i18n="why.w3.title">Made in Afghanistan</h4>
+          <p data-i18n="why.w3.desc">Built by young Afghan developers in Khost — proof that world-class tech can come from home.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="section" id="progress">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="prog.eyebrow">Where We Are</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="prog.title1">Building Pashtoons,</span> <em data-i18n="prog.title2">step by step.</em>
+        </h2>
+        <p class="sec-sub reveal" style="--d:160ms" data-i18n="prog.sub">
+          An honest look at our progress. No fake launch dates — just real work.
+        </p>
+      </header>
+
+      <div class="progress-wrap reveal">
+        <div class="progress-bar">
+          <div class="progress-step done">
+            <div class="progress-dot">✓</div>
+            <span data-i18n="prog.s1">Ideation</span>
+          </div>
+          <div class="progress-step done">
+            <div class="progress-dot">✓</div>
+            <span data-i18n="prog.s2">Design</span>
+          </div>
+          <div class="progress-step active">
+            <div class="progress-dot">◐</div>
+            <span data-i18n="prog.s3">Development</span>
+          </div>
+          <div class="progress-step">
+            <div class="progress-dot">4</div>
+            <span data-i18n="prog.s4">Beta Testing</span>
+          </div>
+          <div class="progress-step">
+            <div class="progress-dot">5</div>
+            <span data-i18n="prog.s5">Public Launch</span>
+          </div>
+        </div>
+        <p class="progress-note">
+          <span data-i18n="prog.note1">Currently in</span>
+          <strong data-i18n="prog.note2">active development</strong>.
+          <span data-i18n="prog.note3">Target launch: 2025.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section class="waitlist" id="waitlist">
+    <h2 class="reveal">
+      <span data-i18n="wait.title1">Be the first to know</span> <em data-i18n="wait.title2">when we launch.</em>
+    </h2>
+    <p class="reveal" style="--d:100ms" data-i18n="wait.sub">
+      Join the waitlist and we'll message you the moment Pashtoons goes live. No spam — just one message when it's ready.
+    </p>
+    <div class="waitlist-btns reveal" style="--d:180ms">
+      <a href="https://wa.me/93776669400?text=Hi!%20I%27d%20like%20to%20join%20the%20Pashtoons%20waitlist."
+         target="_blank" rel="noopener" class="btn btn-wa">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+          <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+        </svg>
+        <span data-i18n="wait.btn">Join Waitlist on WhatsApp</span>
+      </a>
+      <a href="mailto:qmr.community@gmail.com?subject=Pashtoons%20Waitlist"
+         class="btn btn-ghost" data-i18n="wait.btn2">Email Me When Live</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="faq.eyebrow">FAQ</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="faq.title1">Common</span> <em data-i18n="faq.title2">questions</em>
+        </h2>
+      </header>
+
+      <div class="faq-list">
+
+        <div class="faq-item reveal">
+          <button class="faq-q"><span data-i18n="faq.q1">When will Pashtoons launch?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a1">
+            We're targeting a 2025 launch. It's currently in active development — you can see our progress in the timeline above. Join the waitlist to get notified the day it goes live.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:60ms">
+          <button class="faq-q"><span data-i18n="faq.q2">Is Pashtoons free?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a2">
+            Yes — Pashtoons will be completely free for users. We want to build the biggest possible community, not put up paywalls.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:120ms">
+          <button class="faq-q"><span data-i18n="faq.q3">What languages will it support?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a3">
+            Pashto is the primary language, with Dari and English also supported. Right-to-left layouts are handled natively — not as an afterthought.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:180ms">
+          <button class="faq-q"><span data-i18n="faq.q4">Will there be a mobile app?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a4">
+            Yes. Pashtoons will be available on web first, with iOS and Android apps following. You'll be able to use it across all your devices seamlessly.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:240ms">
+          <button class="faq-q"><span data-i18n="faq.q5">How is it different from Facebook?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a5">
+            Facebook was built for English speakers first — everything else is a translation. Pashtoons is designed Pashto-first, with our community's culture, conversation style, and needs baked in from day one.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:300ms">
+          <button class="faq-q"><span data-i18n="faq.q6">How can I help or get involved?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a6">
+            Message us on WhatsApp! We're always looking for beta testers, designers, and developers from the community. If you're in Khost and want to help build Pashtoons, reach out.
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <a href="index.html" class="brand">
+        <span class="mark">&lt;/&gt;</span>
+        <span class="name">Code<em>Kaar</em></span>
+      </a>
+
+      <nav class="footer-links">
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="qmr.html">QMR</a>
+        <a href="pashtoons.html">Pashtoons</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="contact.html" data-i18n="nav.contact">Contact</a>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year">2025</span> Pashtoons · <span data-i18n="footer.tag">A QMR project</span></span>
+      <span data-i18n="footer.made">Made in Khost, Afghanistan</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa" href="https://wa.me/93776669400?text=Hi!%20I%27d%20like%20to%20join%20the%20Pashtoons%20waitlist."
+   target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+  </svg>
+  <span data-i18n="wa.float">Join Waitlist</span>
+</a>
+
+<script>
+(function () {
+  'use strict';
+
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  /* ---------- i18n (Pashtoons) ---------- */
+  const i18n = {
+    en: {
+      'nav.home':'Home','nav.what':'What is it','nav.features':'Features','nav.why':'Why Us',
+      'nav.progress':'Progress','nav.waitlist':'Waitlist','nav.services':'Services','nav.contact':'Contact',
+      'nav.cta':'Join Waitlist',
+      'hero.badge':'Coming Soon',
+      'hero.title1':'A social platform','hero.title2':'built for','hero.title3':'our people.',
+      'hero.sub':'is a modern social platform for the Pashto-speaking world — posts, real-time chat, friends, likes, comments and shares. Built by QMR, from Khost.',
+      'hero.btnWait':'Join the Waitlist →','hero.btnFeat':'See Features',
+      'hero.proof1n':'6','hero.proof1':'core features',
+      'hero.proof2n':'Pashto','hero.proof2':'first',
+      'hero.proof3n':'2025','hero.proof3':'launch target',
+      'what.eyebrow':'What is Pashtoons',
+      'what.title1':'A home for our community','what.title2':'online.',
+      'what.sub':'A place where Pashto speakers can connect, share, and be themselves — without translation, without compromise.',
+      'what.p1':"Most social platforms were built for English speakers first — everyone else is an afterthought. Pashtoons is different. It's designed from day one for our language, our culture, and our community.",
+      'what.p2':'Built by the team behind CodeKaar and QMR in Khost, Afghanistan — Pashtoons brings together everything you\'d expect from a modern social app, but with a Pashto-first experience.',
+      'what.p3':"Posts, real-time chat, friends, likes, comments, shares — all in one place. And it's coming soon.",
+      'what.tag':'At a glance',
+      'what.v1.title':"Who it's for",'what.v1.desc':'Pashto speakers worldwide',
+      'what.v2.title':'Languages','what.v2.desc':'Pashto (primary) · Dari · English',
+      'what.v3.title':'Platforms','what.v3.desc':'Web · iOS · Android',
+      'what.v4.title':'Status','what.v4.desc':'In development · Launching 2025',
+      'feat.eyebrow':'Features',
+      'feat.title1':'Everything you need,','feat.title2':"nothing you don't.",
+      'feat.sub':'Six core features that make Pashtoons a real social home — not just another feed.',
+      'feat.f1.title':'Posts & Moments','feat.f1.desc':'Share text, photos and videos with your friends and the wider community — in Pashto, right-to-left, perfectly formatted.',
+      'feat.f2.title':'Real-Time Chat','feat.f2.desc':'Instant one-on-one and group messaging with typing indicators, media sharing and read receipts.',
+      'feat.f3.title':'Friends System','feat.f3.desc':'Send friend requests, follow people you care about, and build your own circle within the community.',
+      'feat.f4.title':'Likes & Reactions','feat.f4.desc':'Express how you feel with more than just a heart — reactions that match the way we actually talk.',
+      'feat.f5.title':'Comments','feat.f5.desc':'Join the conversation under every post. Reply, react, and keep discussions alive with your community.',
+      'feat.f6.title':'Shares','feat.f6.desc':'Share posts with friends, groups, or on your own timeline. Let good content travel through the community.',
+      'why.eyebrow':'Why Pashtoons',
+      'why.title1':'Not just another','why.title2':'social app.',
+      'why.w1.title':'Pashto-first design','why.w1.desc':'Right-to-left layouts, Pashto typography, and a UI that feels native — not translated.',
+      'why.w2.title':'Built for our community','why.w2.desc':'Every feature is designed with Pashto speakers in mind — culture, context, and conversation style.',
+      'why.w3.title':'Made in Afghanistan','why.w3.desc':'Built by young Afghan developers in Khost — proof that world-class tech can come from home.',
+      'prog.eyebrow':'Where We Are',
+      'prog.title1':'Building Pashtoons,','prog.title2':'step by step.',
+      'prog.sub':'An honest look at our progress. No fake launch dates — just real work.',
+      'prog.s1':'Ideation','prog.s2':'Design','prog.s3':'Development','prog.s4':'Beta Testing','prog.s5':'Public Launch',
+      'prog.note1':'Currently in','prog.note2':'active development','prog.note3':'Target launch: 2025.',
+      'wait.title1':'Be the first to know','wait.title2':'when we launch.',
+      'wait.sub':"Join the waitlist and we'll message you the moment Pashtoons goes live. No spam — just one message when it's ready.",
+      'wait.btn':'Join Waitlist on WhatsApp','wait.btn2':'Email Me When Live',
+      'faq.eyebrow':'FAQ','faq.title1':'Common','faq.title2':'questions',
+      'faq.q1':'When will Pashtoons launch?',
+      'faq.a1':"We're targeting a 2025 launch. It's currently in active development — you can see our progress in the timeline above. Join the waitlist to get notified the day it goes live.",
+      'faq.q2':'Is Pashtoons free?',
+      'faq.a2':'Yes — Pashtoons will be completely free for users. We want to build the biggest possible community, not put up paywalls.',
+      'faq.q3':'What languages will it support?',
+      'faq.a3':'Pashto is the primary language, with Dari and English also supported. Right-to-left layouts are handled natively — not as an afterthought.',
+      'faq.q4':'Will there be a mobile app?',
+      'faq.a4':"Yes. Pashtoons will be available on web first, with iOS and Android apps following. You'll be able to use it across all your devices seamlessly.",
+      'faq.q5':'How is it different from Facebook?',
+      'faq.a5':"Facebook was built for English speakers first — everything else is a translation. Pashtoons is designed Pashto-first, with our community's culture, conversation style, and needs baked in from day one.",
+      'faq.q6':'How can I help or get involved?',
+      'faq.a6':"Message us on WhatsApp! We're always looking for beta testers, designers, and developers from the community. If you're in Khost and want to help build Pashtoons, reach out.",
+      'footer.tag':'A QMR project','footer.made':'Made in Khost, Afghanistan',
+      'wa.float':'Join Waitlist'
+    },
+    ps: {
+      'nav.home':'کور','nav.what':'دا څه دی','nav.features':'ځانګړتیاوې','nav.why':'ولې موږ',
+      'nav.progress':'پرمختګ','nav.waitlist':'انتظار لیست','nav.services':'خدمتونه','nav.contact':'اړیکه',
+      'nav.cta':'انتظار لیست',
+      'hero.badge':'ژر راځي',
+      'hero.title1':'یو ټولنیز پلیټ فارم','hero.title2':'زموږ د خلکو لپاره','hero.title3':'جوړ شوی.',
+      'hero.sub':'د پښتو ژبې نړۍ لپاره یو عصري ټولنیز پلیټ فارم دی — پوسټونه، ریښتینی وخت چیټ، ملګري، خوښې، نظرونه او شریکول. د QMR لخوا، له خوست څخه.',
+      'hero.btnWait':'انتظار لیست ته یوځای شئ →','hero.btnFeat':'ځانګړتیاوې وګورئ',
+      'hero.proof1n':'۶','hero.proof1':'بنسټیزې ځانګړتیاوې',
+      'hero.proof2n':'پښتو','hero.proof2':'لومړی',
+      'hero.proof3n':'۲۰۲۵','hero.proof3':'د پیل هدف',
+      'what.eyebrow':'Pashtoons څه دی',
+      'what.title1':'زموږ ټولنې لپاره یو کور','what.title2':'آنلاین.',
+      'what.sub':'یو ځای چیرې چې پښتو ویونکي کولای شي وصل شي، شریک کړي او ځان وي — پرته له ژباړې، پرته له جوړجاړي.',
+      'what.p1':'ډیری ټولنیز پلیټ فارمونه د انګلیسي ویونکو لپاره لومړی جوړ شوي — نور ټول وروسته فکر دي. Pashtoons توپیر لري. دا زموږ د ژبې، کلتور او ټولنې لپاره د لومړي ورځې څخه ډیزاین شوی.',
+      'what.p2':'د CodeKaar او QMR ټیم لخوا په خوست، افغانستان کې جوړ شوی — Pashtoons هر هغه څه سره یوځای کوي چې تاسو یې د عصري ټولنیز اپ څخه تمه لرئ، خو د پښتو-لومړي تجربې سره.',
+      'what.p3':'پوسټونه، ریښتینی وخت چیټ، ملګري، خوښې، نظرونه، شریکول — ټول په یو ځای. او ژر راځي.',
+      'what.tag':'یو نظر',
+      'what.v1.title':'د چا لپاره','what.v1.desc':'په نړۍ کې پښتو ویونکي',
+      'what.v2.title':'ژبې','what.v2.desc':'پښتو (لومړنی) · دری · انګلیسي',
+      'what.v3.title':'پلیټ فارمونه','what.v3.desc':'وېب · iOS · Android',
+      'what.v4.title':'حالت','what.v4.desc':'په پراختیا کې · په ۲۰۲۵ کې پیل',
+      'feat.eyebrow':'ځانګړتیاوې',
+      'feat.title1':'هر څه چې تاسو ورته اړتیا لرئ،','feat.title2':'هیڅ شی چې تاسو نه غواړئ.',
+      'feat.sub':'شپږ بنسټیزې ځانګړتیاوې چې Pashtoons یو ریښتینی ټولنیز کور جوړوي — نه یوازې بل فیډ.',
+      'feat.f1.title':'پوسټونه او شیبې','feat.f1.desc':'متن، عکسونه او ویډیوګانې د خپلو ملګرو او پراخه ټولنې سره شریک کړئ — په پښتو، ښی-څخه-کیڼ، په سمه توګه formatted.',
+      'feat.f2.title':'ریښتینی وخت چیټ','feat.f2.desc':'سمدلاسه یو-په-یو او ګروپ پیغام لیږل د ټایپ شاخصونو، میډیا شریکولو او لوستل شوي رسیدونو سره.',
+      'feat.f3.title':'د ملګرو سیسټم','feat.f3.desc':'د ملګرتیا غوښتنې ولېږئ، هغه خلک تعقیب کړئ چې تاسو یې پاملرنه کوئ، او په ټولنه کې خپله حلقه جوړه کړئ.',
+      'feat.f4.title':'خوښې او عکس العملونه','feat.f4.desc':'څنګه چې احساس کوئ څرګند کړئ د یوازې زړه څخه ډیر — عکس العملونه چې د هغه ډول سره سمون لري چې موږ واقعیا خبرې کوو.',
+      'feat.f5.title':'نظرونه','feat.f5.desc':'د هر پوسټ لاندې خبرو اترو سره یوځای شئ. ځواب ورکړئ، عکس العمل وکړئ، او د خپلې ټولنې سره بحثونه ژوندي وساتئ.',
+      'feat.f6.title':'شریکول','feat.f6.desc':'پوسټونه د ملګرو، ګروپونو یا خپل ټایم لاین سره شریک کړئ. ښه منځپانګه د ټولنې له لارې سفر وکړي.',
+      'why.eyebrow':'ولې Pashtoons',
+      'why.title1':'یوازې بل','why.title2':'ټولنیز اپ نه.',
+      'why.w1.title':'پښتو-لومړی ډیزاین','why.w1.desc':'ښی-څخه-کیڼ ترتیب، پښتو ټایپوګرافي، او یو UI چې اصلي احساس کوي — نه ژباړل شوی.',
+      'why.w2.title':'زموږ د ټولنې لپاره جوړ شوی','why.w2.desc':'هره ځانګړتیا د پښتو ویونکو په پام کې نیولو سره ډیزاین شوې — کلتور، متن، او د خبرو اترو سټایل.',
+      'why.w3.title':'په افغانستان کې جوړ شوی','why.w3.desc':'د ځوانو افغان پراختیا کوونکو لخوا په خوست کې جوړ شوی — ثابتوي چې د نړۍ کچې ټیک کولای شي له کوره راشي.',
+      'prog.eyebrow':'چیرته یو',
+      'prog.title1':'Pashtoons جوړوو،','prog.title2':'ګام په ګام.',
+      'prog.sub':'زموږ د پرمختګ صادقانه کتنه. د پیل جعلي نیټې ندي — یوازې ریښتینی کار.',
+      'prog.s1':'فکر','prog.s2':'ډیزاین','prog.s3':'پراختیا','prog.s4':'بیټا ازموینه','prog.s5':'عام پیل',
+      'prog.note1':'اوس مهال په','prog.note2':'فعال پراختیا','prog.note3':'د پیل هدف: ۲۰۲۵.',
+      'wait.title1':'لومړی پوه شئ','wait.title2':'کله چې پیل کړو.',
+      'wait.sub':'انتظار لیست ته یوځای شئ او موږ به تاسو ته پیغام درکړو هغه شېبه چې Pashtoons ژوندی شي. سپیم نه — یوازې یو پیغام کله چې چمتو وي.',
+      'wait.btn':'په واټساپ انتظار لیست','wait.btn2':'بریښنالیک کله چې ژوندی',
+      'faq.eyebrow':'پوښتنې','faq.title1':'عام','faq.title2':'پوښتنې',
+      'faq.q1':'Pashtoons به کله پیل شي؟',
+      'faq.a1':'موږ د ۲۰۲۵ پیل هدف ټاکلی. اوس مهال په فعاله پراختیا کې دی — تاسو کولای شئ زموږ پرمختګ پورتنۍ مهالویش کې وګورئ. انتظار لیست ته یوځای شئ ترڅو د پیل ورځ خبر شي.',
+      'faq.q2':'ایا Pashtoons وړیا دی؟',
+      'faq.a2':'هو — Pashtoons به د کاروونکو لپاره بشپړ وړیا وي. موږ غواړو ترټولو لوی ممکنه ټولنه جوړه کړو، نه د تادیې دیوالونه.',
+      'faq.q3':'کومې ژبې به ملاتړ وکړي؟',
+      'faq.a3':'پښتو لومړنۍ ژبه ده، د دری او انګلیسي ملاتړ سره. ښی-څخه-کیڼ ترتیبونه په اصلي ډول سمبال شوي — نه د وروسته فکر په توګه.',
+      'faq.q4':'ایا به موبایل اپ وي؟',
+      'faq.a4':'هو. Pashtoons به لومړی په وېب کې وي، د iOS او Android اپونو سره تعقیب شي. تاسو به یې په ټولو وسیلو کې په بې سیمه توګه وکاروئ.',
+      'faq.q5':'د فېسبوک څخه څنګه توپیر لري؟',
+      'faq.a5':'فېسبوک د انګلیسي ویونکو لپاره لومړی جوړ شوی — نور هر څه ژباړه ده. Pashtoons د پښتو-لومړي ډیزاین شوی، زموږ د ټولنې کلتور، د خبرو اترو سټایل او اړتیاوې د لومړي ورځې څخه پکې شاملې.',
+      'faq.q6':'څنګه کولای شم مرسته وکړم یا ښکیل شم؟',
+      'faq.a6':'موږ ته په واټساپ پیغام راکړئ! موږ تل د ټولنې څخه د بیټا ازموونکو، ډیزاینرانو او پراختیا کوونکو په لټه کې یو. که تاسو په خوست کې یاست او غواړئ د Pashtoons په جوړولو کې مرسته وکړئ، اړیکه وکړئ.',
+      'footer.tag':'د QMR پروژه','footer.made':'په خوست، افغانستان کې جوړ شوی',
+      'wa.float':'انتظار لیست'
+    },
+    fa: {
+      'nav.home':'خانه','nav.what':'چیست','nav.features':'ویژگی‌ها','nav.why':'چرا ما',
+      'nav.progress':'پیشرفت','nav.waitlist':'لیست انتظار','nav.services':'خدمات','nav.contact':'تماس',
+      'nav.cta':'لیست انتظار',
+      'hero.badge':'به زودی',
+      'hero.title1':'یک پلتفرم اجتماعی','hero.title2':'ساخته شده برای','hero.title3':'مردم ما.',
+      'hero.sub':'یک پلتفرم اجتماعی مدرن برای جهان پشتوزبان است — پست‌ها، چت لحظه‌ای، دوستان، لایک‌ها، نظرات و اشتراک‌گذاری. ساخته QMR، از خوست.',
+      'hero.btnWait':'به لیست انتظار بپیوندید →','hero.btnFeat':'مشاهده ویژگی‌ها',
+      'hero.proof1n':'۶','hero.proof1':'ویژگی اصلی',
+      'hero.proof2n':'پشتو','hero.proof2':'اول',
+      'hero.proof3n':'۲۰۲۵','hero.proof3':'هدف راه‌اندازی',
+      'what.eyebrow':'Pashtoons چیست',
+      'what.title1':'خانه‌ای برای جامعه ما','what.title2':'آنلاین.',
+      'what.sub':'جایی که پشتوزبانان می‌توانند ارتباط برقرار کنند، به اشتراک بگذارند و خودشان باشند — بدون ترجمه، بدون سازش.',
+      'what.p1':'اکثر پلتفرم‌های اجتماعی ابتدا برای انگلیسی‌زبانان ساخته شده‌اند — بقیه بعد از فکر. Pashtoons متفاوت است. از روز اول برای زبان، فرهنگ و جامعه ما طراحی شده.',
+      'what.p2':'ساخته شده توسط تیم CodeKaar و QMR در خوست، افغانستان — Pashtoons همه چیزهایی که از یک اپ اجتماعی مدرن انتظار دارید را با تجربه پشتو-اول گرد هم می‌آورد.',
+      'what.p3':'پست‌ها، چت لحظه‌ای، دوستان، لایک‌ها، نظرات، اشتراک‌گذاری — همه در یک مکان. و به زودی می‌آید.',
+      'what.tag':'در یک نگاه',
+      'what.v1.title':'برای چه کسی','what.v1.desc':'پشتوزبانان در سراسر جهان',
+      'what.v2.title':'زبان‌ها','what.v2.desc':'پشتو (اصلی) · دری · انگلیسی',
+      'what.v3.title':'پلتفرم‌ها','what.v3.desc':'وب · iOS · اندروید',
+      'what.v4.title':'وضعیت','what.v4.desc':'در حال توسعه · راه‌اندازی ۲۰۲۵',
+      'feat.eyebrow':'ویژگی‌ها',
+      'feat.title1':'هر چیزی که نیاز دارید،','feat.title2':'چیزی که نمی‌خواهید.',
+      'feat.sub':'شش ویژگی اصلی که Pashtoons را به یک خانه اجتماعی واقعی تبدیل می‌کند — نه فقط یک فید دیگر.',
+      'feat.f1.title':'پست‌ها و لحظات','feat.f1.desc':'متن، عکس و ویدیو را با دوستان و جامعه گسترده‌تر به اشتراک بگذارید — به پشتو، راست به چپ، کاملاً قالب‌بندی شده.',
+      'feat.f2.title':'چت لحظه‌ای','feat.f2.desc':'پیام‌رسانی فوری یک‌به‌یک و گروهی با نشانگرهای تایپ، اشتراک‌گذاری رسانه و رسیدهای خوانده شده.',
+      'feat.f3.title':'سیستم دوستان','feat.f3.desc':'درخواست دوستی بفرستید، افرادی که به آن‌ها اهمیت می‌دهید را دنبال کنید و حلقه خود را در جامعه بسازید.',
+      'feat.f4.title':'لایک‌ها و واکنش‌ها','feat.f4.desc':'احساس خود را با چیزی بیشتر از قلب بیان کنید — واکنش‌هایی که با روش واقعی صحبت ما مطابقت دارند.',
+      'feat.f5.title':'نظرات','feat.f5.desc':'به گفتگو زیر هر پست بپیوندید. پاسخ دهید، واکنش نشان دهید و بحث‌ها را با جامعه خود زنده نگه دارید.',
+      'feat.f6.title':'اشتراک‌گذاری','feat.f6.desc':'پست‌ها را با دوستان، گروه‌ها یا تایم‌لاین خود به اشتراک بگذارید. بگذارید محتوای خوب در جامعه سفر کند.',
+      'why.eyebrow':'چرا Pashtoons',
+      'why.title1':'فقط یک','why.title2':'اپ اجتماعی دیگر نه.',
+      'why.w1.title':'طراحی پشتو-اول','why.w1.desc':'چیدمان راست به چپ، تایپوگرافی پشتو و UI که بومی به نظر می‌رسد — نه ترجمه شده.',
+      'why.w2.title':'ساخته شده برای جامعه ما','why.w2.desc':'هر ویژگی با در نظر گرفتن پشتوزبانان طراحی شده — فرهنگ، زمینه و سبک گفتگو.',
+      'why.w3.title':'ساخته شده در افغانستان','why.w3.desc':'ساخته شده توسط توسعه‌دهندگان جوان افغان در خوست — اثبات اینکه فناوری در سطح جهانی می‌تواند از خانه بیاید.',
+      'prog.eyebrow':'کجا هستیم',
+      'prog.title1':'ساختن Pashtoons،','prog.title2':'گام به گام.',
+      'prog.sub':'نگاهی صادقانه به پیشرفت ما. بدون تاریخ‌های راه‌اندازی جعلی — فقط کار واقعی.',
+      'prog.s1':'ایده','prog.s2':'طراحی','prog.s3':'توسعه','prog.s4':'تست بتا','prog.s5':'راه‌اندازی عمومی',
+      'prog.note1':'در حال حاضر در','prog.note2':'توسعه فعال','prog.note3':'هدف راه‌اندازی: ۲۰۲۵.',
+      'wait.title1':'اولین کسی باشید که می‌داند','wait.title2':'چه زمانی راه‌اندازی می‌کنیم.',
+      'wait.sub':'به لیست انتظار بپیوندید و ما لحظه‌ای که Pashtoons زنده شد به شما پیام می‌دهیم. بدون اسپم — فقط یک پیام وقتی آماده شد.',
+      'wait.btn':'لیست انتظار در واتس‌اپ','wait.btn2':'ایمیل وقتی زنده',
+      'faq.eyebrow':'سوالات','faq.title1':'سوالات','faq.title2':'رایج',
+      'faq.q1':'Pashtoons چه زمانی راه‌اندازی می‌شود؟',
+      'faq.a1':'ما هدف راه‌اندازی ۲۰۲۵ را داریم. در حال حاضر در توسعه فعال است — می‌توانید پیشرفت ما را در جدول زمانی بالا ببینید. به لیست انتظار بپیوندید تا روز راه‌اندازی مطلع شوید.',
+      'faq.q2':'آیا Pashtoons رایگان است؟',
+      'faq.a2':'بله — Pashtoons کاملاً برای کاربران رایگان خواهد بود. ما می‌خواهیم بزرگترین جامعه ممکن را بسازیم، نه دیوار پرداخت.',
+      'faq.q3':'از چه زبان‌هایی پشتیبانی می‌کند؟',
+      'faq.a3':'پشتو زبان اصلی است، با پشتیبانی دری و انگلیسی. چیدمان‌های راست به چپ به صورت بومی مدیریت می‌شوند — نه به عنوان فکر بعدی.',
+      'faq.q4':'آیا اپ موبایل خواهد داشت؟',
+      'faq.a4':'بله. Pashtoons ابتدا در وب در دسترس خواهد بود، با اپ‌های iOS و اندروید پس از آن. می‌توانید آن را در همه دستگاه‌های خود به صورت یکپارچه استفاده کنید.',
+      'faq.q5':'چه تفاوتی با فیس‌بوک دارد؟',
+      'faq.a5':'فیس‌بوک ابتدا برای انگلیسی‌زبانان ساخته شد — همه چیز دیگر ترجمه است. Pashtoons پشتو-اول طراحی شده، با فرهنگ، سبک گفتگو و نیازهای جامعه ما از روز اول در آن گنجانده شده.',
+      'faq.q6':'چگونه می‌توانم کمک کنم یا درگیر شوم؟',
+      'faq.a6':'در واتس‌اپ به ما پیام دهید! ما همیشه به دنبال تسترهای بتا، طراحان و توسعه‌دهندگان از جامعه هستیم. اگر در خوست هستید و می‌خواهید به ساخت Pashtoons کمک کنید، تماس بگیرید.',
+      'footer.tag':'یک پروژه QMR','footer.made':'ساخته شده در خوست، افغانستان',
+      'wa.float':'لیست انتظار'
+    }
+  };
+
+  let currentLang = store.get('ck-lang') || 'en';
+
+  function applyLang(lang){
+    const dict = i18n[lang] || i18n.en;
+    currentLang = lang;
+    document.documentElement.lang = lang === 'ps' ? 'ps' : lang === 'fa' ? 'fa' : 'en';
+    document.documentElement.dir = (lang === 'ps' || lang === 'fa') ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    store.set('ck-lang', lang);
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  /* Loader */
+  const loader = document.getElementById('loader');
+  function hideLoader(){
+    if (loader) loader.classList.add('hide');
+    setTimeout(() => loader && loader.remove(), 950);
+  }
+  if (document.readyState === 'complete') setTimeout(hideLoader, 650);
+  else {
+    window.addEventListener('load', () => setTimeout(hideLoader, 650));
+    setTimeout(hideLoader, 3800);
+  }
+
+  /* Theme */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const saved = store.get('ck-theme');
+  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+
+  function syncTheme(){
+    const dark = root.getAttribute('data-theme') === 'dark';
+    themeBtn.textContent = dark ? '🌙' : '☀️';
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', dark ? '#07070a' : '#fbfaf8');
+  }
+  syncTheme();
+
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store.set('ck-theme', next);
+    syncTheme();
+  });
+
+  /* Sticky nav */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  /* Mobile menu */
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  function setMenu(open){
+    navLinks.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('lock', open);
+  }
+  burger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  /* Reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+
+  /* Active nav link */
+  const sections = document.querySelectorAll('section[id]');
+  const links = navLinks.querySelectorAll('a');
+  if ('IntersectionObserver' in window && sections.length) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => spy.observe(s));
+  }
+
+  /* FAQ */
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      faqItems.forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+  if (faqItems.length) {
+    faqItems[0].classList.add('open');
+    const firstA = faqItems[0].querySelector('.faq-a');
+    firstA.style.maxHeight = firstA.scrollHeight + 'px';
+  }
+
+  /* Year */
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  applyLang(currentLang);
+})();
+</script>
+
+</body>
+</html>

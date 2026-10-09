@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#07070a" />
+<title>Services — Websites, Landing Pages & Online Shops | CodeKaar</title>
+<meta name="description" content="CodeKaar builds fast, beautiful websites for businesses in Afghanistan — Business websites, landing pages, e-commerce stores, redesigns. Delivered in 3–5 days from Khost." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1. TOKENS
+   ============================================================ */
+:root{
+  --bg:            #07070a;
+  --bg-2:          #0d0d12;
+  --bg-3:          #12121a;
+  --surface:       rgba(255,255,255,.045);
+  --surface-2:     rgba(255,255,255,.08);
+  --text:          #f2f0ed;
+  --muted:         #8b8a90;
+  --accent:        #7c5cff;
+  --accent-2:      #a48bff;
+  --accent-3:      #ff8a5c;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(124,92,255,.22);
+  --glow:          rgba(124,92,255,.14);
+  --glow-warm:     rgba(255,138,92,.10);
+  --border:        rgba(255,255,255,.09);
+  --border-strong: rgba(255,255,255,.20);
+  --shadow:        0 34px 80px -34px rgba(0,0,0,.95);
+  --radius:        22px;
+  --nav-h:         78px;
+  --ease:          cubic-bezier(.22,1,.36,1);
+  --serif:         'Playfair Display', Georgia, serif;
+  --mono:          'JetBrains Mono', ui-monospace, monospace;
+}
+
+html[data-theme="light"]{
+  --bg:            #fbfaf8;
+  --bg-2:          #f2f0ec;
+  --bg-3:          #ffffff;
+  --surface:       rgba(255,255,255,.78);
+  --surface-2:     #ffffff;
+  --text:          #131316;
+  --muted:         #6b6a72;
+  --accent:        #6741e0;
+  --accent-2:      #8364ff;
+  --accent-3:      #e5653a;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(103,65,224,.16);
+  --glow:          rgba(103,65,224,.10);
+  --glow-warm:     rgba(229,101,58,.08);
+  --border:        rgba(19,19,22,.10);
+  --border-strong: rgba(19,19,22,.22);
+  --shadow:        0 34px 70px -36px rgba(60,40,140,.30);
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 20px); -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Inter', system-ui, -apple-system, sans-serif;
+  font-size:16px; line-height:1.65;
+  color:var(--text); background-color:var(--bg);
+  background-image:
+    radial-gradient(60vw 55vw at 88% -10%, var(--glow), transparent 62%),
+    radial-gradient(45vw 45vw at -8% 30%, var(--glow-warm), transparent 62%);
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  transition:background-color .45s ease, color .45s ease;
+}
+body.lock{ overflow:hidden; }
+img{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+input,textarea,select{ font:inherit; }
+ul{ list-style:none; }
+::selection{ background:var(--accent); color:var(--accent-ink); }
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:var(--bg-2); }
+::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:99px; border:3px solid var(--bg-2); }
+::-webkit-scrollbar-thumb:hover{ background:var(--accent); }
+
+.container{ width:min(1220px, 92vw); margin-inline:auto; }
+.section{ padding:clamp(72px,9vw,124px) 0; position:relative; }
+
+/* Loader */
+.loader{
+  position:fixed; inset:0; z-index:9999;
+  display:grid; place-items:center;
+  background:var(--bg);
+  transition:opacity .75s var(--ease), visibility .75s;
+}
+.loader.hide{ opacity:0; visibility:hidden; }
+.loader-inner{ display:flex; flex-direction:column; align-items:center; gap:24px; }
+.code-mark{
+  font-family:var(--mono); font-size:2.2rem; font-weight:500;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.04em;
+}
+.loader-name{ font-family:var(--serif); font-size:1.6rem; letter-spacing:.02em; color:var(--text); }
+.loader-name em{ font-style:italic; color:var(--accent); }
+.loader-track{ width:180px; height:2px; border-radius:99px; background:var(--border); overflow:hidden; }
+.loader-track span{
+  display:block; height:100%; width:42%;
+  background:linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  animation:load 1.15s ease-in-out infinite;
+}
+@keyframes load{ 0%{ transform:translateX(-110%) } 100%{ transform:translateX(360%) } }
+
+/* Nav */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:900;
+  height:var(--nav-h); display:flex; align-items:center;
+  border-bottom:1px solid transparent;
+  transition:background .45s var(--ease), backdrop-filter .45s, border-color .45s, height .45s var(--ease);
+}
+.nav.scrolled{
+  height:66px;
+  background:color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom-color:var(--border);
+}
+.nav-inner{
+  position:relative; z-index:2;
+  width:min(1220px, 92vw); margin-inline:auto;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.brand{
+  display:inline-flex; align-items:center; gap:11px;
+  font-size:1.16rem; font-weight:700; letter-spacing:-.02em; white-space:nowrap;
+}
+.brand .mark{
+  position:relative; display:grid; place-items:center;
+  width:36px; height:36px; border-radius:11px;
+  background:linear-gradient(140deg, var(--accent-2), var(--accent));
+  color:#fff; font-family:var(--mono); font-size:.92rem; font-weight:500;
+  box-shadow:0 10px 26px -10px var(--accent);
+}
+.brand .mark::after{ content:''; position:absolute; inset:0; border-radius:11px; border:1px solid rgba(255,255,255,.22); }
+.brand span.name{ color:var(--text); }
+.brand span.name em{ font-style:normal; color:var(--accent); }
+
+.nav-links{ display:flex; align-items:center; gap:26px; }
+.nav-links a{
+  position:relative; font-size:.87rem; font-weight:500;
+  color:var(--muted); transition:color .3s; padding:6px 0;
+}
+.nav-links a::after{
+  content:''; position:absolute; left:0; bottom:0;
+  width:100%; height:1.5px; border-radius:2px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-3));
+  transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease);
+}
+.nav-links a:hover{ color:var(--text); }
+.nav-links a:hover::after,
+.nav-links a.active::after{ transform:scaleX(1); transform-origin:left; }
+.nav-links a.active{ color:var(--text); }
+
+.nav-actions{ display:flex; align-items:center; gap:10px; }
+.icon-btn{
+  display:grid; place-items:center;
+  width:40px; height:40px; border-radius:11px;
+  border:1px solid var(--border); background:var(--surface);
+  font-size:.95rem; line-height:1;
+  transition:transform .3s var(--ease), border-color .3s, background .3s;
+}
+.icon-btn:hover{ transform:translateY(-2px); border-color:var(--accent); }
+
+.lang-switch{
+  display:flex; align-items:center;
+  border:1px solid var(--border); background:var(--surface);
+  border-radius:11px; padding:3px; gap:2px;
+}
+.lang-switch button{
+  padding:6px 10px; font-size:.72rem; font-weight:600;
+  color:var(--muted); border-radius:8px; letter-spacing:.02em;
+  transition:background .3s, color .3s;
+}
+.lang-switch button:hover{ color:var(--text); }
+.lang-switch button.active{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent)); color:#fff;
+}
+
+.burger{ display:none; flex-direction:column; gap:4.5px; }
+.burger span{
+  display:block; width:17px; height:1.8px; border-radius:2px;
+  background:var(--text); transition:transform .4s var(--ease), opacity .3s;
+}
+.burger.open span:nth-child(1){ transform:translateY(6.3px) rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ transform:translateY(-6.3px) rotate(-45deg); }
+
+@media (max-width:1040px){
+  .nav-links{
+    position:fixed; inset:0; z-index:1;
+    flex-direction:column; justify-content:center; gap:26px;
+    background:var(--bg);
+    clip-path:circle(0% at calc(100% - 44px) 40px);
+    transition:clip-path .65s var(--ease);
+  }
+  .nav-links.open{ clip-path:circle(150% at calc(100% - 44px) 40px); }
+  .nav-links a{ font-size:1.6rem; font-family:var(--serif); }
+  .burger{ display:flex; }
+  .nav-cta{ display:none; }
+}
+@media (min-width:1041px){ .nav-links{ clip-path:none !important; } }
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:15px 30px; border-radius:999px;
+  font-size:.92rem; font-weight:600; letter-spacing:.01em;
+  border:1px solid transparent; white-space:nowrap;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease),
+             background .35s, color .35s, border-color .35s;
+}
+.btn-sm{ padding:11px 22px; font-size:.85rem; }
+.btn-primary{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent));
+  color:var(--accent-ink); box-shadow:0 16px 38px -16px var(--accent);
+}
+.btn-primary:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px var(--accent); }
+.btn-ghost{
+  background:var(--surface); border-color:var(--border); color:var(--text);
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{ transform:translateY(-3px); border-color:var(--accent); color:var(--accent); }
+.btn-wa{
+  background:linear-gradient(135deg, #37d67a, #1faa5a); color:#fff;
+  box-shadow:0 16px 38px -16px rgba(31,170,90,.85);
+}
+.btn-wa:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px rgba(31,170,90,.9); }
+
+/* ============================================================
+   PAGE HERO (compact)
+   ============================================================ */
+.page-hero{
+  position:relative;
+  padding:150px 5vw 70px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.page-hero-bg{
+  position:absolute; inset:0; z-index:-2;
+  background:
+    radial-gradient(55% 45% at 50% 0%, var(--glow), transparent 65%),
+    radial-gradient(40% 40% at 90% 60%, var(--glow-warm), transparent 60%);
+}
+.page-hero-grid{
+  position:absolute; inset:0; z-index:-1; opacity:.28;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(circle at 50% 30%, black 12%, transparent 68%);
+  -webkit-mask-image:radial-gradient(circle at 50% 30%, black 12%, transparent 68%);
+}
+.page-hero-content{ position:relative; max-width:840px; text-align:center; margin-inline:auto; }
+
+.pill{
+  display:inline-flex; align-items:center; gap:9px;
+  padding:8px 18px; border-radius:999px;
+  font-size:.74rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent-2);
+  background:var(--accent-soft);
+  border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.pill .dot{
+  width:6px; height:6px; border-radius:50%; background:#5cd68a;
+  box-shadow:0 0 0 0 rgba(92,214,138,.7);
+  animation:pulse 2.2s infinite;
+}
+@keyframes pulse{
+  70%{ box-shadow:0 0 0 8px rgba(92,214,138,0) }
+  100%{ box-shadow:0 0 0 0 rgba(92,214,138,0) }
+}
+
+.page-hero h1{
+  margin-top:24px;
+  font-weight:700;
+  font-size:clamp(2.2rem, 6vw, 4.4rem);
+  line-height:1.05;
+  letter-spacing:-.04em;
+}
+.page-hero h1 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.02em;
+}
+.page-hero-sub{
+  margin:22px auto 0; max-width:620px;
+  color:var(--muted); font-size:clamp(1rem, 1.6vw, 1.14rem); font-weight:300;
+}
+.page-hero-sub strong{ color:var(--text); font-weight:500; }
+
+.page-hero-btns{
+  margin-top:34px;
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+}
+
+/* Sec head */
+.sec-head{ max-width:760px; margin:0 auto clamp(46px,6vw,72px); text-align:center; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:.72rem; font-weight:500;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:18px;
+}
+.eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent); }
+.sec-head h2{
+  font-weight:700;
+  font-size:clamp(1.9rem, 4.4vw, 3.15rem);
+  line-height:1.12; letter-spacing:-.03em;
+}
+.sec-head h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.sec-sub{ margin-top:18px; color:var(--muted); font-size:1.02rem; font-weight:300; }
+
+/* ============================================================
+   SERVICE DETAIL BLOCKS
+   ============================================================ */
+.service-block{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  align-items:center;
+  padding:clamp(50px,7vw,80px) 0;
+  border-bottom:1px solid var(--border);
+}
+.service-block:last-of-type{ border-bottom:none; }
+.service-block.reverse .service-visual{ order:2; }
+@media (max-width:900px){
+  .service-block{ grid-template-columns:1fr; gap:30px; }
+  .service-block.reverse .service-visual{ order:0; }
+}
+
+.service-info .badge-row{
+  display:flex; align-items:center; gap:12px; margin-bottom:20px;
+}
+.service-icon-lg{
+  width:64px; height:64px; border-radius:18px;
+  display:grid; place-items:center; font-size:1.7rem;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+  flex:none;
+}
+.service-badge{
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.14em;
+  text-transform:uppercase; padding:6px 12px; border-radius:999px;
+  color:var(--accent-2);
+  background:var(--accent-soft);
+  border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.service-info h2{
+  font-weight:700;
+  font-size:clamp(1.6rem, 3.4vw, 2.4rem);
+  letter-spacing:-.03em; line-height:1.15; margin-bottom:16px;
+}
+.service-info h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.service-info > p{
+  color:var(--muted); font-size:1rem; font-weight:300; margin-bottom:24px;
+}
+
+.service-features{
+  display:grid; grid-template-columns:1fr 1fr; gap:14px 22px;
+  margin-bottom:30px;
+}
+@media (max-width:600px){ .service-features{ grid-template-columns:1fr; } }
+
+.service-features li{
+  display:flex; align-items:flex-start; gap:11px;
+  font-size:.92rem; color:var(--muted);
+}
+.service-features li::before{
+  content:'✓'; flex:none; margin-top:2px;
+  display:grid; place-items:center;
+  width:18px; height:18px; border-radius:50%;
+  background:var(--accent-soft);
+  color:var(--accent-2);
+  font-size:.66rem; font-weight:700;
+}
+
+.service-price-row{
+  display:flex; flex-wrap:wrap; align-items:center; gap:22px;
+  padding-top:24px;
+  border-top:1px dashed var(--border);
+}
+.service-price{ display:flex; align-items:baseline; gap:6px; }
+.service-price .amount{
+  font-family:var(--serif); font-weight:600;
+  font-size:1.9rem; letter-spacing:-.03em;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.service-price small{
+  font-size:.8rem; color:var(--muted); letter-spacing:.02em;
+}
+.service-price-row .btn{ flex:1; min-width:180px; }
+
+/* Service visual */
+.service-visual{
+  position:relative;
+  padding:34px;
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  overflow:hidden;
+  min-height:340px;
+  display:grid; place-items:center;
+}
+.service-visual::before{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(300px 260px at 30% 20%, var(--accent-soft), transparent 70%);
+  pointer-events:none;
+}
+.service-visual-inner{
+  position:relative; z-index:1; width:100%;
+}
+
+/* Browser mockup */
+.mock-browser{
+  border-radius:14px;
+  background:var(--bg-3);
+  border:1px solid var(--border);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.mock-bar{
+  display:flex; align-items:center; gap:7px;
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg-2);
+}
+.mock-dot{ width:9px; height:9px; border-radius:50%; }
+.mock-dot.r{ background:#ff5f57; }
+.mock-dot.y{ background:#febc2e; }
+.mock-dot.g{ background:#28c840; }
+.mock-url{
+  margin-left:12px; flex:1;
+  padding:4px 12px; border-radius:6px;
+  background:var(--surface);
+  font-family:var(--mono); font-size:.68rem; color:var(--muted);
+}
+.mock-body{
+  padding:22px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.mock-line{
+  height:9px; border-radius:4px;
+  background:linear-gradient(90deg, var(--surface-2), transparent);
+}
+.mock-line.w90{ width:90%; } .mock-line.w70{ width:70%; } .mock-line.w50{ width:50%; }
+.mock-line.accent{
+  background:linear-gradient(90deg, var(--accent), var(--accent-3));
+  width:44%; height:12px;
+}
+.mock-img{
+  height:70px; border-radius:8px;
+  background:linear-gradient(135deg, var(--accent-soft), var(--glow-warm));
+  border:1px solid var(--border);
+}
+.mock-grid{
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;
+}
+.mock-tile{
+  aspect-ratio:1;
+  border-radius:8px;
+  background:linear-gradient(135deg, var(--surface-2), var(--bg-2));
+  border:1px solid var(--border);
+}
+.mock-tile.hi{
+  background:linear-gradient(135deg, var(--accent-soft), var(--glow-warm));
+  border-color:color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* Cart mock */
+.mock-cart-row{
+  display:flex; align-items:center; gap:10px;
+  padding:9px 0;
+  border-bottom:1px dashed var(--border);
+}
+.mock-cart-row:last-child{ border-bottom:none; padding-bottom:0; }
+.mock-cart-img{
+  width:34px; height:34px; border-radius:8px; flex:none;
+  background:linear-gradient(135deg, var(--accent-soft), var(--glow-warm));
+  border:1px solid var(--border);
+}
+.mock-cart-info{ flex:1; display:flex; flex-direction:column; gap:4px; }
+.mock-cart-info .mock-line{ height:7px; }
+.mock-cart-price{
+  font-family:var(--mono); font-size:.7rem; color:var(--accent-2);
+  font-weight:500;
+}
+.mock-total{
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:14px; padding-top:12px;
+  border-top:2px solid var(--border-strong);
+  font-family:var(--mono); font-size:.82rem; font-weight:600;
+}
+.mock-total .val{
+  color:var(--accent-2); font-size:1rem;
+}
+
+/* Redesign split */
+.mock-split{
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+}
+.mock-split-col{ display:flex; flex-direction:column; gap:8px; }
+.mock-split-col .label{
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:4px;
+}
+.mock-split-col.hi .label{ color:var(--accent); }
+
+/* ============================================================
+   PROCESS
+   ============================================================ */
+.process-grid{
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:20px;
+  position:relative;
+}
+@media (max-width:900px){ .process-grid{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:520px){ .process-grid{ grid-template-columns:1fr; } }
+
+.process-step{
+  position:relative;
+  padding:32px 26px;
+  border-radius:18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  transition:transform .5s var(--ease), border-color .4s;
+}
+.process-step:hover{ transform:translateY(-6px); border-color:var(--accent); }
+
+.step-num{
+  font-family:var(--mono); font-size:1.6rem; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  margin-bottom:16px; letter-spacing:-.03em;
+}
+.process-step h4{
+  font-size:1rem; font-weight:600; margin-bottom:8px; letter-spacing:-.01em;
+}
+.process-step p{ color:var(--muted); font-size:.87rem; font-weight:300; }
+
+/* ============================================================
+   INCLUDED BAND
+   ============================================================ */
+.included-band{
+  padding:clamp(50px,7vw,80px) 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:var(--bg-2);
+  transition:background .45s ease;
+}
+.included-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+}
+@media (max-width:900px){ .included-grid{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:560px){ .included-grid{ grid-template-columns:1fr; } }
+
+.included-card{
+  padding:26px 24px;
+  border-radius:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  transition:transform .5s var(--ease), border-color .4s;
+}
+.included-card:hover{ transform:translateY(-5px); border-color:var(--accent); }
+.included-card .ico{
+  width:44px; height:44px; border-radius:12px;
+  display:grid; place-items:center; font-size:1.15rem;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+  margin-bottom:16px;
+}
+.included-card h4{ font-size:1rem; font-weight:600; margin-bottom:6px; letter-spacing:-.01em; }
+.included-card p{ color:var(--muted); font-size:.88rem; font-weight:300; }
+
+/* ============================================================
+   CTA FINAL
+   ============================================================ */
+.cta-final{
+  position:relative; overflow:hidden;
+  text-align:center;
+  padding:clamp(90px,13vw,160px) 5vw;
+  border-top:1px solid var(--border);
+  background:var(--bg-2);
+  transition:background .45s ease;
+}
+.cta-final::before{
+  content:''; position:absolute; left:50%; top:50%;
+  width:1000px; height:1000px; transform:translate(-50%,-50%);
+  background:radial-gradient(circle, var(--accent-soft), transparent 62%);
+  pointer-events:none;
+}
+.cta-final > *{ position:relative; z-index:1; }
+.cta-final h2{
+  font-weight:700;
+  font-size:clamp(2rem, 5.6vw, 4rem);
+  line-height:1.08; letter-spacing:-.035em;
+  max-width:900px; margin-inline:auto;
+}
+.cta-final h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.cta-final p{ margin:22px auto 0; max-width:540px; color:var(--muted); font-weight:300; }
+.cta-final .btn{ margin-top:38px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  border-top:1px solid var(--border);
+  padding:56px 0 40px;
+  font-size:.88rem;
+}
+.footer-top{
+  display:flex; flex-wrap:wrap; gap:28px;
+  align-items:center; justify-content:space-between;
+  padding-bottom:28px; border-bottom:1px solid var(--border);
+}
+.footer-links{ display:flex; flex-wrap:wrap; gap:24px; }
+.footer-links a{ color:var(--muted); transition:color .3s; }
+.footer-links a:hover{ color:var(--accent); }
+.footer-bottom{
+  padding-top:26px;
+  display:flex; flex-wrap:wrap; gap:14px;
+  align-items:center; justify-content:space-between;
+  color:var(--muted); font-size:.82rem;
+}
+
+/* Floating WhatsApp */
+.wa{
+  position:fixed; right:20px; bottom:20px; z-index:800;
+  display:flex; align-items:center; gap:11px;
+  padding:11px 20px 11px 12px; border-radius:999px;
+  background:linear-gradient(135deg, #37d67a, #1faa5a);
+  box-shadow:0 16px 34px -12px rgba(31,170,90,.85);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.wa:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 22px 44px -12px rgba(31,170,90,.9); }
+.wa svg{ width:26px; height:26px; fill:#fff; flex:none; }
+.wa span{ color:#fff; font-size:.88rem; font-weight:600; letter-spacing:.01em; white-space:nowrap; }
+@media (max-width:520px){ .wa{ padding:11px; border-radius:50%; } .wa span{ display:none; } }
+.wa::before{
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  border:2px solid rgba(55,214,122,.55);
+  animation:ring 2.4s ease-out infinite;
+}
+@keyframes ring{ 0%{ transform:scale(1); opacity:.8 } 100%{ transform:scale(1.55); opacity:0 } }
+
+/* Reveal */
+.reveal{
+  opacity:0; transform:translateY(28px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+  transition-delay:var(--d,0ms);
+  will-change:opacity, transform;
+}
+.reveal.in{ opacity:1; transform:none; }
+
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:6px; }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal{ opacity:1; transform:none; }
+}
+
+/* RTL */
+html[dir="rtl"] body{ direction:rtl; }
+html[dir="rtl"] .eyebrow::before{ transform:scaleX(-1); }
+html[dir="rtl"] .service-features li::before{ margin-top:2px; }
+</style>
+</head>
+
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="code-mark">&lt;/&gt;</div>
+    <div class="loader-name">Serv<em>ices</em></div>
+    <div class="loader-track"><span></span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="mark">&lt;/&gt;</span>
+      <span class="name">Code<em>Kaar</em></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="index.html#ventures" data-i18n="nav.ventures">Ventures</a>
+      <a href="services.html" class="active" data-i18n="nav.services">Services</a>
+      <a href="portfolio.html" data-i18n="nav.demos">Portfolio</a>
+      <a href="pricing.html" data-i18n="nav.pricing">Pricing</a>
+      <a href="about.html" data-i18n="nav.about">About</a>
+      <a href="contact.html" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" class="active" aria-label="English">EN</button>
+        <button data-lang="ps" aria-label="Pashto">پښتو</button>
+        <button data-lang="fa" aria-label="Dari">دری</button>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+      <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20website%20for%20my%20business."
+         target="_blank" rel="noopener"
+         class="btn btn-primary btn-sm nav-cta" data-i18n="nav.cta">DM on WhatsApp</a>
+      <button class="icon-btn burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+
+    <div class="page-hero-content">
+      <span class="pill reveal">
+        <span class="dot"></span>
+        <span data-i18n="hero.pill">Four services · Delivered fast</span>
+      </span>
+
+      <h1 class="reveal" style="--d:80ms">
+        <span data-i18n="hero.title1">Everything your business needs</span><br>
+        <em data-i18n="hero.title2">online.</em>
+      </h1>
+
+      <p class="page-hero-sub reveal" style="--d:160ms">
+        <span data-i18n="hero.sub1">From a single landing page to a full business website or online shop — built fast, built right, built for Afghanistan.</span>
+      </p>
+
+      <div class="page-hero-btns reveal" style="--d:240ms">
+        <a href="#business" class="btn btn-primary" data-i18n="hero.btnExplore">Explore Services →</a>
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation."
+           target="_blank" rel="noopener" class="btn btn-wa">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+          </svg>
+          <span data-i18n="hero.btnWA">Free Consultation</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE 1: BUSINESS WEBSITE -->
+  <section class="section" id="business" style="padding-top:40px">
+    <div class="container">
+      <div class="service-block">
+        <div class="service-info reveal">
+          <div class="badge-row">
+            <div class="service-icon-lg">🌐</div>
+            <span class="service-badge" data-i18n="s1.badge">Most Popular</span>
+          </div>
+          <h2><span data-i18n="s1.title1">Business</span> <em data-i18n="s1.title2">Website</em></h2>
+          <p data-i18n="s1.desc">
+            A complete, modern website for your business — designed to convert visitors into customers. Everything you need in one place.
+          </p>
+
+          <ul class="service-features">
+            <li data-i18n="s1.f1">Custom design for your brand</li>
+            <li data-i18n="s1.f2">Mobile, tablet, desktop perfect</li>
+            <li data-i18n="s1.f3">Contact form + WhatsApp button</li>
+            <li data-i18n="s1.f4">Google Maps &amp; directions</li>
+            <li data-i18n="s1.f5">Gallery, menu or services pages</li>
+            <li data-i18n="s1.f6">Basic SEO setup</li>
+            <li data-i18n="s1.f7">Delivered in 3–5 days</li>
+            <li data-i18n="s1.f8">1 year free updates</li>
+          </ul>
+
+          <div class="service-price-row">
+            <div class="service-price">
+              <span class="amount">$349</span>
+              <small data-i18n="pricing.oneTime">one-time</small>
+            </div>
+            <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20a%20Business%20Website."
+               target="_blank" rel="noopener" class="btn btn-primary" data-i18n="getStarted">Get Started →</a>
+          </div>
+        </div>
+
+        <div class="service-visual reveal" style="--d:120ms">
+          <div class="service-visual-inner">
+            <div class="mock-browser">
+              <div class="mock-bar">
+                <span class="mock-dot r"></span>
+                <span class="mock-dot y"></span>
+                <span class="mock-dot g"></span>
+                <span class="mock-url">yourbusiness.af</span>
+              </div>
+              <div class="mock-body">
+                <div class="mock-img"></div>
+                <div class="mock-line accent"></div>
+                <div class="mock-line w90"></div>
+                <div class="mock-line w70"></div>
+                <div class="mock-grid">
+                  <div class="mock-tile hi"></div>
+                  <div class="mock-tile"></div>
+                  <div class="mock-tile"></div>
+                </div>
+                <div class="mock-line w50"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE 2: LANDING PAGE -->
+  <section class="section" id="landing" style="padding-top:0">
+    <div class="container">
+      <div class="service-block reverse">
+        <div class="service-info reveal">
+          <div class="badge-row">
+            <div class="service-icon-lg">⚡</div>
+            <span class="service-badge" data-i18n="s2.badge">Delivered in 24–48h</span>
+          </div>
+          <h2><span data-i18n="s2.title1">Landing</span> <em data-i18n="s2.title2">Page</em></h2>
+          <p data-i18n="s2.desc">
+            One powerful page that sells a single product, service or event. Perfect for ads and social media traffic.
+          </p>
+
+          <ul class="service-features">
+            <li data-i18n="s2.f1">Single-page, focused design</li>
+            <li data-i18n="s2.f2">Built for conversions</li>
+            <li data-i18n="s2.f3">Copy &amp; layout guidance included</li>
+            <li data-i18n="s2.f4">Mobile-perfect</li>
+            <li data-i18n="s2.f5">Call-to-action buttons</li>
+            <li data-i18n="s2.f6">WhatsApp &amp; contact integration</li>
+            <li data-i18n="s2.f7">Delivered in 24–48 hours</li>
+            <li data-i18n="s2.f8">Perfect for ad campaigns</li>
+          </ul>
+
+          <div class="service-price-row">
+            <div class="service-price">
+              <span class="amount">$149</span>
+              <small data-i18n="pricing.oneTime">one-time</small>
+            </div>
+            <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20a%20Landing%20Page."
+               target="_blank" rel="noopener" class="btn btn-primary" data-i18n="getStarted">Get Started →</a>
+          </div>
+        </div>
+
+        <div class="service-visual reveal" style="--d:120ms">
+          <div class="service-visual-inner">
+            <div class="mock-browser">
+              <div class="mock-bar">
+                <span class="mock-dot r"></span>
+                <span class="mock-dot y"></span>
+                <span class="mock-dot g"></span>
+                <span class="mock-url">offer.yourshop.af</span>
+              </div>
+              <div class="mock-body">
+                <div class="mock-line accent"></div>
+                <div class="mock-line w70"></div>
+                <div class="mock-img"></div>
+                <div class="mock-line w90"></div>
+                <div class="mock-line w50"></div>
+                <div class="mock-line accent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE 3: E-COMMERCE -->
+  <section class="section" id="shop" style="padding-top:0">
+    <div class="container">
+      <div class="service-block">
+        <div class="service-info reveal">
+          <div class="badge-row">
+            <div class="service-icon-lg">🛒</div>
+            <span class="service-badge" data-i18n="s3.badge">Full Store</span>
+          </div>
+          <h2><span data-i18n="s3.title1">Online</span> <em data-i18n="s3.title2">Shop</em></h2>
+          <p data-i18n="s3.desc">
+            Sell your products online with a simple, beautiful store. Products, cart, checkout — all handled.
+          </p>
+
+          <ul class="service-features">
+            <li data-i18n="s3.f1">Everything in Business Website</li>
+            <li data-i18n="s3.f2">Product catalogue with images</li>
+            <li data-i18n="s3.f3">Shopping cart &amp; checkout flow</li>
+            <li data-i18n="s3.f4">Order management</li>
+            <li data-i18n="s3.f5">Payment &amp; delivery info pages</li>
+            <li data-i18n="s3.f6">WhatsApp order option</li>
+            <li data-i18n="s3.f7">Payment integration guidance</li>
+            <li data-i18n="s3.f8">Delivered in 7–10 days</li>
+          </ul>
+
+          <div class="service-price-row">
+            <div class="service-price">
+              <span class="amount">$599</span>
+              <small data-i18n="pricing.oneTime">one-time</small>
+            </div>
+            <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20an%20Online%20Shop."
+               target="_blank" rel="noopener" class="btn btn-primary" data-i18n="getStarted">Get Started →</a>
+          </div>
+        </div>
+
+        <div class="service-visual reveal" style="--d:120ms">
+          <div class="service-visual-inner">
+            <div class="mock-browser">
+              <div class="mock-bar">
+                <span class="mock-dot r"></span>
+                <span class="mock-dot y"></span>
+                <span class="mock-dot g"></span>
+                <span class="mock-url">shop.yourstore.af</span>
+              </div>
+              <div class="mock-body">
+                <div class="mock-cart-row">
+                  <div class="mock-cart-img"></div>
+                  <div class="mock-cart-info">
+                    <div class="mock-line w90"></div>
+                    <div class="mock-line w50"></div>
+                  </div>
+                  <div class="mock-cart-price">$29</div>
+                </div>
+                <div class="mock-cart-row">
+                  <div class="mock-cart-img"></div>
+                  <div class="mock-cart-info">
+                    <div class="mock-line w90"></div>
+                    <div class="mock-line w50"></div>
+                  </div>
+                  <div class="mock-cart-price">$45</div>
+                </div>
+                <div class="mock-cart-row">
+                  <div class="mock-cart-img"></div>
+                  <div class="mock-cart-info">
+                    <div class="mock-line w90"></div>
+                    <div class="mock-line w50"></div>
+                  </div>
+                  <div class="mock-cart-price">$18</div>
+                </div>
+                <div class="mock-total">
+                  <span data-i18n="mock.total">Total</span>
+                  <span class="val">$92</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE 4: REDESIGN -->
+  <section class="section" id="redesign" style="padding-top:0">
+    <div class="container">
+      <div class="service-block reverse">
+        <div class="service-info reveal">
+          <div class="badge-row">
+            <div class="service-icon-lg">🔧</div>
+            <span class="service-badge" data-i18n="s4.badge">Support</span>
+          </div>
+          <h2><span data-i18n="s4.title1">Redesign</span> <em data-i18n="s4.title2">&amp; Care</em></h2>
+          <p data-i18n="s4.desc">
+            Already have a website that looks outdated? I'll rebuild it — and keep it updated for you.
+          </p>
+
+          <ul class="service-features">
+            <li data-i18n="s4.f1">Full redesign of existing site</li>
+            <li data-i18n="s4.f2">Speed &amp; mobile optimization</li>
+            <li data-i18n="s4.f3">Modern design refresh</li>
+            <li data-i18n="s4.f4">Content updates</li>
+            <li data-i18n="s4.f5">Backups &amp; security</li>
+            <li data-i18n="s4.f6">Monthly maintenance option</li>
+            <li data-i18n="s4.f7">Priority support</li>
+            <li data-i18n="s4.f8">Custom quote based on site size</li>
+          </ul>
+
+          <div class="service-price-row">
+            <div class="service-price">
+              <span class="amount" data-i18n="s4.priceFrom">From $199</span>
+            </div>
+            <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20Redesign%20quote."
+               target="_blank" rel="noopener" class="btn btn-primary" data-i18n="getQuote">Get a Quote →</a>
+          </div>
+        </div>
+
+        <div class="service-visual reveal" style="--d:120ms">
+          <div class="service-visual-inner">
+            <div class="mock-browser">
+              <div class="mock-bar">
+                <span class="mock-dot r"></span>
+                <span class="mock-dot y"></span>
+                <span class="mock-dot g"></span>
+                <span class="mock-url">yourbusiness.af — before &amp; after</span>
+              </div>
+              <div class="mock-body">
+                <div class="mock-split">
+                  <div class="mock-split-col">
+                    <div class="label" data-i18n="mock.before">Before</div>
+                    <div class="mock-line w90"></div>
+                    <div class="mock-line w70"></div>
+                    <div class="mock-line w50"></div>
+                    <div class="mock-tile"></div>
+                  </div>
+                  <div class="mock-split-col hi">
+                    <div class="label" data-i18n="mock.after">After</div>
+                    <div class="mock-img"></div>
+                    <div class="mock-line accent"></div>
+                    <div class="mock-line w90"></div>
+                    <div class="mock-tile hi"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section" id="process">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="process.eyebrow">How It Works</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="process.title1">From idea to live in</span> <em data-i18n="process.title2">4 simple steps</em>
+        </h2>
+      </header>
+
+      <div class="process-grid">
+        <div class="process-step reveal">
+          <div class="step-num">01</div>
+          <h4 data-i18n="process.p1.title">You DM Me</h4>
+          <p data-i18n="process.p1.desc">Tell me about your business on WhatsApp. No forms, no waiting. Just a chat.</p>
+        </div>
+        <div class="process-step reveal" style="--d:80ms">
+          <div class="step-num">02</div>
+          <h4 data-i18n="process.p2.title">I Design It</h4>
+          <p data-i18n="process.p2.desc">I create a custom design for your brand and send it for your review.</p>
+        </div>
+        <div class="process-step reveal" style="--d:160ms">
+          <div class="step-num">03</div>
+          <h4 data-i18n="process.p3.title">You Approve</h4>
+          <p data-i18n="process.p3.desc">Any changes? I'll adjust until you're happy. No limits on revisions.</p>
+        </div>
+        <div class="process-step reveal" style="--d:240ms">
+          <div class="step-num">04</div>
+          <h4 data-i18n="process.p4.title">It Goes Live</h4>
+          <p data-i18n="process.p4.desc">Your website launches, fully live and ready for customers. I handle everything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INCLUDED IN EVERY PROJECT -->
+  <section class="included-band">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="inc.eyebrow">Always Included</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="inc.title1">Every project comes</span> <em data-i18n="inc.title2">with these.</em>
+        </h2>
+      </header>
+
+      <div class="included-grid">
+        <div class="included-card reveal">
+          <div class="ico">📱</div>
+          <h4 data-i18n="inc.i1.title">Mobile-perfect</h4>
+          <p data-i18n="inc.i1.desc">Tested on phone, tablet and desktop — before delivery.</p>
+        </div>
+        <div class="included-card reveal" style="--d:80ms">
+          <div class="ico">⚡</div>
+          <h4 data-i18n="inc.i2.title">Fast loading</h4>
+          <p data-i18n="inc.i2.desc">Optimized images and clean code for sub-1s load times.</p>
+        </div>
+        <div class="included-card reveal" style="--d:160ms">
+          <div class="ico">💬</div>
+          <h4 data-i18n="inc.i3.title">WhatsApp integration</h4>
+          <p data-i18n="inc.i3.desc">Direct message button so customers reach you in one tap.</p>
+        </div>
+        <div class="included-card reveal" style="--d:240ms">
+          <div class="ico">🔍</div>
+          <h4 data-i18n="inc.i4.title">Basic SEO</h4>
+          <p data-i18n="inc.i4.desc">Titles, descriptions and structure that Google loves.</p>
+        </div>
+        <div class="included-card reveal" style="--d:320ms">
+          <div class="ico">🛡️</div>
+          <h4 data-i18n="inc.i5.title">Secure &amp; reliable</h4>
+          <p data-i18n="inc.i5.desc">SSL, clean hosting and backups — your site stays safe.</p>
+        </div>
+        <div class="included-card reveal" style="--d:400ms">
+          <div class="ico">🤝</div>
+          <h4 data-i18n="inc.i6.title">Real support</h4>
+          <p data-i18n="inc.i6.desc">Direct WhatsApp access — no ticket systems, no waiting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <h2 class="reveal">
+      <span data-i18n="cta.title1">Not sure which service</span><br>
+      <em data-i18n="cta.title2">you need?</em>
+    </h2>
+    <p class="reveal" style="--d:100ms" data-i18n="cta.sub">
+      Tell me about your business and I'll recommend the right one — free, no pressure.
+    </p>
+    <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%20need%20help%20choosing%20a%20service."
+       target="_blank" rel="noopener" class="btn btn-wa reveal" style="--d:180ms">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+        <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+      </svg>
+      <span data-i18n="cta.btn">Chat on WhatsApp</span>
+    </a>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <a href="index.html" class="brand">
+        <span class="mark">&lt;/&gt;</span>
+        <span class="name">Code<em>Kaar</em></span>
+      </a>
+
+      <nav class="footer-links">
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="qmr.html">QMR</a>
+        <a href="pashtoons.html">Pashtoons</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="pricing.html" data-i18n="nav.pricing">Pricing</a>
+        <a href="contact.html" data-i18n="nav.contact">Contact</a>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year">2025</span> CodeKaar · <span data-i18n="footer.tag">Websites &amp; Digital Solutions</span></span>
+      <span data-i18n="footer.made">Made in Khost, Afghanistan · Part of QMR community</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa" href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20website%20for%20my%20business."
+   target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+  </svg>
+  <span data-i18n="wa.float">DM for a free quote</span>
+</a>
+
+<script>
+(function () {
+  'use strict';
+
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  /* ---------- i18n (Services page) ---------- */
+  const i18n = {
+    en: {
+      'nav.home':'Home','nav.ventures':'Ventures','nav.services':'Services','nav.demos':'Portfolio',
+      'nav.pricing':'Pricing','nav.about':'About','nav.contact':'Contact','nav.cta':'DM on WhatsApp',
+      'hero.pill':'Four services · Delivered fast',
+      'hero.title1':'Everything your business needs','hero.title2':'online.',
+      'hero.sub1':'From a single landing page to a full business website or online shop — built fast, built right, built for Afghanistan.',
+      'hero.btnExplore':'Explore Services →','hero.btnWA':'Free Consultation',
+      's1.badge':'Most Popular','s1.title1':'Business','s1.title2':'Website',
+      's1.desc':'A complete, modern website for your business — designed to convert visitors into customers. Everything you need in one place.',
+      's1.f1':'Custom design for your brand','s1.f2':'Mobile, tablet, desktop perfect',
+      's1.f3':'Contact form + WhatsApp button','s1.f4':'Google Maps & directions',
+      's1.f5':'Gallery, menu or services pages','s1.f6':'Basic SEO setup',
+      's1.f7':'Delivered in 3–5 days','s1.f8':'1 year free updates',
+      's2.badge':'Delivered in 24–48h','s2.title1':'Landing','s2.title2':'Page',
+      's2.desc':'One powerful page that sells a single product, service or event. Perfect for ads and social media traffic.',
+      's2.f1':'Single-page, focused design','s2.f2':'Built for conversions',
+      's2.f3':'Copy & layout guidance included','s2.f4':'Mobile-perfect',
+      's2.f5':'Call-to-action buttons','s2.f6':'WhatsApp & contact integration',
+      's2.f7':'Delivered in 24–48 hours','s2.f8':'Perfect for ad campaigns',
+      's3.badge':'Full Store','s3.title1':'Online','s3.title2':'Shop',
+      's3.desc':'Sell your products online with a simple, beautiful store. Products, cart, checkout — all handled.',
+      's3.f1':'Everything in Business Website','s3.f2':'Product catalogue with images',
+      's3.f3':'Shopping cart & checkout flow','s3.f4':'Order management',
+      's3.f5':'Payment & delivery info pages','s3.f6':'WhatsApp order option',
+      's3.f7':'Payment integration guidance','s3.f8':'Delivered in 7–10 days',
+      's4.badge':'Support','s4.title1':'Redesign','s4.title2':'& Care',
+      's4.desc':"Already have a website that looks outdated? I'll rebuild it — and keep it updated for you.",
+      's4.f1':'Full redesign of existing site','s4.f2':'Speed & mobile optimization',
+      's4.f3':'Modern design refresh','s4.f4':'Content updates',
+      's4.f5':'Backups & security','s4.f6':'Monthly maintenance option',
+      's4.f7':'Priority support','s4.f8':'Custom quote based on site size',
+      's4.priceFrom':'From $199',
+      'mock.total':'Total','mock.before':'Before','mock.after':'After',
+      'pricing.oneTime':'one-time','getStarted':'Get Started →','getQuote':'Get a Quote →',
+      'process.eyebrow':'How It Works','process.title1':'From idea to live in','process.title2':'4 simple steps',
+      'process.p1.title':'You DM Me','process.p1.desc':'Tell me about your business on WhatsApp. No forms, no waiting. Just a chat.',
+      'process.p2.title':'I Design It','process.p2.desc':'I create a custom design for your brand and send it for your review.',
+      'process.p3.title':'You Approve','process.p3.desc':"Any changes? I'll adjust until you're happy. No limits on revisions.",
+      'process.p4.title':'It Goes Live','process.p4.desc':'Your website launches, fully live and ready for customers. I handle everything.',
+      'inc.eyebrow':'Always Included','inc.title1':'Every project comes','inc.title2':'with these.',
+      'inc.i1.title':'Mobile-perfect','inc.i1.desc':'Tested on phone, tablet and desktop — before delivery.',
+      'inc.i2.title':'Fast loading','inc.i2.desc':'Optimized images and clean code for sub-1s load times.',
+      'inc.i3.title':'WhatsApp integration','inc.i3.desc':'Direct message button so customers reach you in one tap.',
+      'inc.i4.title':'Basic SEO','inc.i4.desc':'Titles, descriptions and structure that Google loves.',
+      'inc.i5.title':'Secure & reliable','inc.i5.desc':'SSL, clean hosting and backups — your site stays safe.',
+      'inc.i6.title':'Real support','inc.i6.desc':'Direct WhatsApp access — no ticket systems, no waiting.',
+      'cta.title1':'Not sure which service','cta.title2':'you need?',
+      'cta.sub':"Tell me about your business and I'll recommend the right one — free, no pressure.",
+      'cta.btn':'Chat on WhatsApp',
+      'footer.tag':'Websites & Digital Solutions','footer.made':'Made in Khost, Afghanistan · Part of QMR community',
+      'wa.float':'DM for a free quote'
+    },
+    ps: {
+      'nav.home':'کور','nav.ventures':'پروژې','nav.services':'خدمتونه','nav.demos':'پورټفولیو',
+      'nav.pricing':'بیې','nav.about':'زموږ په اړه','nav.contact':'اړیکه','nav.cta':'واټساپ پیغام',
+      'hero.pill':'څلور خدمتونه · چټک تحویل',
+      'hero.title1':'هر څه چې ستاسو سوداګري ورته اړتیا لري','hero.title2':'آنلاین.',
+      'hero.sub1':'له یوې لینډینګ پاڼې څخه تر بشپړ سوداګریز وېبپاڼې یا آنلاین پلورنځي — چټک جوړ شوی، سم جوړ شوی، د افغانستان لپاره جوړ شوی.',
+      'hero.btnExplore':'خدمتونه وپلټئ →','hero.btnWA':'وړیا مشوره',
+      's1.badge':'ډیر مشهور','s1.title1':'سوداګریزه','s1.title2':'وېبپاڼه',
+      's1.desc':'ستاسو د سوداګرۍ لپاره بشپړه، عصري وېبپاڼه — د لیدونکو پیریدونکو ته د اړولو لپاره ډیزاین شوې. هر څه چې تاسو ورته اړتیا لرئ په یو ځای.',
+      's1.f1':'ستاسو د برنډ لپاره ځانګړی ډیزاین','s1.f2':'موبایل، ټابلیټ، ډیسکټاپ لپاره سم',
+      's1.f3':'د اړیکې فورمه + د واټساپ تڼۍ','s1.f4':'ګوګل نقشه او لارښوونې',
+      's1.f5':'ګالري، مینو یا خدماتو پاڼې','s1.f6':'بنسټیز SEO تنظیم',
+      's1.f7':'په ۳–۵ ورځو کې تحویل','s1.f8':'۱ کال وړیا تازه کول',
+      's2.badge':'په ۲۴–۴۸ ساعتونو کې','s2.title1':'لینډینګ','s2.title2':'پاڼه',
+      's2.desc':'یوه پیاوړې پاڼه چې یو محصول، خدمت یا پیښه پلوري. د اعلاناتو او ټولنیزو رسنیو ټرافیک لپاره مناسب.',
+      's2.f1':'یوه پاڼه، متمرکز ډیزاین','s2.f2':'د بدلون لپاره جوړ شوی',
+      's2.f3':'د متن او ترتیب لارښود شامل','s2.f4':'د موبایل لپاره سم',
+      's2.f5':'د عمل غوښتنې تڼۍ','s2.f6':'واټساپ او د اړیکې ادغام',
+      's2.f7':'په ۲۴–۴۸ ساعتونو کې تحویل','s2.f8':'د اعلاناتو کمپاینونو لپاره مناسب',
+      's3.badge':'بشپړ پلورنځی','s3.title1':'آنلاین','s3.title2':'پلورنځی',
+      's3.desc':'خپل محصولات آنلاین په ساده، ښکلي پلورنځي سره وپلورئ. محصولات، کارټ، تادیه — ټول سمبال شوي.',
+      's3.f1':'هر څه په سوداګریزه وېبپاڼه کې','s3.f2':'د محصولاتو کتلاګ د انځورونو سره',
+      's3.f3':'د پیرود کارټ او د تادیې جریان','s3.f4':'د فرمایش مدیریت',
+      's3.f5':'د تادیې او تحویل معلومات','s3.f6':'د واټساپ فرمایش اختیار',
+      's3.f7':'د تادیې ادغام لارښود','s3.f8':'په ۷–۱۰ ورځو کې تحویل',
+      's4.badge':'ملاتړ','s4.title1':'بیا ډیزاین','s4.title2':'او پاملرنه',
+      's4.desc':'دمخه یوه وېبپاڼه لرئ چې زړه ښکاري؟ زه به یې بیا جوړه کړم — او ستاسو لپاره به یې تازه ساتم.',
+      's4.f1':'د موجودې وېبپاڼې بشپړ بیا ډیزاین','s4.f2':'د سرعت او موبایل اصلاح',
+      's4.f3':'د عصري ډیزاین تازه کول','s4.f4':'د منځپانګې تازه کول',
+      's4.f5':'بیک اپ او امنیت','s4.f6':'میاشتني ساتنې اختیار',
+      's4.f7':'لومړیتوب ملاتړ','s4.f8':'د سایټ اندازې له مخې ځانګړې بیه',
+      's4.priceFrom':'له $199 څخه',
+      'mock.total':'ټول','mock.before':'مخکې','mock.after':'وروسته',
+      'pricing.oneTime':'یو ځل','getStarted':'پیل وکړئ →','getQuote':'بیه ترلاسه کړئ →',
+      'process.eyebrow':'څنګه کار کوي','process.title1':'له فکر څخه تر ژوندي','process.title2':'په ۴ ساده ګامونو',
+      'process.p1.title':'تاسو پیغام راکړئ','process.p1.desc':'په واټساپ کې زما سره د خپلې سوداګرۍ په اړه خبرې وکړئ. فورمې ندي، انتظار ندی. یوازې یوه خبره.',
+      'process.p2.title':'زه ډیزاینوم','process.p2.desc':'ستاسو د برنډ لپاره ځانګړی ډیزاین جوړوم او ستاسو د کتنې لپاره یې لیږم.',
+      'process.p3.title':'تاسو تصدیق کوئ','process.p3.desc':'کوم بدلون؟ زه به یې اصلاح کړم ترڅو تاسو راضي شئ. د بیاکتنې محدودیت نشته.',
+      'process.p4.title':'ژوندی کیږي','process.p4.desc':'ستاسو وېبپاڼه پیل کیږي، بشپړ ژوندې او د پیریدونکو لپاره چمتو. زه هر څه سمبالوم.',
+      'inc.eyebrow':'تل شامل','inc.title1':'هره پروژه راځي','inc.title2':'د دې سره.',
+      'inc.i1.title':'د موبایل لپاره سم','inc.i1.desc':'په تلیفون، ټابلیټ او ډیسکټاپ ازمویل شوی — د تحویل دمخه.',
+      'inc.i2.title':'چټک بار کول','inc.i2.desc':'د انځورونو اصلاح او پاک کوډ د ۱ ثانیې لاندې بار کولو لپاره.',
+      'inc.i3.title':'واټساپ ادغام','inc.i3.desc':'د مستقیم پیغام تڼۍ ترڅو پیریدونکي په یو ټک کې تاسو ته راشي.',
+      'inc.i4.title':'بنسټیز SEO','inc.i4.desc':'سرلیکونه، توضیحات او جوړښت چې ګوګل یې خوښوي.',
+      'inc.i5.title':'خوندي او باوري','inc.i5.desc':'SSL، پاک هوسټینګ او بیک اپ — ستاسو سایټ خوندي پاتې کیږي.',
+      'inc.i6.title':'ریښتینی ملاتړ','inc.i6.desc':'مستقیم واټساپ لاسرسی — د ټکټ سیسټمونه ندي، انتظار ندی.',
+      'cta.title1':'ډاډه نه یاست چې کوم خدمت','cta.title2':'ته اړتیا لرئ؟',
+      'cta.sub':'زما سره د خپلې سوداګرۍ په اړه ووایاست او زه به سم یو وړاندیز وکړم — وړیا، پرته له فشار.',
+      'cta.btn':'واټساپ باندې خبرې',
+      'footer.tag':'وېبپاڼې او ډیجیټل حلونه','footer.made':'په خوست، افغانستان کې جوړ شوی · د QMR ټولنې برخه',
+      'wa.float':'د وړیا بیې لپاره پیغام'
+    },
+    fa: {
+      'nav.home':'خانه','nav.ventures':'پروژه‌ها','nav.services':'خدمات','nav.demos':'نمونه کارها',
+      'nav.pricing':'قیمت‌ها','nav.about':'درباره','nav.contact':'تماس','nav.cta':'پیام واتس‌اپ',
+      'hero.pill':'چهار خدمت · تحویل سریع',
+      'hero.title1':'هر چیزی که کسب‌وکار شما نیاز دارد','hero.title2':'آنلاین.',
+      'hero.sub1':'از یک صفحه فرود تا یک وب‌سایت کامل کسب‌وکار یا فروشگاه آنلاین — سریع ساخته شده، درست ساخته شده، برای افغانستان ساخته شده.',
+      'hero.btnExplore':'مشاهده خدمات →','hero.btnWA':'مشاوره رایگان',
+      's1.badge':'محبوب‌ترین','s1.title1':'وب‌سایت','s1.title2':'کسب‌وکار',
+      's1.desc':'یک وب‌سایت کامل و مدرن برای کسب‌وکار شما — طراحی شده برای تبدیل بازدیدکنندگان به مشتری. هر چیزی که نیاز دارید در یک مکان.',
+      's1.f1':'طراحی سفارشی برای برند شما','s1.f2':'مناسب موبایل، تبلت، دسکتاپ',
+      's1.f3':'فرم تماس + دکمه واتس‌اپ','s1.f4':'نقشه گوگل و مسیرها',
+      's1.f5':'صفحات گالری، منو یا خدمات','s1.f6':'تنظیمات اولیه SEO',
+      's1.f7':'تحویل در ۳–۵ روز','s1.f8':'۱ سال به‌روزرسانی رایگان',
+      's2.badge':'تحویل در ۲۴–۴۸ ساعت','s2.title1':'صفحه','s2.title2':'فرود',
+      's2.desc':'یک صفحه قدرتمند که یک محصول، خدمات یا رویداد را می‌فروشد. مناسب تبلیغات و ترافیک شبکه‌های اجتماعی.',
+      's2.f1':'طراحی تک‌صفحه‌ای و متمرکز','s2.f2':'ساخته شده برای تبدیل',
+      's2.f3':'راهنمای متن و چیدمان شامل','s2.f4':'مناسب موبایل',
+      's2.f5':'دکمه‌های فراخوان به عمل','s2.f6':'ادغام واتس‌اپ و تماس',
+      's2.f7':'تحویل در ۲۴–۴۸ ساعت','s2.f8':'مناسب کمپین‌های تبلیغاتی',
+      's3.badge':'فروشگاه کامل','s3.title1':'فروشگاه','s3.title2':'آنلاین',
+      's3.desc':'محصولات خود را آنلاین با یک فروشگاه ساده و زیبا بفروشید. محصولات، سبد خرید، پرداخت — همه مدیریت شده.',
+      's3.f1':'همه چیز در وب‌سایت کسب‌وکار','s3.f2':'کاتالوگ محصولات با تصاویر',
+      's3.f3':'سبد خرید و جریان پرداخت','s3.f4':'مدیریت سفارش',
+      's3.f5':'صفحات اطلاعات پرداخت و تحویل','s3.f6':'گزینه سفارش واتس‌اپ',
+      's3.f7':'راهنمای ادغام پرداخت','s3.f8':'تحویل در ۷–۱۰ روز',
+      's4.badge':'پشتیبانی','s4.title1':'بازطراحی','s4.title2':'و مراقبت',
+      's4.desc':'وب‌سایتی دارید که قدیمی به نظر می‌رسد؟ من آن را بازسازی می‌کنم — و برای شما به‌روز نگه می‌دارم.',
+      's4.f1':'بازطراحی کامل سایت موجود','s4.f2':'بهینه‌سازی سرعت و موبایل',
+      's4.f3':'تازه‌سازی طراحی مدرن','s4.f4':'به‌روزرسانی محتوا',
+      's4.f5':'پشتیبان‌گیری و امنیت','s4.f6':'گزینه نگهداری ماهانه',
+      's4.f7':'پشتیبانی اولویت‌دار','s4.f8':'قیمت سفارشی بر اساس اندازه سایت',
+      's4.priceFrom':'از $199',
+      'mock.total':'مجموع','mock.before':'قبل','mock.after':'بعد',
+      'pricing.oneTime':'یک‌بار','getStarted':'شروع کنید →','getQuote':'دریافت قیمت →',
+      'process.eyebrow':'چگونه کار می‌کند','process.title1':'از ایده تا زنده در','process.title2':'۴ گام ساده',
+      'process.p1.title':'شما پیام می‌دهید','process.p1.desc':'درباره کسب‌وکارتان در واتس‌اپ به من بگویید. بدون فرم، بدون انتظار. فقط یک گفتگو.',
+      'process.p2.title':'من طراحی می‌کنم','process.p2.desc':'یک طراحی سفارشی برای برند شما می‌سازم و برای بررسی می‌فرستم.',
+      'process.p3.title':'شما تأیید می‌کنید','process.p3.desc':'تغییری؟ تا راضی شوید اصلاح می‌کنم. محدودیتی در بازبینی نیست.',
+      'process.p4.title':'زنده می‌شود','process.p4.desc':'وب‌سایت شما راه‌اندازی می‌شود، کاملاً زنده و آماده برای مشتریان. من همه چیز را مدیریت می‌کنم.',
+      'inc.eyebrow':'همیشه شامل','inc.title1':'هر پروژه می‌آید','inc.title2':'با این‌ها.',
+      'inc.i1.title':'مناسب موبایل','inc.i1.desc':'روی گوشی، تبلت و دسکتاپ تست شده — قبل از تحویل.',
+      'inc.i2.title':'بارگذاری سریع','inc.i2.desc':'تصاویر بهینه و کد تمیز برای زمان بارگذاری زیر ۱ ثانیه.',
+      'inc.i3.title':'ادغام واتس‌اپ','inc.i3.desc':'دکمه پیام مستقیم تا مشتریان با یک لمس به شما برسند.',
+      'inc.i4.title':'SEO اولیه','inc.i4.desc':'عنوان‌ها، توضیحات و ساختاری که گوگل دوست دارد.',
+      'inc.i5.title':'امن و مطمئن','inc.i5.desc':'SSL، هاست تمیز و پشتیبان‌گیری — سایت شما ایمن می‌ماند.',
+      'inc.i6.title':'پشتیبانی واقعی','inc.i6.desc':'دسترسی مستقیم واتس‌اپ — بدون سیستم تیکت، بدون انتظار.',
+      'cta.title1':'مطمئن نیستید کدام خدمت','cta.title2':'را نیاز دارید؟',
+      'cta.sub':'درباره کسب‌وکارتان به من بگویید و من مناسب‌ترین را توصیه می‌کنم — رایگان، بدون فشار.',
+      'cta.btn':'گفتگو در واتس‌اپ',
+      'footer.tag':'وب‌سایت و راه‌حل‌های دیجیتال','footer.made':'ساخته شده در خوست، افغانستان · بخشی از جامعه QMR',
+      'wa.float':'برای قیمت رایگان پیام دهید'
+    }
+  };
+
+  let currentLang = store.get('ck-lang') || 'en';
+
+  function applyLang(lang){
+    const dict = i18n[lang] || i18n.en;
+    currentLang = lang;
+    document.documentElement.lang = lang === 'ps' ? 'ps' : lang === 'fa' ? 'fa' : 'en';
+    document.documentElement.dir = (lang === 'ps' || lang === 'fa') ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    store.set('ck-lang', lang);
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  /* Loader */
+  const loader = document.getElementById('loader');
+  function hideLoader(){
+    if (loader) loader.classList.add('hide');
+    setTimeout(() => loader && loader.remove(), 950);
+  }
+  if (document.readyState === 'complete') setTimeout(hideLoader, 650);
+  else {
+    window.addEventListener('load', () => setTimeout(hideLoader, 650));
+    setTimeout(hideLoader, 3800);
+  }
+
+  /* Theme */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const saved = store.get('ck-theme');
+  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+
+  function syncTheme(){
+    const dark = root.getAttribute('data-theme') === 'dark';
+    themeBtn.textContent = dark ? '🌙' : '☀️';
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', dark ? '#07070a' : '#fbfaf8');
+  }
+  syncTheme();
+
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store.set('ck-theme', next);
+    syncTheme();
+  });
+
+  /* Sticky nav */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  /* Mobile menu */
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  function setMenu(open){
+    navLinks.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('lock', open);
+  }
+  burger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  /* Reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+
+  /* Year */
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  applyLang(currentLang);
+})();
+</script>
+
+</body>
+</html>

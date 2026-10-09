@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#07070a" />
+<title>Portfolio — Real designs, real businesses | CodeKaar</title>
+<meta name="description" content="See the kind of websites CodeKaar builds — cafés, photographers, restaurants, boutiques, real estate, gyms. Plus Pashtoons, our flagship social platform. All custom-built from Khost, Afghanistan." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1. TOKENS
+   ============================================================ */
+:root{
+  --bg:            #07070a;
+  --bg-2:          #0d0d12;
+  --bg-3:          #12121a;
+  --surface:       rgba(255,255,255,.045);
+  --surface-2:     rgba(255,255,255,.08);
+  --text:          #f2f0ed;
+  --muted:         #8b8a90;
+  --accent:        #7c5cff;
+  --accent-2:      #a48bff;
+  --accent-3:      #ff8a5c;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(124,92,255,.22);
+  --glow:          rgba(124,92,255,.14);
+  --glow-warm:     rgba(255,138,92,.10);
+  --border:        rgba(255,255,255,.09);
+  --border-strong: rgba(255,255,255,.20);
+  --shadow:        0 34px 80px -34px rgba(0,0,0,.95);
+  --radius:        22px;
+  --nav-h:         78px;
+  --ease:          cubic-bezier(.22,1,.36,1);
+  --serif:         'Playfair Display', Georgia, serif;
+  --mono:          'JetBrains Mono', ui-monospace, monospace;
+}
+
+html[data-theme="light"]{
+  --bg:            #fbfaf8;
+  --bg-2:          #f2f0ec;
+  --bg-3:          #ffffff;
+  --surface:       rgba(255,255,255,.78);
+  --surface-2:     #ffffff;
+  --text:          #131316;
+  --muted:         #6b6a72;
+  --accent:        #6741e0;
+  --accent-2:      #8364ff;
+  --accent-3:      #e5653a;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(103,65,224,.16);
+  --glow:          rgba(103,65,224,.10);
+  --glow-warm:     rgba(229,101,58,.08);
+  --border:        rgba(19,19,22,.10);
+  --border-strong: rgba(19,19,22,.22);
+  --shadow:        0 34px 70px -36px rgba(60,40,140,.30);
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 20px); -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Inter', system-ui, -apple-system, sans-serif;
+  font-size:16px; line-height:1.65;
+  color:var(--text); background-color:var(--bg);
+  background-image:
+    radial-gradient(60vw 55vw at 88% -10%, var(--glow), transparent 62%),
+    radial-gradient(45vw 45vw at -8% 30%, var(--glow-warm), transparent 62%);
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  transition:background-color .45s ease, color .45s ease;
+}
+body.lock{ overflow:hidden; }
+img{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+input,textarea,select{ font:inherit; }
+ul{ list-style:none; }
+::selection{ background:var(--accent); color:var(--accent-ink); }
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:var(--bg-2); }
+::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:99px; border:3px solid var(--bg-2); }
+::-webkit-scrollbar-thumb:hover{ background:var(--accent); }
+
+.container{ width:min(1220px, 92vw); margin-inline:auto; }
+.section{ padding:clamp(72px,9vw,124px) 0; position:relative; }
+
+/* Loader */
+.loader{
+  position:fixed; inset:0; z-index:9999;
+  display:grid; place-items:center;
+  background:var(--bg);
+  transition:opacity .75s var(--ease), visibility .75s;
+}
+.loader.hide{ opacity:0; visibility:hidden; }
+.loader-inner{ display:flex; flex-direction:column; align-items:center; gap:24px; }
+.code-mark{
+  font-family:var(--mono); font-size:2.2rem; font-weight:500;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.04em;
+}
+.loader-name{ font-family:var(--serif); font-size:1.6rem; letter-spacing:.02em; color:var(--text); }
+.loader-name em{ font-style:italic; color:var(--accent); }
+.loader-track{ width:180px; height:2px; border-radius:99px; background:var(--border); overflow:hidden; }
+.loader-track span{
+  display:block; height:100%; width:42%;
+  background:linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  animation:load 1.15s ease-in-out infinite;
+}
+@keyframes load{ 0%{ transform:translateX(-110%) } 100%{ transform:translateX(360%) } }
+
+/* Nav */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:900;
+  height:var(--nav-h); display:flex; align-items:center;
+  border-bottom:1px solid transparent;
+  transition:background .45s var(--ease), backdrop-filter .45s, border-color .45s, height .45s var(--ease);
+}
+.nav.scrolled{
+  height:66px;
+  background:color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom-color:var(--border);
+}
+.nav-inner{
+  position:relative; z-index:2;
+  width:min(1220px, 92vw); margin-inline:auto;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.brand{
+  display:inline-flex; align-items:center; gap:11px;
+  font-size:1.16rem; font-weight:700; letter-spacing:-.02em; white-space:nowrap;
+}
+.brand .mark{
+  position:relative; display:grid; place-items:center;
+  width:36px; height:36px; border-radius:11px;
+  background:linear-gradient(140deg, var(--accent-2), var(--accent));
+  color:#fff; font-family:var(--mono); font-size:.92rem; font-weight:500;
+  box-shadow:0 10px 26px -10px var(--accent);
+}
+.brand .mark::after{ content:''; position:absolute; inset:0; border-radius:11px; border:1px solid rgba(255,255,255,.22); }
+.brand span.name{ color:var(--text); }
+.brand span.name em{ font-style:normal; color:var(--accent); }
+
+.nav-links{ display:flex; align-items:center; gap:26px; }
+.nav-links a{
+  position:relative; font-size:.87rem; font-weight:500;
+  color:var(--muted); transition:color .3s; padding:6px 0;
+}
+.nav-links a::after{
+  content:''; position:absolute; left:0; bottom:0;
+  width:100%; height:1.5px; border-radius:2px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-3));
+  transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease);
+}
+.nav-links a:hover{ color:var(--text); }
+.nav-links a:hover::after,
+.nav-links a.active::after{ transform:scaleX(1); transform-origin:left; }
+.nav-links a.active{ color:var(--text); }
+
+.nav-actions{ display:flex; align-items:center; gap:10px; }
+.icon-btn{
+  display:grid; place-items:center;
+  width:40px; height:40px; border-radius:11px;
+  border:1px solid var(--border); background:var(--surface);
+  font-size:.95rem; line-height:1;
+  transition:transform .3s var(--ease), border-color .3s, background .3s;
+}
+.icon-btn:hover{ transform:translateY(-2px); border-color:var(--accent); }
+
+.lang-switch{
+  display:flex; align-items:center;
+  border:1px solid var(--border); background:var(--surface);
+  border-radius:11px; padding:3px; gap:2px;
+}
+.lang-switch button{
+  padding:6px 10px; font-size:.72rem; font-weight:600;
+  color:var(--muted); border-radius:8px; letter-spacing:.02em;
+  transition:background .3s, color .3s;
+}
+.lang-switch button:hover{ color:var(--text); }
+.lang-switch button.active{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent)); color:#fff;
+}
+
+.burger{ display:none; flex-direction:column; gap:4.5px; }
+.burger span{
+  display:block; width:17px; height:1.8px; border-radius:2px;
+  background:var(--text); transition:transform .4s var(--ease), opacity .3s;
+}
+.burger.open span:nth-child(1){ transform:translateY(6.3px) rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ transform:translateY(-6.3px) rotate(-45deg); }
+
+@media (max-width:1040px){
+  .nav-links{
+    position:fixed; inset:0; z-index:1;
+    flex-direction:column; justify-content:center; gap:26px;
+    background:var(--bg);
+    clip-path:circle(0% at calc(100% - 44px) 40px);
+    transition:clip-path .65s var(--ease);
+  }
+  .nav-links.open{ clip-path:circle(150% at calc(100% - 44px) 40px); }
+  .nav-links a{ font-size:1.6rem; font-family:var(--serif); }
+  .burger{ display:flex; }
+  .nav-cta{ display:none; }
+}
+@media (min-width:1041px){ .nav-links{ clip-path:none !important; } }
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:15px 30px; border-radius:999px;
+  font-size:.92rem; font-weight:600; letter-spacing:.01em;
+  border:1px solid transparent; white-space:nowrap;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease),
+             background .35s, color .35s, border-color .35s;
+}
+.btn-sm{ padding:11px 22px; font-size:.85rem; }
+.btn-primary{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent));
+  color:var(--accent-ink); box-shadow:0 16px 38px -16px var(--accent);
+}
+.btn-primary:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px var(--accent); }
+.btn-ghost{
+  background:var(--surface); border-color:var(--border); color:var(--text);
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{ transform:translateY(-3px); border-color:var(--accent); color:var(--accent); }
+.btn-wa{
+  background:linear-gradient(135deg, #37d67a, #1faa5a); color:#fff;
+  box-shadow:0 16px 38px -16px rgba(31,170,90,.85);
+}
+.btn-wa:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px rgba(31,170,90,.9); }
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.page-hero{
+  position:relative;
+  padding:150px 5vw 70px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.page-hero-bg{
+  position:absolute; inset:0; z-index:-2;
+  background:
+    radial-gradient(55% 45% at 50% 0%, var(--glow), transparent 65%),
+    radial-gradient(40% 40% at 90% 60%, var(--glow-warm), transparent 60%);
+}
+.page-hero-grid{
+  position:absolute; inset:0; z-index:-1; opacity:.28;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(circle at 50% 30%, black 12%, transparent 68%);
+  -webkit-mask-image:radial-gradient(circle at 50% 30%, black 12%, transparent 68%);
+}
+.page-hero-content{ position:relative; max-width:840px; text-align:center; margin-inline:auto; }
+
+.pill{
+  display:inline-flex; align-items:center; gap:9px;
+  padding:8px 18px; border-radius:999px;
+  font-size:.74rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent-2);
+  background:var(--accent-soft);
+  border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.pill .dot{
+  width:6px; height:6px; border-radius:50%; background:#5cd68a;
+  box-shadow:0 0 0 0 rgba(92,214,138,.7);
+  animation:pulse 2.2s infinite;
+}
+@keyframes pulse{
+  70%{ box-shadow:0 0 0 8px rgba(92,214,138,0) }
+  100%{ box-shadow:0 0 0 0 rgba(92,214,138,0) }
+}
+
+.page-hero h1{
+  margin-top:24px;
+  font-weight:700;
+  font-size:clamp(2.2rem, 6vw, 4.4rem);
+  line-height:1.05;
+  letter-spacing:-.04em;
+}
+.page-hero h1 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.02em;
+}
+.page-hero-sub{
+  margin:22px auto 0; max-width:620px;
+  color:var(--muted); font-size:clamp(1rem, 1.6vw, 1.14rem); font-weight:300;
+}
+.page-hero-sub strong{ color:var(--text); font-weight:500; }
+
+.page-hero-btns{
+  margin-top:34px;
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+}
+
+/* Sec head */
+.sec-head{ max-width:760px; margin:0 auto clamp(40px,5vw,60px); text-align:center; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:.72rem; font-weight:500;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:18px;
+}
+.eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent); }
+.sec-head h2{
+  font-weight:700;
+  font-size:clamp(1.9rem, 4.4vw, 3.15rem);
+  line-height:1.12; letter-spacing:-.03em;
+}
+.sec-head h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.sec-sub{ margin-top:18px; color:var(--muted); font-size:1.02rem; font-weight:300; }
+
+/* ============================================================
+   FEATURED CASE STUDY (Pashtoons)
+   ============================================================ */
+.case-featured{
+  position:relative;
+  padding:clamp(36px,5vw,54px);
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:44px;
+  align-items:center;
+  overflow:hidden;
+  margin-bottom:70px;
+}
+.case-featured::before{
+  content:''; position:absolute; top:-40%; right:-20%;
+  width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(circle, var(--accent-soft), transparent 65%);
+  pointer-events:none;
+}
+.case-featured > *{ position:relative; z-index:1; }
+@media (max-width:900px){
+  .case-featured{ grid-template-columns:1fr; gap:30px; }
+}
+
+.case-tag{
+  display:inline-flex; align-items:center; gap:9px;
+  padding:7px 15px; border-radius:999px;
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+  color:#fff;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  margin-bottom:22px;
+}
+.case-tag::before{
+  content:''; width:6px; height:6px; border-radius:50%; background:#fff;
+  animation:pulse-b 1.6s infinite;
+}
+@keyframes pulse-b{
+  0%,100%{ opacity:1; transform:scale(1) }
+  50%{ opacity:.5; transform:scale(1.4) }
+}
+
+.case-info h3{
+  font-weight:700;
+  font-size:clamp(1.6rem, 3.4vw, 2.4rem);
+  letter-spacing:-.03em; line-height:1.15; margin-bottom:16px;
+}
+.case-info h3 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.case-info > p{
+  color:var(--muted); font-size:1rem; font-weight:300; margin-bottom:24px;
+}
+
+.case-stats{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  gap:20px;
+  padding-top:22px;
+  border-top:1px dashed var(--border);
+  margin-bottom:26px;
+}
+.case-stat .num{
+  font-family:var(--serif); font-weight:600;
+  font-size:1.6rem; letter-spacing:-.03em;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  line-height:1; margin-bottom:6px;
+}
+.case-stat .lbl{
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted);
+}
+
+.case-visual{
+  position:relative;
+  border-radius:18px;
+  background:var(--bg-3);
+  border:1px solid var(--border);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  aspect-ratio:4/3;
+  display:grid; place-items:center;
+  padding:36px;
+}
+.case-visual-logo{
+  width:110px; height:110px;
+  border-radius:26px;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+  overflow:hidden;
+  display:grid; place-items:center;
+  animation:float 6s ease-in-out infinite;
+}
+.case-visual-logo img{ width:100%; height:100%; object-fit:cover; }
+@keyframes float{
+  0%,100%{ transform:translateY(0) }
+  50%{ transform:translateY(-8px) }
+}
+.case-visual-glow{
+  position:absolute; inset:0;
+  background:radial-gradient(circle at 50% 50%, var(--accent-soft), transparent 65%);
+  pointer-events:none;
+}
+
+/* ============================================================
+   FILTER BAR
+   ============================================================ */
+.filter-bar{
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+  margin-bottom:44px;
+}
+.filter-btn{
+  padding:10px 20px; border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--muted);
+  font-size:.85rem; font-weight:500; letter-spacing:.01em;
+  transition:all .3s var(--ease);
+}
+.filter-btn:hover{ color:var(--text); border-color:var(--accent); }
+.filter-btn.active{
+  color:#fff;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent));
+  border-color:transparent;
+  box-shadow:0 10px 26px -10px var(--accent);
+}
+
+/* ============================================================
+   DEMO GRID
+   ============================================================ */
+.demos-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+}
+@media (max-width:1000px){ .demos-grid{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:620px){ .demos-grid{ grid-template-columns:1fr; } }
+
+.demo-card{
+  position:relative; overflow:hidden;
+  border-radius:18px;
+  background:var(--bg-3);
+  border:1px solid var(--border);
+  cursor:pointer;
+  transition:transform .55s var(--ease), border-color .45s, box-shadow .55s, opacity .4s;
+}
+.demo-card.hidden{
+  display:none;
+}
+.demo-card:hover{
+  transform:translateY(-7px);
+  border-color:var(--accent);
+  box-shadow:var(--shadow);
+}
+
+.demo-thumb{
+  position:relative; aspect-ratio:16/10; overflow:hidden;
+  background:var(--bg-2);
+}
+.demo-thumb img{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform 1s var(--ease), filter .5s;
+}
+.demo-card:hover .demo-thumb img{ transform:scale(1.07); }
+
+.demo-thumb::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 45%, rgba(0,0,0,.68));
+}
+
+.demo-tag{
+  position:absolute; top:14px; left:14px; z-index:2;
+  font-family:var(--mono); font-size:.64rem; letter-spacing:.14em;
+  text-transform:uppercase; padding:5px 11px; border-radius:999px;
+  color:#fff;
+  background:rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(10px);
+}
+.demo-view{
+  position:absolute; bottom:14px; right:14px; z-index:2;
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:.74rem; font-weight:600; color:#fff;
+  padding:6px 13px; border-radius:999px;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent));
+  opacity:0; transform:translateY(8px);
+  transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.demo-card:hover .demo-view{ opacity:1; transform:none; }
+
+.demo-info{ padding:20px 22px 22px; }
+.demo-info h4{
+  font-size:1.02rem; font-weight:600; letter-spacing:-.01em; margin-bottom:5px;
+}
+.demo-info p{ color:var(--muted); font-size:.85rem; font-weight:300; }
+
+/* ============================================================
+   CTA FINAL
+   ============================================================ */
+.cta-final{
+  position:relative; overflow:hidden;
+  text-align:center;
+  padding:clamp(90px,13vw,160px) 5vw;
+  border-top:1px solid var(--border);
+  background:var(--bg-2);
+  transition:background .45s ease;
+}
+.cta-final::before{
+  content:''; position:absolute; left:50%; top:50%;
+  width:1000px; height:1000px; transform:translate(-50%,-50%);
+  background:radial-gradient(circle, var(--accent-soft), transparent 62%);
+  pointer-events:none;
+}
+.cta-final > *{ position:relative; z-index:1; }
+.cta-final h2{
+  font-weight:700;
+  font-size:clamp(2rem, 5.6vw, 4rem);
+  line-height:1.08; letter-spacing:-.035em;
+  max-width:900px; margin-inline:auto;
+}
+.cta-final h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.cta-final p{ margin:22px auto 0; max-width:540px; color:var(--muted); font-weight:300; }
+.cta-final .btn{ margin-top:38px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  border-top:1px solid var(--border);
+  padding:56px 0 40px;
+  font-size:.88rem;
+}
+.footer-top{
+  display:flex; flex-wrap:wrap; gap:28px;
+  align-items:center; justify-content:space-between;
+  padding-bottom:28px; border-bottom:1px solid var(--border);
+}
+.footer-links{ display:flex; flex-wrap:wrap; gap:24px; }
+.footer-links a{ color:var(--muted); transition:color .3s; }
+.footer-links a:hover{ color:var(--accent); }
+.footer-bottom{
+  padding-top:26px;
+  display:flex; flex-wrap:wrap; gap:14px;
+  align-items:center; justify-content:space-between;
+  color:var(--muted); font-size:.82rem;
+}
+
+/* Floating WhatsApp */
+.wa{
+  position:fixed; right:20px; bottom:20px; z-index:800;
+  display:flex; align-items:center; gap:11px;
+  padding:11px 20px 11px 12px; border-radius:999px;
+  background:linear-gradient(135deg, #37d67a, #1faa5a);
+  box-shadow:0 16px 34px -12px rgba(31,170,90,.85);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.wa:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 22px 44px -12px rgba(31,170,90,.9); }
+.wa svg{ width:26px; height:26px; fill:#fff; flex:none; }
+.wa span{ color:#fff; font-size:.88rem; font-weight:600; letter-spacing:.01em; white-space:nowrap; }
+@media (max-width:520px){ .wa{ padding:11px; border-radius:50%; } .wa span{ display:none; } }
+.wa::before{
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  border:2px solid rgba(55,214,122,.55);
+  animation:ring 2.4s ease-out infinite;
+}
+@keyframes ring{ 0%{ transform:scale(1); opacity:.8 } 100%{ transform:scale(1.55); opacity:0 } }
+
+/* Reveal */
+.reveal{
+  opacity:0; transform:translateY(28px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+  transition-delay:var(--d,0ms);
+  will-change:opacity, transform;
+}
+.reveal.in{ opacity:1; transform:none; }
+
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:6px; }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal{ opacity:1; transform:none; }
+}
+
+/* RTL */
+html[dir="rtl"] body{ direction:rtl; }
+html[dir="rtl"] .eyebrow::before{ transform:scaleX(-1); }
+html[dir="rtl"] .demo-tag{ right:14px; left:auto; }
+html[dir="rtl"] .demo-view{ left:14px; right:auto; }
+</style>
+</head>
+
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="code-mark">&lt;/&gt;</div>
+    <div class="loader-name">Port<em>folio</em></div>
+    <div class="loader-track"><span></span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="mark">&lt;/&gt;</span>
+      <span class="name">Code<em>Kaar</em></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="index.html#ventures" data-i18n="nav.ventures">Ventures</a>
+      <a href="services.html" data-i18n="nav.services">Services</a>
+      <a href="portfolio.html" class="active" data-i18n="nav.demos">Portfolio</a>
+      <a href="pricing.html" data-i18n="nav.pricing">Pricing</a>
+      <a href="about.html" data-i18n="nav.about">About</a>
+      <a href="contact.html" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" class="active" aria-label="English">EN</button>
+        <button data-lang="ps" aria-label="Pashto">پښتو</button>
+        <button data-lang="fa" aria-label="Dari">دری</button>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+      <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20website%20for%20my%20business."
+         target="_blank" rel="noopener"
+         class="btn btn-primary btn-sm nav-cta" data-i18n="nav.cta">DM on WhatsApp</a>
+      <button class="icon-btn burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+
+    <div class="page-hero-content">
+      <span class="pill reveal">
+        <span class="dot"></span>
+        <span data-i18n="hero.pill">6 live demos · 1 flagship project</span>
+      </span>
+
+      <h1 class="reveal" style="--d:80ms">
+        <span data-i18n="hero.title1">Real designs,</span><br>
+        <span data-i18n="hero.title2">for</span> <em data-i18n="hero.title3">real businesses.</em>
+      </h1>
+
+      <p class="page-hero-sub reveal" style="--d:160ms">
+        <span data-i18n="hero.sub">Every design here is 100% custom-built. Click any to see what CodeKaar can make for your business.</span>
+      </p>
+
+      <div class="page-hero-btns reveal" style="--d:240ms">
+        <a href="#demos" class="btn btn-primary" data-i18n="hero.btnView">View Demos →</a>
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20demo%20for%20my%20business."
+           target="_blank" rel="noopener" class="btn btn-ghost" data-i18n="hero.btnFree">Request a Free Demo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED CASE STUDY: PASHT00NS -->
+  <section class="section" style="padding-top:40px">
+    <div class="container">
+
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="case.eyebrow">Featured Project</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="case.title1">Our biggest build</span> <em data-i18n="case.title2">so far.</em>
+        </h2>
+        <p class="sec-sub reveal" style="--d:160ms" data-i18n="case.sub">
+          Pashtoons isn't a client website — it's our own product, built by QMR from the ground up.
+        </p>
+      </header>
+
+      <div class="case-featured reveal">
+
+        <div class="case-info">
+          <div class="case-tag" data-i18n="case.tag">In Development · 2025</div>
+
+          <h3>
+            <span data-i18n="case.name1">Pashtoons —</span><br>
+            <em data-i18n="case.name2">a social platform for our people.</em>
+          </h3>
+
+          <p data-i18n="case.desc">
+            A modern social media platform built Pashto-first for the Pashto-speaking world. Posts, real-time chat, friends, likes, comments and shares — all designed natively for right-to-left layouts and Pashto typography.
+          </p>
+
+          <div class="case-stats">
+            <div class="case-stat">
+              <div class="num">6+</div>
+              <div class="lbl" data-i18n="case.s1">Core Features</div>
+            </div>
+            <div class="case-stat">
+              <div class="num">3</div>
+              <div class="lbl" data-i18n="case.s2">Languages</div>
+            </div>
+            <div class="case-stat">
+              <div class="num">100%</div>
+              <div class="lbl" data-i18n="case.s3">Custom-Built</div>
+            </div>
+          </div>
+
+          <a href="pashtoons.html" class="btn btn-primary" data-i18n="case.btn">See Pashtoons →</a>
+        </div>
+
+        <div class="case-visual">
+          <div class="case-visual-glow"></div>
+          <div class="case-visual-logo">
+            <img src="assets/images/pashtoons_logo.png" alt="Pashtoons logo">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMOS GRID -->
+  <section class="section" id="demos" style="padding-top:0">
+    <div class="container">
+
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="demos.eyebrow">Live Demos</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="demos.title1">Browse by</span> <em data-i18n="demos.title2">business type.</em>
+        </h2>
+      </header>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar reveal">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter.all">All</button>
+        <button class="filter-btn" data-filter="cafe" data-i18n="filter.cafe">Café</button>
+        <button class="filter-btn" data-filter="photo" data-i18n="filter.photo">Photography</button>
+        <button class="filter-btn" data-filter="food" data-i18n="filter.food">Restaurant</button>
+        <button class="filter-btn" data-filter="shop" data-i18n="filter.shop">Boutique</button>
+        <button class="filter-btn" data-filter="real" data-i18n="filter.real">Real Estate</button>
+        <button class="filter-btn" data-filter="gym" data-i18n="filter.gym">Gym</button>
+      </div>
+
+      <!-- GRID -->
+      <div class="demos-grid" id="demosGrid">
+
+        <a class="demo-card reveal" data-cat="cafe" href="#contact">
+          <div class="demo-thumb">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=900&q=80"
+                 alt="Café website demo" loading="lazy">
+            <span class="demo-tag">Café · Restaurant</span>
+            <span class="demo-view" data-i18n="demos.view">View Demo →</span>
+          </div>
+          <div class="demo-info">
+            <h4>Kabul Coffee</h4>
+            <p data-i18n="demos.d1">Modern café site with menu, gallery &amp; reservations.</p>
+          </div>
+        </a>
+
+        <a class="demo-card reveal" style="--d:80ms" data-cat="photo" href="#contact">
+          <div class="demo-thumb">
+            <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=900&q=80"
+                 alt="Photography portfolio demo" loading="lazy">
+            <span class="demo-tag">Photography</span>
+            <span class="demo-view" data-i18n="demos.view">View Demo →</span>
+          </div>
+          <div class="demo-info">
+            <h4>Noor Photography</h4>
+            <p data-i18n="demos.d2">Full-screen portfolio with gallery &amp; booking form.</p>
+          </div>
+        </a>
+
+        <a class="demo-card reveal" style="--d:160ms" data-cat="food" href="#contact">
+          <div class="demo-thumb">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80"
+                 alt="Restaurant website demo" loading="lazy">
+            <span class="demo-tag">Fine Dining</span>
+            <span class="demo-view" data-i18n="demos.view">View Demo →</span>
+          </div>
+          <div class="demo-info">
+            <h4>Restaurant</h4>
+            <p data-i18n="demos.d3">Elegant dark theme with menu, chef story &amp; bookings.</p>
+          </div>
+        </a>
+
+        <a class="demo-card reveal" style="--d:80ms" data-cat="shop" href="#contact">
+          <div class="demo-thumb">
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80"
+                 alt="Clothing boutique demo" loading="lazy">
+            <span class="demo-tag">Fashion · Retail</span>
+            <span class="demo-view" data-i18n="demos.view">View Demo →</span>
+          </div>
+          <div class="demo-info">
+            <h4>Clothing Boutique</h4>
+            <p data-i18n="demos.d4">Editorial lookbook with product grid &amp; shop page.</p>
+          </div>
+        </a>
+
+        <a class="demo-card reveal" style="--d:160ms" data-cat="real" href="#contact">
+          <div class="demo-thumb">
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80"
+                 alt="Real estate website demo" loading="lazy">
+            <span class="demo-tag">Real Estate</span>
+            <span class="demo-view" data-i18n="demos.view">View Demo →</span>
+          </div>
+          <div class="demo-info">
+            <h4>Property Listings</h4>
+            <p data-i18n="demos.d5">Browse homes, filter by price &amp; contact agents.</p>
+          </div>
+        </a>
+
+        <a class="demo-card reveal" style="--d:240ms" data-cat="gym" href="#contact">
+          <div class="demo-thumb">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80"
+                 alt="Gym website demo" loading="lazy">
+            <span class="demo-tag">Fitness</span>
+            <span class="demo-view" data-i18n="demos.view">View Demo →</span>
+          </div>
+          <div class="demo-info">
+            <h4>Gym &amp; Fitness</h4>
+            <p data-i18n="demos.d6">Class schedule, trainers &amp; membership plans.</p>
+          </div>
+        </a>
+
+      </div>
+
+      <p style="text-align:center; margin-top:44px; color:var(--muted); font-size:.9rem;" class="reveal">
+        <span data-i18n="demos.footer1">Want a demo for</span>
+        <strong style="color:var(--accent-2);" data-i18n="demos.footer2">your business type</strong>?
+        <span data-i18n="demos.footer3">Just ask — I'll build one free.</span>
+      </p>
+
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <h2 class="reveal">
+      <span data-i18n="cta.title1">Want a demo for</span><br>
+      <em data-i18n="cta.title2">your own business?</em>
+    </h2>
+    <p class="reveal" style="--d:100ms" data-i18n="cta.sub">
+      Tell me about your business and I'll build you a free custom demo — no commitment, no pressure.
+    </p>
+    <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20demo%20for%20my%20business."
+       target="_blank" rel="noopener" class="btn btn-wa reveal" style="--d:180ms">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+        <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+      </svg>
+      <span data-i18n="cta.btn">Request a Free Demo</span>
+    </a>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <a href="index.html" class="brand">
+        <span class="mark">&lt;/&gt;</span>
+        <span class="name">Code<em>Kaar</em></span>
+      </a>
+
+      <nav class="footer-links">
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="qmr.html">QMR</a>
+        <a href="pashtoons.html">Pashtoons</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="pricing.html" data-i18n="nav.pricing">Pricing</a>
+        <a href="contact.html" data-i18n="nav.contact">Contact</a>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year">2025</span> CodeKaar · <span data-i18n="footer.tag">Websites &amp; Digital Solutions</span></span>
+      <span data-i18n="footer.made">Made in Khost, Afghanistan · Part of QMR community</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa" href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20website%20for%20my%20business."
+   target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+  </svg>
+  <span data-i18n="wa.float">DM for a free quote</span>
+</a>
+
+<script>
+(function () {
+  'use strict';
+
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  /* ---------- i18n (Portfolio page) ---------- */
+  const i18n = {
+    en: {
+      'nav.home':'Home','nav.ventures':'Ventures','nav.services':'Services','nav.demos':'Portfolio',
+      'nav.pricing':'Pricing','nav.about':'About','nav.contact':'Contact','nav.cta':'DM on WhatsApp',
+      'hero.pill':'6 live demos · 1 flagship project',
+      'hero.title1':'Real designs,','hero.title2':'for','hero.title3':'real businesses.',
+      'hero.sub':'Every design here is 100% custom-built. Click any to see what CodeKaar can make for your business.',
+      'hero.btnView':'View Demos →','hero.btnFree':'Request a Free Demo',
+      'case.eyebrow':'Featured Project','case.title1':'Our biggest build','case.title2':'so far.',
+      'case.sub':"Pashtoons isn't a client website — it's our own product, built by QMR from the ground up.",
+      'case.tag':'In Development · 2025',
+      'case.name1':'Pashtoons —','case.name2':'a social platform for our people.',
+      'case.desc':'A modern social media platform built Pashto-first for the Pashto-speaking world. Posts, real-time chat, friends, likes, comments and shares — all designed natively for right-to-left layouts and Pashto typography.',
+      'case.s1':'Core Features','case.s2':'Languages','case.s3':'Custom-Built',
+      'case.btn':'See Pashtoons →',
+      'demos.eyebrow':'Live Demos','demos.title1':'Browse by','demos.title2':'business type.',
+      'filter.all':'All','filter.cafe':'Café','filter.photo':'Photography','filter.food':'Restaurant',
+      'filter.shop':'Boutique','filter.real':'Real Estate','filter.gym':'Gym',
+      'demos.view':'View Demo →',
+      'demos.d1':'Modern café site with menu, gallery & reservations.',
+      'demos.d2':'Full-screen portfolio with gallery & booking form.',
+      'demos.d3':'Elegant dark theme with menu, chef story & bookings.',
+      'demos.d4':'Editorial lookbook with product grid & shop page.',
+      'demos.d5':'Browse homes, filter by price & contact agents.',
+      'demos.d6':'Class schedule, trainers & membership plans.',
+      'demos.footer1':'Want a demo for','demos.footer2':'your business type','demos.footer3':"Just ask — I'll build one free.",
+      'cta.title1':'Want a demo for','cta.title2':'your own business?',
+      'cta.sub':"Tell me about your business and I'll build you a free custom demo — no commitment, no pressure.",
+      'cta.btn':'Request a Free Demo',
+      'footer.tag':'Websites & Digital Solutions','footer.made':'Made in Khost, Afghanistan · Part of QMR community',
+      'wa.float':'DM for a free quote'
+    },
+    ps: {
+      'nav.home':'کور','nav.ventures':'پروژې','nav.services':'خدمتونه','nav.demos':'پورټفولیو',
+      'nav.pricing':'بیې','nav.about':'زموږ په اړه','nav.contact':'اړیکه','nav.cta':'واټساپ پیغام',
+      'hero.pill':'۶ ژوندې نمونې · ۱ مهمه پروژه',
+      'hero.title1':'ریښتیني ډیزاینونه،','hero.title2':'د','hero.title3':'ریښتینو سوداګرو لپاره.',
+      'hero.sub':'هر ډیزاین دلته ۱۰۰٪ ځانګړی جوړ شوی. هر یو کلیک کړئ ترڅو وګورئ چې CodeKaar ستاسو د سوداګرۍ لپاره څه جوړولی شي.',
+      'hero.btnView':'نمونې وګورئ →','hero.btnFree':'وړیا نمونه وغواړئ',
+      'case.eyebrow':'ځانګړې پروژه','case.title1':'زموږ ترټولو لوی جوړ','case.title2':'تر دې دمه.',
+      'case.sub':'Pashtoons د پیریدونکي وېبپاڼه نه ده — دا زموږ خپل محصول دی، د QMR لخوا له بنسټ څخه جوړ شوی.',
+      'case.tag':'په پراختیا کې · ۲۰۲۵',
+      'case.name1':'Pashtoons —','case.name2':'زموږ د خلکو لپاره یو ټولنیز پلیټ فارم.',
+      'case.desc':'یو عصري ټولنیز پلیټ فارم چې پښتو-لومړی د پښتو ژبې نړۍ لپاره جوړ شوی. پوسټونه، ریښتینی وخت چیټ، ملګري، خوښې، نظرونه او شریکول — ټول د ښی-څخه-کیڼ ترتیبو او پښتو ټایپوګرافي لپاره په اصلي ډول ډیزاین شوي.',
+      'case.s1':'بنسټیزې ځانګړتیاوې','case.s2':'ژبې','case.s3':'ځانګړی جوړ شوی',
+      'case.btn':'Pashtoons وګورئ →',
+      'demos.eyebrow':'ژوندې نمونې','demos.title1':'د','demos.title2':'سوداګرۍ ډول له مخې وپلټئ.',
+      'filter.all':'ټول','filter.cafe':'کافي','filter.photo':'انځورګري','filter.food':'رستورانت',
+      'filter.shop':'بوټیک','filter.real':'ریښتینی املاک','filter.gym':'جیم',
+      'demos.view':'نمونه وګورئ →',
+      'demos.d1':'عصري کافي وېبپاڼه د مینو، ګالري او ریزرویشن سره.',
+      'demos.d2':'بشپړ سکرین پورټفولیو د ګالري او د بکینګ فورمې سره.',
+      'demos.d3':'ښکلی تور تیم د مینو، د شیف کیسې او بکینګ سره.',
+      'demos.d4':'اداری لک بوک د محصولاتو ګریډ او پلورنځي پاڼې سره.',
+      'demos.d5':'کورونه وګورئ، د بیې له مخې فلټر او د استازو سره اړیکه.',
+      'demos.d6':'د ټولګیو مهالویش، روزونکي او د غړیتوب پلانونه.',
+      'demos.footer1':'نمونه غواړئ د','demos.footer2':'خپلې سوداګرۍ ډول','demos.footer3':'یوازې وپوښتئ — زه به یوه وړیا جوړه کړم.',
+      'cta.title1':'نمونه غواړئ د','cta.title2':'خپلې سوداګرۍ لپاره؟',
+      'cta.sub':'زما سره د خپلې سوداګرۍ په اړه ووایاست او زه به تاسو لپاره وړیا ځانګړې نمونه جوړه کړم — پرته له ژمنې، پرته له فشار.',
+      'cta.btn':'وړیا نمونه وغواړئ',
+      'footer.tag':'وېبپاڼې او ډیجیټل حلونه','footer.made':'په خوست، افغانستان کې جوړ شوی · د QMR ټولنې برخه',
+      'wa.float':'د وړیا بیې لپاره پیغام'
+    },
+    fa: {
+      'nav.home':'خانه','nav.ventures':'پروژه‌ها','nav.services':'خدمات','nav.demos':'نمونه کارها',
+      'nav.pricing':'قیمت‌ها','nav.about':'درباره','nav.contact':'تماس','nav.cta':'پیام واتس‌اپ',
+      'hero.pill':'۶ نمونه زنده · ۱ پروژه اصلی',
+      'hero.title1':'طراحی‌های واقعی،','hero.title2':'برای','hero.title3':'کسب‌وکارهای واقعی.',
+      'hero.sub':'هر طراحی اینجا ۱۰۰٪ سفارشی ساخته شده. روی هر کدام کلیک کنید تا ببینید CodeKaar چه چیزی برای کسب‌وکار شما می‌سازد.',
+      'hero.btnView':'مشاهده نمونه‌ها →','hero.btnFree':'درخواست نمونه رایگان',
+      'case.eyebrow':'پروژه ویژه','case.title1':'بزرگ‌ترین ساخته','case.title2':'ما تا کنون.',
+      'case.sub':'Pashtoons یک وب‌سایت مشتری نیست — محصول خود ما است که توسط QMR از پایه ساخته شده.',
+      'case.tag':'در حال توسعه · ۲۰۲۵',
+      'case.name1':'Pashtoons —','case.name2':'یک پلتفرم اجتماعی برای مردم ما.',
+      'case.desc':'یک پلتفرم اجتماعی مدرن که پشتو-اول برای جهان پشتوزبان ساخته شده. پست‌ها، چت لحظه‌ای، دوستان، لایک‌ها، نظرات و اشتراک‌گذاری — همه به صورت بومی برای چیدمان راست به چپ و تایپوگرافی پشتو طراحی شده‌اند.',
+      'case.s1':'ویژگی اصلی','case.s2':'زبان‌ها','case.s3':'سفارشی ساخته شده',
+      'case.btn':'مشاهده Pashtoons →',
+      'demos.eyebrow':'نمونه‌های زنده','demos.title1':'مرور بر اساس','demos.title2':'نوع کسب‌وکار.',
+      'filter.all':'همه','filter.cafe':'کافه','filter.photo':'عکاسی','filter.food':'رستوران',
+      'filter.shop':'بوتیک','filter.real':'املاک','filter.gym':'باشگاه',
+      'demos.view':'مشاهده نمونه →',
+      'demos.d1':'سایت کافه مدرن با منو، گالری و رزرو.',
+      'demos.d2':'نمونه کار تمام‌صفحه با گالری و فرم رزرو.',
+      'demos.d3':'تم تیره شیک با منو، داستان سرآشپز و رزرو.',
+      'demos.d4':'لوک‌بوک سرمقاله‌ای با شبکه محصولات و صفحه فروشگاه.',
+      'demos.d5':'مشاهده خانه‌ها، فیلتر بر اساس قیمت و تماس با نمایندگان.',
+      'demos.d6':'برنامه کلاس‌ها، مربیان و طرح‌های عضویت.',
+      'demos.footer1':'نمونه می‌خواهید برای','demos.footer2':'نوع کسب‌وکار شما','demos.footer3':'فقط بپرسید — یکی را رایگان می‌سازم.',
+      'cta.title1':'نمونه می‌خواهید برای','cta.title2':'کسب‌وکار خودتان؟',
+      'cta.sub':'درباره کسب‌وکارتان به من بگویید و من یک نمونه سفارشی رایگان برایتان می‌سازم — بدون تعهد، بدون فشار.',
+      'cta.btn':'درخواست نمونه رایگان',
+      'footer.tag':'وب‌سایت و راه‌حل‌های دیجیتال','footer.made':'ساخته شده در خوست، افغانستان · بخشی از جامعه QMR',
+      'wa.float':'برای قیمت رایگان پیام دهید'
+    }
+  };
+
+  let currentLang = store.get('ck-lang') || 'en';
+
+  function applyLang(lang){
+    const dict = i18n[lang] || i18n.en;
+    currentLang = lang;
+    document.documentElement.lang = lang === 'ps' ? 'ps' : lang === 'fa' ? 'fa' : 'en';
+    document.documentElement.dir = (lang === 'ps' || lang === 'fa') ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    store.set('ck-lang', lang);
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  /* Loader */
+  const loader = document.getElementById('loader');
+  function hideLoader(){
+    if (loader) loader.classList.add('hide');
+    setTimeout(() => loader && loader.remove(), 950);
+  }
+  if (document.readyState === 'complete') setTimeout(hideLoader, 650);
+  else {
+    window.addEventListener('load', () => setTimeout(hideLoader, 650));
+    setTimeout(hideLoader, 3800);
+  }
+
+  /* Theme */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const saved = store.get('ck-theme');
+  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+
+  function syncTheme(){
+    const dark = root.getAttribute('data-theme') === 'dark';
+    themeBtn.textContent = dark ? '🌙' : '☀️';
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', dark ? '#07070a' : '#fbfaf8');
+  }
+  syncTheme();
+
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store.set('ck-theme', next);
+    syncTheme();
+  });
+
+  /* Sticky nav */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  /* Mobile menu */
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  function setMenu(open){
+    navLinks.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('lock', open);
+  }
+  burger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  /* Reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+
+  /* ---------- Portfolio filter ---------- */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const demoCards = document.querySelectorAll('.demo-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+
+      demoCards.forEach(card => {
+        const cat = card.dataset.cat;
+        if (filter === 'all' || cat === filter) {
+          card.classList.remove('hidden');
+          // small animation to re-show
+          card.style.animation = 'none';
+          void card.offsetWidth;
+          card.style.animation = 'fadeInUp .5s var(--ease) forwards';
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  /* Year */
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  applyLang(currentLang);
+})();
+</script>
+
+<style>
+/* Extra keyframe for filter reveal */
+@keyframes fadeInUp{
+  0%{ opacity:0; transform:translateY(20px) }
+  100%{ opacity:1; transform:none }
+}
+</style>
+
+</body>
+</html>

@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#07070a" />
+<title>Contact — Let's talk about your project | CodeKaar</title>
+<meta name="description" content="Get in touch with CodeKaar in Khost, Afghanistan. WhatsApp +93 77 666 9400, email qmr.community@gmail.com. Free consultation for your website project." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1. TOKENS
+   ============================================================ */
+:root{
+  --bg:            #07070a;
+  --bg-2:          #0d0d12;
+  --bg-3:          #12121a;
+  --surface:       rgba(255,255,255,.045);
+  --surface-2:     rgba(255,255,255,.08);
+  --text:          #f2f0ed;
+  --muted:         #8b8a90;
+  --accent:        #7c5cff;
+  --accent-2:      #a48bff;
+  --accent-3:      #ff8a5c;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(124,92,255,.22);
+  --glow:          rgba(124,92,255,.14);
+  --glow-warm:     rgba(255,138,92,.10);
+  --border:        rgba(255,255,255,.09);
+  --border-strong: rgba(255,255,255,.20);
+  --shadow:        0 34px 80px -34px rgba(0,0,0,.95);
+  --radius:        22px;
+  --nav-h:         78px;
+  --ease:          cubic-bezier(.22,1,.36,1);
+  --serif:         'Playfair Display', Georgia, serif;
+  --mono:          'JetBrains Mono', ui-monospace, monospace;
+}
+
+html[data-theme="light"]{
+  --bg:            #fbfaf8;
+  --bg-2:          #f2f0ec;
+  --bg-3:          #ffffff;
+  --surface:       rgba(255,255,255,.78);
+  --surface-2:     #ffffff;
+  --text:          #131316;
+  --muted:         #6b6a72;
+  --accent:        #6741e0;
+  --accent-2:      #8364ff;
+  --accent-3:      #e5653a;
+  --accent-ink:    #ffffff;
+  --accent-soft:   rgba(103,65,224,.16);
+  --glow:          rgba(103,65,224,.10);
+  --glow-warm:     rgba(229,101,58,.08);
+  --border:        rgba(19,19,22,.10);
+  --border-strong: rgba(19,19,22,.22);
+  --shadow:        0 34px 70px -36px rgba(60,40,140,.30);
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 20px); -webkit-text-size-adjust:100%; }
+body{
+  font-family:'Inter', system-ui, -apple-system, sans-serif;
+  font-size:16px; line-height:1.65;
+  color:var(--text); background-color:var(--bg);
+  background-image:
+    radial-gradient(60vw 55vw at 88% -10%, var(--glow), transparent 62%),
+    radial-gradient(45vw 45vw at -8% 30%, var(--glow-warm), transparent 62%);
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  transition:background-color .45s ease, color .45s ease;
+}
+body.lock{ overflow:hidden; }
+img{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+input,textarea,select{ font:inherit; }
+ul{ list-style:none; }
+::selection{ background:var(--accent); color:var(--accent-ink); }
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:var(--bg-2); }
+::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:99px; border:3px solid var(--bg-2); }
+::-webkit-scrollbar-thumb:hover{ background:var(--accent); }
+
+.container{ width:min(1220px, 92vw); margin-inline:auto; }
+.section{ padding:clamp(72px,9vw,124px) 0; position:relative; }
+
+/* Loader */
+.loader{
+  position:fixed; inset:0; z-index:9999;
+  display:grid; place-items:center;
+  background:var(--bg);
+  transition:opacity .75s var(--ease), visibility .75s;
+}
+.loader.hide{ opacity:0; visibility:hidden; }
+.loader-inner{ display:flex; flex-direction:column; align-items:center; gap:24px; }
+.code-mark{
+  font-family:var(--mono); font-size:2.2rem; font-weight:500;
+  background:linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.04em;
+}
+.loader-name{ font-family:var(--serif); font-size:1.6rem; letter-spacing:.02em; color:var(--text); }
+.loader-name em{ font-style:italic; color:var(--accent); }
+.loader-track{ width:180px; height:2px; border-radius:99px; background:var(--border); overflow:hidden; }
+.loader-track span{
+  display:block; height:100%; width:42%;
+  background:linear-gradient(90deg, transparent, var(--accent), var(--accent-3), transparent);
+  animation:load 1.15s ease-in-out infinite;
+}
+@keyframes load{ 0%{ transform:translateX(-110%) } 100%{ transform:translateX(360%) } }
+
+/* Nav */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:900;
+  height:var(--nav-h); display:flex; align-items:center;
+  border-bottom:1px solid transparent;
+  transition:background .45s var(--ease), backdrop-filter .45s, border-color .45s, height .45s var(--ease);
+}
+.nav.scrolled{
+  height:66px;
+  background:color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom-color:var(--border);
+}
+.nav-inner{
+  position:relative; z-index:2;
+  width:min(1220px, 92vw); margin-inline:auto;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.brand{
+  display:inline-flex; align-items:center; gap:11px;
+  font-size:1.16rem; font-weight:700; letter-spacing:-.02em; white-space:nowrap;
+}
+.brand .mark{
+  position:relative; display:grid; place-items:center;
+  width:36px; height:36px; border-radius:11px;
+  background:linear-gradient(140deg, var(--accent-2), var(--accent));
+  color:#fff; font-family:var(--mono); font-size:.92rem; font-weight:500;
+  box-shadow:0 10px 26px -10px var(--accent);
+}
+.brand .mark::after{ content:''; position:absolute; inset:0; border-radius:11px; border:1px solid rgba(255,255,255,.22); }
+.brand span.name{ color:var(--text); }
+.brand span.name em{ font-style:normal; color:var(--accent); }
+
+.nav-links{ display:flex; align-items:center; gap:26px; }
+.nav-links a{
+  position:relative; font-size:.87rem; font-weight:500;
+  color:var(--muted); transition:color .3s; padding:6px 0;
+}
+.nav-links a::after{
+  content:''; position:absolute; left:0; bottom:0;
+  width:100%; height:1.5px; border-radius:2px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-3));
+  transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease);
+}
+.nav-links a:hover{ color:var(--text); }
+.nav-links a:hover::after,
+.nav-links a.active::after{ transform:scaleX(1); transform-origin:left; }
+.nav-links a.active{ color:var(--text); }
+
+.nav-actions{ display:flex; align-items:center; gap:10px; }
+.icon-btn{
+  display:grid; place-items:center;
+  width:40px; height:40px; border-radius:11px;
+  border:1px solid var(--border); background:var(--surface);
+  font-size:.95rem; line-height:1;
+  transition:transform .3s var(--ease), border-color .3s, background .3s;
+}
+.icon-btn:hover{ transform:translateY(-2px); border-color:var(--accent); }
+
+.lang-switch{
+  display:flex; align-items:center;
+  border:1px solid var(--border); background:var(--surface);
+  border-radius:11px; padding:3px; gap:2px;
+}
+.lang-switch button{
+  padding:6px 10px; font-size:.72rem; font-weight:600;
+  color:var(--muted); border-radius:8px; letter-spacing:.02em;
+  transition:background .3s, color .3s;
+}
+.lang-switch button:hover{ color:var(--text); }
+.lang-switch button.active{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent)); color:#fff;
+}
+
+.burger{ display:none; flex-direction:column; gap:4.5px; }
+.burger span{
+  display:block; width:17px; height:1.8px; border-radius:2px;
+  background:var(--text); transition:transform .4s var(--ease), opacity .3s;
+}
+.burger.open span:nth-child(1){ transform:translateY(6.3px) rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ transform:translateY(-6.3px) rotate(-45deg); }
+
+@media (max-width:1040px){
+  .nav-links{
+    position:fixed; inset:0; z-index:1;
+    flex-direction:column; justify-content:center; gap:26px;
+    background:var(--bg);
+    clip-path:circle(0% at calc(100% - 44px) 40px);
+    transition:clip-path .65s var(--ease);
+  }
+  .nav-links.open{ clip-path:circle(150% at calc(100% - 44px) 40px); }
+  .nav-links a{ font-size:1.6rem; font-family:var(--serif); }
+  .burger{ display:flex; }
+  .nav-cta{ display:none; }
+}
+@media (min-width:1041px){ .nav-links{ clip-path:none !important; } }
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:15px 30px; border-radius:999px;
+  font-size:.92rem; font-weight:600; letter-spacing:.01em;
+  border:1px solid transparent; white-space:nowrap;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease),
+             background .35s, color .35s, border-color .35s;
+}
+.btn-sm{ padding:11px 22px; font-size:.85rem; }
+.btn-lg{ padding:19px 40px; font-size:1rem; }
+.btn-primary{
+  background:linear-gradient(135deg, var(--accent-2), var(--accent));
+  color:var(--accent-ink); box-shadow:0 16px 38px -16px var(--accent);
+}
+.btn-primary:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px var(--accent); }
+.btn-ghost{
+  background:var(--surface); border-color:var(--border); color:var(--text);
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{ transform:translateY(-3px); border-color:var(--accent); color:var(--accent); }
+.btn-wa{
+  background:linear-gradient(135deg, #37d67a, #1faa5a); color:#fff;
+  box-shadow:0 16px 38px -16px rgba(31,170,90,.85);
+}
+.btn-wa:hover{ transform:translateY(-3px); box-shadow:0 24px 52px -16px rgba(31,170,90,.9); }
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.page-hero{
+  position:relative;
+  padding:150px 5vw 70px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.page-hero-bg{
+  position:absolute; inset:0; z-index:-2;
+  background:
+    radial-gradient(55% 45% at 50% 0%, var(--glow), transparent 65%),
+    radial-gradient(40% 40% at 90% 60%, var(--glow-warm), transparent 60%);
+}
+.page-hero-grid{
+  position:absolute; inset:0; z-index:-1; opacity:.28;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(circle at 50% 30%, black 12%, transparent 68%);
+  -webkit-mask-image:radial-gradient(circle at 50% 30%, black 12%, transparent 68%);
+}
+.page-hero-content{ position:relative; max-width:840px; text-align:center; margin-inline:auto; }
+
+.pill{
+  display:inline-flex; align-items:center; gap:9px;
+  padding:8px 18px; border-radius:999px;
+  font-size:.74rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent-2);
+  background:var(--accent-soft);
+  border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.pill .dot{
+  width:6px; height:6px; border-radius:50%; background:#5cd68a;
+  box-shadow:0 0 0 0 rgba(92,214,138,.7);
+  animation:pulse 2.2s infinite;
+}
+@keyframes pulse{
+  70%{ box-shadow:0 0 0 8px rgba(92,214,138,0) }
+  100%{ box-shadow:0 0 0 0 rgba(92,214,138,0) }
+}
+
+.page-hero h1{
+  margin-top:24px;
+  font-weight:700;
+  font-size:clamp(2.2rem, 6vw, 4.4rem);
+  line-height:1.05;
+  letter-spacing:-.04em;
+}
+.page-hero h1 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.02em;
+}
+.page-hero-sub{
+  margin:22px auto 0; max-width:620px;
+  color:var(--muted); font-size:clamp(1rem, 1.6vw, 1.14rem); font-weight:300;
+}
+.page-hero-sub strong{ color:var(--text); font-weight:500; }
+
+.page-hero-btns{
+  margin-top:34px;
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+}
+
+/* Sec head */
+.sec-head{ max-width:760px; margin:0 auto clamp(40px,5vw,60px); text-align:center; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:.72rem; font-weight:500;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:18px;
+}
+.eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent); }
+.sec-head h2{
+  font-weight:700;
+  font-size:clamp(1.9rem, 4.4vw, 3.15rem);
+  line-height:1.12; letter-spacing:-.03em;
+}
+.sec-head h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.sec-sub{ margin-top:18px; color:var(--muted); font-size:1.02rem; font-weight:300; }
+
+/* ============================================================
+   BIG WHATSAPP BAND
+   ============================================================ */
+.wa-band{
+  padding:clamp(46px,6vw,68px) 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg, color-mix(in srgb, #1faa5a 10%, var(--bg-2)), color-mix(in srgb, #37d67a 5%, var(--bg-2)));
+  transition:background .45s ease;
+}
+.wa-card{
+  max-width:820px; margin-inline:auto;
+  text-align:center;
+}
+.wa-icon-lg{
+  display:inline-grid; place-items:center;
+  width:80px; height:80px; border-radius:24px;
+  background:linear-gradient(135deg, #37d67a, #1faa5a);
+  box-shadow:0 20px 50px -18px rgba(31,170,90,.9);
+  margin-bottom:24px;
+  animation:float 5s ease-in-out infinite;
+}
+.wa-icon-lg svg{ width:42px; height:42px; fill:#fff; }
+@keyframes float{
+  0%,100%{ transform:translateY(0) }
+  50%{ transform:translateY(-8px) }
+}
+.wa-card h2{
+  font-weight:700;
+  font-size:clamp(1.7rem, 4vw, 2.6rem);
+  letter-spacing:-.03em; line-height:1.12;
+  margin-bottom:12px;
+}
+.wa-card h2 em{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  background:linear-gradient(120deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.wa-card p{ color:var(--muted); font-size:1.02rem; font-weight:300; margin-bottom:28px; }
+.wa-card .btn{ padding:19px 42px; font-size:1rem; }
+.wa-card .wa-num{
+  display:block; margin-top:16px;
+  font-family:var(--mono); font-size:.9rem;
+  color:var(--muted); letter-spacing:.04em;
+}
+
+/* ============================================================
+   CONTACT METHODS GRID
+   ============================================================ */
+.contact-grid{
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:20px;
+}
+@media (max-width:1000px){ .contact-grid{ grid-template-columns:repeat(2, 1fr); } }
+@media (max-width:560px){ .contact-grid{ grid-template-columns:1fr; } }
+
+.contact-card{
+  padding:32px 26px;
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  transition:transform .55s var(--ease), border-color .45s, box-shadow .55s;
+  display:flex; flex-direction:column;
+}
+.contact-card:hover{ transform:translateY(-8px); border-color:var(--accent); box-shadow:var(--shadow); }
+
+.contact-card .ico{
+  width:56px; height:56px; border-radius:16px;
+  display:grid; place-items:center; font-size:1.5rem;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+  margin-bottom:22px;
+  transition:transform .55s var(--ease);
+}
+.contact-card:hover .ico{ transform:rotate(-7deg) scale(1.07); }
+.contact-card h3{
+  font-size:1.1rem; font-weight:600; letter-spacing:-.01em;
+  margin-bottom:8px;
+}
+.contact-card .value{
+  color:var(--accent-2); font-weight:500;
+  font-size:.98rem; margin-bottom:6px;
+  word-break:break-word;
+}
+.contact-card .note{
+  color:var(--muted); font-size:.85rem; font-weight:300;
+  flex:1;
+}
+
+/* ============================================================
+   FORM + SIDE
+   ============================================================ */
+.form-section{
+  display:grid; grid-template-columns:1fr 1.1fr; gap:30px; align-items:start;
+}
+@media (max-width:940px){ .form-section{ grid-template-columns:1fr; } }
+
+.form-side{
+  padding:clamp(28px,4vw,44px);
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.form-side h3{
+  font-family:var(--serif); font-weight:500;
+  font-size:1.7rem; letter-spacing:-.015em; margin-bottom:12px;
+}
+.form-side h3 em{ font-style:italic; color:var(--accent-2); }
+.form-side > p{ color:var(--muted); font-size:.94rem; font-weight:300; margin-bottom:28px; }
+
+.hours-list{
+  display:flex; flex-direction:column; gap:0;
+}
+.hours-row{
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  padding:14px 0;
+  border-bottom:1px dashed var(--border);
+  font-size:.94rem;
+}
+.hours-row:last-child{ border-bottom:none; }
+.hours-row .day{ color:var(--muted); font-weight:400; }
+.hours-row .time{ color:var(--text); font-weight:500; font-family:var(--mono); font-size:.86rem; letter-spacing:.02em; }
+.hours-row .closed{ color:var(--accent-3); font-family:var(--mono); font-size:.86rem; }
+
+.contact-form{
+  padding:clamp(28px,4vw,44px);
+  border-radius:var(--radius);
+  background:var(--surface);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.contact-form h3{
+  font-family:var(--serif); font-weight:500;
+  font-size:1.7rem; letter-spacing:-.015em; margin-bottom:6px;
+}
+.contact-form h3 em{ font-style:italic; color:var(--accent-2); }
+.contact-form > p{ color:var(--muted); font-size:.92rem; font-weight:300; margin-bottom:28px; }
+
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:600px){ .form-row{ grid-template-columns:1fr; } }
+
+.field{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.field.full{ grid-column:1 / -1; }
+.field label{
+  font-size:.7rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); font-weight:700;
+}
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  padding:14px 17px;
+  border-radius:13px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-size:.94rem;
+  outline:none;
+  resize:vertical;
+  transition:border-color .3s, box-shadow .3s, background .3s;
+  appearance:none;
+}
+.field select{
+  background-image:linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+                   linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+  background-size:6px 6px, 6px 6px;
+  background-repeat:no-repeat;
+  padding-right:44px;
+}
+.field select option{ background:var(--bg-2); color:var(--text); }
+.field input::placeholder,
+.field textarea::placeholder{ color:var(--muted); opacity:.6; }
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 4px var(--accent-soft);
+}
+
+.contact-form .btn{ width:100%; margin-top:8px; }
+
+.form-msg{
+  margin-top:16px; text-align:center; font-size:.9rem; color:var(--accent-2);
+  opacity:0; transform:translateY(6px);
+  transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.form-msg.show{ opacity:1; transform:none; }
+
+/* ============================================================
+   MAP
+   ============================================================ */
+.map-wrap{
+  border-radius:var(--radius);
+  overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  aspect-ratio:16/7;
+  background:var(--bg-3);
+}
+@media (max-width:760px){ .map-wrap{ aspect-ratio:4/3; } }
+.map-wrap iframe{
+  width:100%; height:100%;
+  border:0;
+  filter:grayscale(.2) contrast(1.05);
+  transition:filter .5s ease;
+}
+html[data-theme="dark"] .map-wrap iframe{
+  filter:grayscale(.4) invert(.92) contrast(.9) hue-rotate(180deg);
+}
+.map-wrap:hover iframe{ filter:none; }
+html[data-theme="dark"] .map-wrap:hover iframe{
+  filter:grayscale(.4) invert(.92) contrast(.9) hue-rotate(180deg);
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-list{
+  max-width:760px; margin-inline:auto;
+  display:flex; flex-direction:column; gap:12px;
+}
+.faq-item{
+  border-radius:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:border-color .35s, background .35s;
+}
+.faq-item.open{ border-color:var(--accent); }
+.faq-q{
+  width:100%; text-align:left;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  padding:22px 26px;
+  font-size:1rem; font-weight:500; letter-spacing:-.01em;
+}
+.faq-q .plus{
+  flex:none; position:relative;
+  width:24px; height:24px; border-radius:50%;
+  background:var(--surface-2);
+  transition:transform .4s var(--ease), background .35s;
+}
+.faq-q .plus::before,
+.faq-q .plus::after{
+  content:''; position:absolute; left:50%; top:50%;
+  background:var(--text); border-radius:2px;
+  transform:translate(-50%,-50%);
+}
+.faq-q .plus::before{ width:11px; height:1.6px; }
+.faq-q .plus::after{ width:1.6px; height:11px; transition:transform .35s; }
+.faq-item.open .faq-q .plus{ background:var(--accent); transform:rotate(180deg); }
+.faq-item.open .faq-q .plus::before,
+.faq-item.open .faq-q .plus::after{ background:#fff; }
+.faq-item.open .faq-q .plus::after{ transform:translate(-50%,-50%) scaleY(0); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease); }
+.faq-a-inner{ padding:0 26px 24px; color:var(--muted); font-size:.94rem; font-weight:300; }
+
+/* ============================================================
+   ALSO REACH
+   ============================================================ */
+.also-band{
+  padding:clamp(50px,7vw,80px) 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:var(--bg-2);
+  transition:background .45s ease;
+}
+.also-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+}
+@media (max-width:900px){ .also-grid{ grid-template-columns:1fr; } }
+
+.also-card{
+  padding:30px 26px;
+  border-radius:18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  transition:transform .5s var(--ease), border-color .4s;
+  display:flex; flex-direction:column;
+}
+.also-card:hover{ transform:translateY(-6px); border-color:var(--accent); }
+.also-logo{
+  width:54px; height:54px; border-radius:15px;
+  background:linear-gradient(140deg, var(--accent-soft), transparent);
+  border:1px solid var(--border);
+  overflow:hidden;
+  display:grid; place-items:center;
+  margin-bottom:18px;
+}
+.also-logo img{ width:100%; height:100%; object-fit:cover; }
+.also-card h4{ font-size:1.05rem; font-weight:600; margin-bottom:8px; letter-spacing:-.01em; }
+.also-card p{ color:var(--muted); font-size:.9rem; font-weight:300; margin-bottom:18px; flex:1; }
+.also-card .btn{ align-self:flex-start; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  border-top:1px solid var(--border);
+  padding:56px 0 40px;
+  font-size:.88rem;
+}
+.footer-top{
+  display:flex; flex-wrap:wrap; gap:28px;
+  align-items:center; justify-content:space-between;
+  padding-bottom:28px; border-bottom:1px solid var(--border);
+}
+.footer-links{ display:flex; flex-wrap:wrap; gap:24px; }
+.footer-links a{ color:var(--muted); transition:color .3s; }
+.footer-links a:hover{ color:var(--accent); }
+.footer-bottom{
+  padding-top:26px;
+  display:flex; flex-wrap:wrap; gap:14px;
+  align-items:center; justify-content:space-between;
+  color:var(--muted); font-size:.82rem;
+}
+
+/* Floating WhatsApp */
+.wa{
+  position:fixed; right:20px; bottom:20px; z-index:800;
+  display:flex; align-items:center; gap:11px;
+  padding:11px 20px 11px 12px; border-radius:999px;
+  background:linear-gradient(135deg, #37d67a, #1faa5a);
+  box-shadow:0 16px 34px -12px rgba(31,170,90,.85);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.wa:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 22px 44px -12px rgba(31,170,90,.9); }
+.wa svg{ width:26px; height:26px; fill:#fff; flex:none; }
+.wa span{ color:#fff; font-size:.88rem; font-weight:600; letter-spacing:.01em; white-space:nowrap; }
+@media (max-width:520px){ .wa{ padding:11px; border-radius:50%; } .wa span{ display:none; } }
+.wa::before{
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  border:2px solid rgba(55,214,122,.55);
+  animation:ring 2.4s ease-out infinite;
+}
+@keyframes ring{ 0%{ transform:scale(1); opacity:.8 } 100%{ transform:scale(1.55); opacity:0 } }
+
+/* Reveal */
+.reveal{
+  opacity:0; transform:translateY(28px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+  transition-delay:var(--d,0ms);
+  will-change:opacity, transform;
+}
+.reveal.in{ opacity:1; transform:none; }
+
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:6px; }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal{ opacity:1; transform:none; }
+}
+
+/* RTL */
+html[dir="rtl"] body{ direction:rtl; }
+html[dir="rtl"] .eyebrow::before{ transform:scaleX(-1); }
+html[dir="rtl"] .hours-row{ flex-direction:row-reverse; }
+</style>
+</head>
+
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="code-mark">✉</div>
+    <div class="loader-name">Con<em>tact</em></div>
+    <div class="loader-track"><span></span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="mark">&lt;/&gt;</span>
+      <span class="name">Code<em>Kaar</em></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="index.html" data-i18n="nav.home">Home</a>
+      <a href="index.html#ventures" data-i18n="nav.ventures">Ventures</a>
+      <a href="services.html" data-i18n="nav.services">Services</a>
+      <a href="portfolio.html" data-i18n="nav.demos">Portfolio</a>
+      <a href="pricing.html" data-i18n="nav.pricing">Pricing</a>
+      <a href="about.html" data-i18n="nav.about">About</a>
+      <a href="contact.html" class="active" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" class="active" aria-label="English">EN</button>
+        <button data-lang="ps" aria-label="Pashto">پښتو</button>
+        <button data-lang="fa" aria-label="Dari">دری</button>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+      <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation."
+         target="_blank" rel="noopener"
+         class="btn btn-primary btn-sm nav-cta" data-i18n="nav.cta">DM on WhatsApp</a>
+      <button class="icon-btn burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+
+    <div class="page-hero-content">
+      <span class="pill reveal">
+        <span class="dot"></span>
+        <span data-i18n="hero.pill">Replies within 1 hour</span>
+      </span>
+
+      <h1 class="reveal" style="--d:80ms">
+        <span data-i18n="hero.title1">Ready to talk about</span><br>
+        <em data-i18n="hero.title2">your project?</em>
+      </h1>
+
+      <p class="page-hero-sub reveal" style="--d:160ms">
+        <span data-i18n="hero.sub1">Free consultation. No pressure. Just a conversation about your business.</span>
+      </p>
+
+      <div class="page-hero-btns reveal" style="--d:240ms">
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation."
+           target="_blank" rel="noopener" class="btn btn-wa">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+          </svg>
+          <span data-i18n="hero.btnWA">Chat on WhatsApp</span>
+        </a>
+        <a href="#form" class="btn btn-ghost" data-i18n="hero.btnForm">Send a Message ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIG WHATSAPP BAND -->
+  <section class="wa-band">
+    <div class="container">
+      <div class="wa-card reveal">
+        <div class="wa-icon-lg">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+          </svg>
+        </div>
+        <h2>
+          <span data-i18n="wa.title1">The fastest way is</span> <em data-i18n="wa.title2">WhatsApp.</em>
+        </h2>
+        <p data-i18n="wa.sub">No forms, no waiting — just tap and say hi. I usually reply within an hour.</p>
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation."
+           target="_blank" rel="noopener" class="btn btn-wa">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+          </svg>
+          <span data-i18n="wa.btn">Message on WhatsApp</span>
+        </a>
+        <span class="wa-num">+93 77 666 9400</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT METHODS -->
+  <section class="section">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="methods.eyebrow">Other Ways to Reach</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="methods.title1">Pick what works</span> <em data-i18n="methods.title2">for you.</em>
+        </h2>
+      </header>
+
+      <div class="contact-grid">
+
+        <div class="contact-card reveal">
+          <div class="ico">💬</div>
+          <h3 data-i18n="methods.m1.title">WhatsApp</h3>
+          <div class="value">+93 77 666 9400</div>
+          <p class="note" data-i18n="methods.m1.note">Fastest — usually replies in under 1 hour</p>
+        </div>
+
+        <div class="contact-card reveal" style="--d:80ms">
+          <div class="ico">📧</div>
+          <h3 data-i18n="methods.m2.title">Email</h3>
+          <div class="value">qmr.community@gmail.com</div>
+          <p class="note" data-i18n="methods.m2.note">For longer messages and documents</p>
+        </div>
+
+        <div class="contact-card reveal" style="--d:160ms">
+          <div class="ico">📸</div>
+          <h3 data-i18n="methods.m3.title">Instagram</h3>
+          <div class="value">@codekaar.dev</div>
+          <p class="note" data-i18n="methods.m3.note">See latest work and updates</p>
+        </div>
+
+        <div class="contact-card reveal" style="--d:240ms">
+          <div class="ico">📍</div>
+          <h3 data-i18n="methods.m4.title">Location</h3>
+          <div class="value" data-i18n="methods.m4.value">Alisher, Khost, Afghanistan</div>
+          <p class="note" data-i18n="methods.m4.note">In-person meetings by appointment</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM + HOURS -->
+  <section class="section" id="form" style="padding-top:0">
+    <div class="container">
+      <div class="form-section">
+
+        <div class="form-side reveal">
+          <h3>
+            <span data-i18n="side.title1">When I'm</span> <em data-i18n="side.title2">available.</em>
+          </h3>
+          <p data-i18n="side.sub">I usually reply fast — but here are the hours when you can expect the quickest response.</p>
+
+          <div class="hours-list">
+            <div class="hours-row">
+              <span class="day" data-i18n="side.d1">Saturday – Thursday</span>
+              <span class="time">9:00 – 22:00</span>
+            </div>
+            <div class="hours-row">
+              <span class="day" data-i18n="side.d2">Friday</span>
+              <span class="time">14:00 – 22:00</span>
+            </div>
+            <div class="hours-row">
+              <span class="day" data-i18n="side.d3">Response time</span>
+              <span class="time" data-i18n="side.d3v">Under 1 hour</span>
+            </div>
+            <div class="hours-row">
+              <span class="day" data-i18n="side.d4">Languages</span>
+              <span class="time" data-i18n="side.d4v">PS · FA · EN</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form reveal" style="--d:120ms">
+          <h3>
+            <span data-i18n="form.title1">Or send a</span> <em data-i18n="form.title2">message.</em>
+          </h3>
+          <p data-i18n="form.sub">Fill this out and I'll get back within 24 hours — or it will open WhatsApp instantly with your details.</p>
+
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="cName" data-i18n="form.name">Your Name</label>
+                <input id="cName" name="name" type="text" placeholder="Ahmad" required>
+              </div>
+              <div class="field">
+                <label for="cBiz" data-i18n="form.biz">Business Name</label>
+                <input id="cBiz" name="business" type="text" placeholder="Kabul Coffee">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="cEmail" data-i18n="form.contact">Email or Phone</label>
+                <input id="cEmail" name="contact" type="text" placeholder="you@example.com" required>
+              </div>
+              <div class="field">
+                <label for="cType" data-i18n="form.type">I need a…</label>
+                <select id="cType" name="type" required>
+                  <option value="" disabled selected data-i18n="form.choose">Choose…</option>
+                  <option data-i18n="form.opt1">Business Website</option>
+                  <option data-i18n="form.opt2">Landing Page</option>
+                  <option data-i18n="form.opt3">Online Shop</option>
+                  <option data-i18n="form.opt4">Redesign</option>
+                  <option data-i18n="form.opt5">Not sure yet</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field full">
+              <label for="cMsg" data-i18n="form.msg">Tell me about your project</label>
+              <textarea id="cMsg" name="message" rows="4"
+                        placeholder="I run a café and need a website with our menu…" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-i18n="form.send">Send Message →</button>
+            <p class="form-msg" id="formMsg" data-i18n="form.thanks">Thanks! I'll be in touch within 24 hours. ✦</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="map.eyebrow">Find Me</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="map.title1">Based in</span> <em data-i18n="map.title2">Khost, Afghanistan.</em>
+        </h2>
+        <p class="sec-sub reveal" style="--d:160ms" data-i18n="map.sub">
+          Serving businesses across Afghanistan — remotely and in person.
+        </p>
+      </header>
+
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://www.google.com/maps?q=Khost,Afghanistan&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="CodeKaar location — Khost, Afghanistan">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALSO REACH -->
+  <section class="also-band">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="also.eyebrow">Also From Us</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="also.title1">Other projects you can</span> <em data-i18n="also.title2">reach out to.</em>
+        </h2>
+      </header>
+
+      <div class="also-grid">
+
+        <div class="also-card reveal">
+          <div class="also-logo">
+            <img src="assets/images/qmr_logo.jpg" alt="QMR logo">
+          </div>
+          <h4>QMR Community</h4>
+          <p data-i18n="also.a1.desc">Want to join our community of young builders in Khost? Learn, build and grow with us.</p>
+          <a href="qmr.html" class="btn btn-ghost btn-sm" data-i18n="also.a1.btn">Learn about QMR →</a>
+        </div>
+
+        <div class="also-card reveal" style="--d:120ms">
+          <div class="also-logo">
+            <img src="assets/images/pashtoons_logo.png" alt="Pashtoons logo">
+          </div>
+          <h4>Pashtoons</h4>
+          <p data-i18n="also.a2.desc">Our upcoming social platform for the Pashto-speaking community. Join the waitlist.</p>
+          <a href="pashtoons.html" class="btn btn-ghost btn-sm" data-i18n="also.a2.btn">See Pashtoons →</a>
+        </div>
+
+        <div class="also-card reveal" style="--d:240ms">
+          <div class="also-logo">
+            <img src="assets/images/codekaar_logo.png" alt="CodeKaar logo">
+          </div>
+          <h4>CodeKaar Services</h4>
+          <p data-i18n="also.a3.desc">Ready to see what we build? Explore our services and packages.</p>
+          <a href="services.html" class="btn btn-ghost btn-sm" data-i18n="also.a3.btn">See Services →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <header class="sec-head">
+        <p class="eyebrow reveal" data-i18n="faq.eyebrow">Before You Write</p>
+        <h2 class="reveal" style="--d:80ms">
+          <span data-i18n="faq.title1">Common</span> <em data-i18n="faq.title2">questions.</em>
+        </h2>
+      </header>
+
+      <div class="faq-list">
+
+        <div class="faq-item reveal">
+          <button class="faq-q"><span data-i18n="faq.q1">How fast do you reply?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a1">
+            Usually within an hour on WhatsApp during working hours. If it's late at night, you'll hear back first thing the next morning. Email replies typically take up to 24 hours.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:60ms">
+          <button class="faq-q"><span data-i18n="faq.q2">Do you work with businesses outside Khost?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a2">
+            Yes — I work with businesses across all of Afghanistan. Everything can be handled remotely over WhatsApp, email, and video calls. Location is never a barrier.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:120ms">
+          <button class="faq-q"><span data-i18n="faq.q3">Is the consultation really free?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a3">
+            Yes, completely free. We'll discuss your business, what you need, and whether I'm the right fit. No commitment, no pressure, no sales pitch.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:180ms">
+          <button class="faq-q"><span data-i18n="faq.q4">What languages can we talk in?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a4">
+            Pashto, Dari, or English — whichever you're most comfortable with. I'll reply in the same language you write in.
+          </div></div>
+        </div>
+
+        <div class="faq-item reveal" style="--d:240ms">
+          <button class="faq-q"><span data-i18n="faq.q5">Can I visit in person?</span> <span class="plus"></span></button>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a5">
+            If you're in Khost — yes, by appointment. Just message me on WhatsApp first and we'll find a time that works.
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <a href="index.html" class="brand">
+        <span class="mark">&lt;/&gt;</span>
+        <span class="name">Code<em>Kaar</em></span>
+      </a>
+
+      <nav class="footer-links">
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="qmr.html">QMR</a>
+        <a href="pashtoons.html">Pashtoons</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="pricing.html" data-i18n="nav.pricing">Pricing</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year">2025</span> CodeKaar · <span data-i18n="footer.tag">Websites &amp; Digital Solutions</span></span>
+      <span data-i18n="footer.made">Made in Khost, Afghanistan · Part of QMR community</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa" href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation."
+   target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/>
+  </svg>
+  <span data-i18n="wa.float">Chat on WhatsApp</span>
+</a>
+
+<script>
+(function () {
+  'use strict';
+
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  /* ---------- i18n (Contact page) ---------- */
+  const i18n = {
+    en: {
+      'nav.home':'Home','nav.ventures':'Ventures','nav.services':'Services','nav.demos':'Portfolio',
+      'nav.pricing':'Pricing','nav.about':'About','nav.contact':'Contact','nav.cta':'DM on WhatsApp',
+      'hero.pill':'Replies within 1 hour',
+      'hero.title1':'Ready to talk about','hero.title2':'your project?',
+      'hero.sub1':'Free consultation. No pressure. Just a conversation about your business.',
+      'hero.btnWA':'Chat on WhatsApp','hero.btnForm':'Send a Message ↓',
+      'wa.title1':'The fastest way is','wa.title2':'WhatsApp.',
+      'wa.sub':"No forms, no waiting — just tap and say hi. I usually reply within an hour.",
+      'wa.btn':'Message on WhatsApp','wa.float':'Chat on WhatsApp',
+      'methods.eyebrow':'Other Ways to Reach',
+      'methods.title1':'Pick what works','methods.title2':'for you.',
+      'methods.m1.title':'WhatsApp','methods.m1.note':'Fastest — usually replies in under 1 hour',
+      'methods.m2.title':'Email','methods.m2.note':'For longer messages and documents',
+      'methods.m3.title':'Instagram','methods.m3.note':'See latest work and updates',
+      'methods.m4.title':'Location','methods.m4.value':'Alisher, Khost, Afghanistan','methods.m4.note':'In-person meetings by appointment',
+      'side.title1':"When I'm",'side.title2':'available.',
+      'side.sub':"I usually reply fast — but here are the hours when you can expect the quickest response.",
+      'side.d1':'Saturday – Thursday','side.d2':'Friday','side.d3':'Response time','side.d3v':'Under 1 hour',
+      'side.d4':'Languages','side.d4v':'PS · FA · EN',
+      'form.title1':'Or send a','form.title2':'message.',
+      'form.sub':"Fill this out and I'll get back within 24 hours — or it will open WhatsApp instantly with your details.",
+      'form.name':'Your Name','form.biz':'Business Name','form.contact':'Email or Phone',
+      'form.type':'I need a…','form.choose':'Choose…',
+      'form.opt1':'Business Website','form.opt2':'Landing Page','form.opt3':'Online Shop',
+      'form.opt4':'Redesign','form.opt5':'Not sure yet',
+      'form.msg':'Tell me about your project','form.send':'Send Message →',
+      'form.thanks':"Thanks! I'll be in touch within 24 hours. ✦",
+      'map.eyebrow':'Find Me','map.title1':'Based in','map.title2':'Khost, Afghanistan.',
+      'map.sub':'Serving businesses across Afghanistan — remotely and in person.',
+      'also.eyebrow':'Also From Us','also.title1':'Other projects you can','also.title2':'reach out to.',
+      'also.a1.desc':'Want to join our community of young builders in Khost? Learn, build and grow with us.',
+      'also.a1.btn':'Learn about QMR →',
+      'also.a2.desc':'Our upcoming social platform for the Pashto-speaking community. Join the waitlist.',
+      'also.a2.btn':'See Pashtoons →',
+      'also.a3.desc':'Ready to see what we build? Explore our services and packages.',
+      'also.a3.btn':'See Services →',
+      'faq.eyebrow':'Before You Write','faq.title1':'Common','faq.title2':'questions.',
+      'faq.q1':'How fast do you reply?',
+      'faq.a1':"Usually within an hour on WhatsApp during working hours. If it's late at night, you'll hear back first thing the next morning. Email replies typically take up to 24 hours.",
+      'faq.q2':'Do you work with businesses outside Khost?',
+      'faq.a2':'Yes — I work with businesses across all of Afghanistan. Everything can be handled remotely over WhatsApp, email, and video calls. Location is never a barrier.',
+      'faq.q3':'Is the consultation really free?',
+      'faq.a3':"Yes, completely free. We'll discuss your business, what you need, and whether I'm the right fit. No commitment, no pressure, no sales pitch.",
+      'faq.q4':'What languages can we talk in?',
+      'faq.a4':"Pashto, Dari, or English — whichever you're most comfortable with. I'll reply in the same language you write in.",
+      'faq.q5':'Can I visit in person?',
+      'faq.a5':"If you're in Khost — yes, by appointment. Just message me on WhatsApp first and we'll find a time that works.",
+      'footer.tag':'Websites & Digital Solutions','footer.made':'Made in Khost, Afghanistan · Part of QMR community'
+    },
+    ps: {
+      'nav.home':'کور','nav.ventures':'پروژې','nav.services':'خدمتونه','nav.demos':'پورټفولیو',
+      'nav.pricing':'بیې','nav.about':'زموږ په اړه','nav.contact':'اړیکه','nav.cta':'واټساپ پیغام',
+      'hero.pill':'په ۱ ساعت کې ځواب',
+      'hero.title1':'چمتو یاست چې د خپلې پروژې په اړه','hero.title2':'خبرې وکړو؟',
+      'hero.sub1':'وړیا مشوره. فشار ندی. یوازې ستاسو د سوداګرۍ په اړه یوه خبره.',
+      'hero.btnWA':'واټساپ باندې خبرې','hero.btnForm':'پیغام ولېږئ ↓',
+      'wa.title1':'چټکه لاره','wa.title2':'واټساپ دی.',
+      'wa.sub':'فورمې ندي، انتظار ندی — یوازې ټک وکړئ او سلام ووایاست. زه معمولا په یو ساعت کې ځواب وایم.',
+      'wa.btn':'په واټساپ پیغام','wa.float':'واټساپ باندې خبرې',
+      'methods.eyebrow':'د اړیکې نورې لارې',
+      'methods.title1':'هغه وټاکئ چې ستاسو لپاره','methods.title2':'کار کوي.',
+      'methods.m1.title':'واټساپ','methods.m1.note':'چټک — معمولا په ۱ ساعت کې ځواب',
+      'methods.m2.title':'بریښنالیک','methods.m2.note':'د اوږدو پیغامونو او اسنادو لپاره',
+      'methods.m3.title':'انسټاګرام','methods.m3.note':'وروستی کار او تازه معلومات وګورئ',
+      'methods.m4.title':'ځای','methods.m4.value':'عليشیر، خوست، افغانستان','methods.m4.note':'حضوري لیدنې د وخت په ټاکلو',
+      'side.title1':'کله چې زه','side.title2':'شته یم.',
+      'side.sub':'زه معمولا ژر ځواب وایم — خو دا هغه ساعتونه دي چې تاسو کولای شئ چټک ځواب تمه وکړئ.',
+      'side.d1':'شنبه – پنجشنبه','side.d2':'جمعه','side.d3':'د ځواب وخت','side.d3v':'د ۱ ساعت لاندې',
+      'side.d4':'ژبې','side.d4v':'پښتو · دري · انګلیسي',
+      'form.title1':'یا یو','form.title2':'پیغام ولېږئ.',
+      'form.sub':'دا ډک کړئ او زه به په ۲۴ ساعتونو کې ځواب درکړم — یا به سمدلاسه واټساپ ستاسو د معلوماتو سره خلاص کړي.',
+      'form.name':'ستاسو نوم','form.biz':'د سوداګرۍ نوم','form.contact':'بریښنالیک یا تلیفون',
+      'form.type':'زه اړتیا لرم…','form.choose':'وټاکئ…',
+      'form.opt1':'سوداګریزه وېبپاڼه','form.opt2':'لینډینګ پاڼه','form.opt3':'آنلاین پلورنځی',
+      'form.opt4':'بیا ډیزاین','form.opt5':'لا ډاډه نه یم',
+      'form.msg':'زما سره د خپلې پروژې په اړه ووایاست','form.send':'پیغام ولېږئ →',
+      'form.thanks':'مننه! زه به په ۲۴ ساعتونو کې اړیکه وکړم. ✦',
+      'map.eyebrow':'ما ومومئ','map.title1':'مرکز','map.title2':'خوست، افغانستان.',
+      'map.sub':'د افغانستان په ټولو سیمو کې سوداګرو ته خدمت — له لیرې او حضوري.',
+      'also.eyebrow':'زموږ نور','also.title1':'نورې پروژې چې تاسو کولای شئ','also.title2':'اړیکه وکړئ.',
+      'also.a1.desc':'غواړئ په خوست کې د ځوانو جوړونکو ټولنې سره یوځای شئ؟ زده کړئ، جوړ کړئ او زموږ سره وده وکړئ.',
+      'also.a1.btn':'د QMR په اړه زده کړئ →',
+      'also.a2.desc':'زموږ راتلونکی ټولنیز پلیټ فارم د پښتو ژبې ټولنې لپاره. انتظار لیست ته یوځای شئ.',
+      'also.a2.btn':'Pashtoons وګورئ →',
+      'also.a3.desc':'چمتو یاست چې وګورئ موږ څه جوړوو؟ زموږ خدمتونه او پیکجونه وپلټئ.',
+      'also.a3.btn':'خدمتونه وګورئ →',
+      'faq.eyebrow':'مخکې له دې چې ولیکئ','faq.title1':'عام','faq.title2':'پوښتنې.',
+      'faq.q1':'څومره ژر ځواب وایاست؟',
+      'faq.a1':'معمولا په یو ساعت کې د کاري ساعتونو په جریان کې په واټساپ. که ناوخته شپه وي، تاسو به لومړی شی د بلې ورځې په سهار واورئ. د بریښنالیک ځوابونه معمولا تر ۲۴ ساعتونو پورې وخت نیسي.',
+      'faq.q2':'ایا تاسو له خوست څخه بهر سوداګرو سره کار کوئ؟',
+      'faq.a2':'هو — زه د افغانستان په ټولو سیمو کې سوداګرو سره کار کوم. هر څه کولای شي له لیرې څخه د واټساپ، بریښنالیک او ویډیو زنګونو له لارې سمبال شي. ځای هیڅکله خنډ نه دی.',
+      'faq.q3':'ایا مشوره واقعیا وړیا ده؟',
+      'faq.a3':'هو، بشپړ وړیا. موږ به ستاسو د سوداګرۍ په اړه بحث وکړو، تاسو څه ته اړتیا لرئ، او ایا زه سم انتخاب یم. ژمنه نده، فشار ندی، د پلور پیچ ندی.',
+      'faq.q4':'په کومو ژبو خبرې کولای شو؟',
+      'faq.a4':'پښتو، دري یا انګلیسي — کوم چې تاسو ډیر آرام یاست. زه به په هغه ژبه ځواب درکړم چې تاسو پکې لیکئ.',
+      'faq.q5':'ایا زه حضوري لیدنه کولای شم؟',
+      'faq.a5':'که تاسو په خوست کې یاست — هو، د وخت په ټاکلو. یوازې زما ته په واټساپ پیغام راکړئ او موږ به داسې وخت ومومو چې کار کوي.',
+      'footer.tag':'وېبپاڼې او ډیجیټل حلونه','footer.made':'په خوست، افغانستان کې جوړ شوی · د QMR ټولنې برخه'
+    },
+    fa: {
+      'nav.home':'خانه','nav.ventures':'پروژه‌ها','nav.services':'خدمات','nav.demos':'نمونه کارها',
+      'nav.pricing':'قیمت‌ها','nav.about':'درباره','nav.contact':'تماس','nav.cta':'پیام واتس‌اپ',
+      'hero.pill':'پاسخ در ۱ ساعت',
+      'hero.title1':'آماده صحبت درباره','hero.title2':'پروژه‌تان هستید؟',
+      'hero.sub1':'مشاوره رایگان. بدون فشار. فقط یک گفتگو درباره کسب‌وکار شما.',
+      'hero.btnWA':'گفتگو در واتس‌اپ','hero.btnForm':'ارسال پیام ↓',
+      'wa.title1':'سریع‌ترین راه','wa.title2':'واتس‌اپ است.',
+      'wa.sub':'بدون فرم، بدون انتظار — فقط لمس کنید و سلام کنید. معمولاً در یک ساعت پاسخ می‌دهم.',
+      'wa.btn':'پیام در واتس‌اپ','wa.float':'گفتگو در واتس‌اپ',
+      'methods.eyebrow':'راه‌های دیگر تماس',
+      'methods.title1':'آن‌که برای شما','methods.title2':'کار می‌کند را انتخاب کنید.',
+      'methods.m1.title':'واتس‌اپ','methods.m1.note':'سریع‌ترین — معمولاً زیر ۱ ساعت پاسخ',
+      'methods.m2.title':'ایمیل','methods.m2.note':'برای پیام‌های طولانی و اسناد',
+      'methods.m3.title':'اینستاگرام','methods.m3.note':'آخرین کارها و به‌روزرسانی‌ها را ببینید',
+      'methods.m4.title':'موقعیت','methods.m4.value':'علیشیر، خوست، افغانستان','methods.m4.note':'جلسات حضوری با وقت قبلی',
+      'side.title1':'چه زمانی','side.title2':'در دسترس هستم.',
+      'side.sub':'معمولاً سریع پاسخ می‌دهم — اما این ساعاتی است که می‌توانید سریع‌ترین پاسخ را انتظار داشته باشید.',
+      'side.d1':'شنبه – پنجشنبه','side.d2':'جمعه','side.d3':'زمان پاسخ','side.d3v':'زیر ۱ ساعت',
+      'side.d4':'زبان‌ها','side.d4v':'پشتو · دری · انگلیسی',
+      'form.title1':'یا یک','form.title2':'پیام بفرستید.',
+      'form.sub':'این را پر کنید و در ۲۴ ساعت پاسخ می‌دهم — یا واتس‌اپ بلافاصله با اطلاعات شما باز می‌شود.',
+      'form.name':'نام شما','form.biz':'نام کسب‌وکار','form.contact':'ایمیل یا تلفن',
+      'form.type':'نیاز دارم به…','form.choose':'انتخاب کنید…',
+      'form.opt1':'وب‌سایت کسب‌وکار','form.opt2':'صفحه فرود','form.opt3':'فروشگاه آنلاین',
+      'form.opt4':'بازطراحی','form.opt5':'هنوز مطمئن نیستم',
+      'form.msg':'درباره پروژه‌تان بگویید','form.send':'ارسال پیام →',
+      'form.thanks':'ممنون! در ۲۴ ساعت تماس می‌گیرم. ✦',
+      'map.eyebrow':'من را پیدا کنید','map.title1':'مرکز','map.title2':'خوست، افغانستان.',
+      'map.sub':'خدمت به کسب‌وکارها در سراسر افغانستان — از راه دور و حضوری.',
+      'also.eyebrow':'همچنین از ما','also.title1':'پروژه‌های دیگر که می‌توانید','also.title2':'با آن‌ها تماس بگیرید.',
+      'also.a1.desc':'می‌خواهید به جامعه سازندگان جوان در خوست بپیوندید؟ بیاموزید، بسازید و با ما رشد کنید.',
+      'also.a1.btn':'درباره QMR بدانید →',
+      'also.a2.desc':'پلتفرم اجتماعی آینده ما برای جامعه پشتوزبان. به لیست انتظار بپیوندید.',
+      'also.a2.btn':'دیدن Pashtoons →',
+      'also.a3.desc':'آماده‌اید ببینید چه می‌سازیم؟ خدمات و بسته‌های ما را کاوش کنید.',
+      'also.a3.btn':'دیدن خدمات →',
+      'faq.eyebrow':'قبل از نوشتن','faq.title1':'سوالات','faq.title2':'رایج.',
+      'faq.q1':'چقدر سریع پاسخ می‌دهید؟',
+      'faq.a1':'معمولاً در یک ساعت در واتس‌اپ در ساعات کاری. اگر شب دیر باشد، اول صبح روز بعد پاسخ می‌شنوید. پاسخ‌های ایمیلی معمولاً تا ۲۴ ساعت طول می‌کشد.',
+      'faq.q2':'آیا با کسب‌وکارهای خارج از خوست کار می‌کنید؟',
+      'faq.a2':'بله — با کسب‌وکارها در سراسر افغانستان کار می‌کنم. همه چیز می‌تواند از راه دور از طریق واتس‌اپ، ایمیل و تماس‌های ویدیویی انجام شود. موقعیت هرگز مانع نیست.',
+      'faq.q3':'آیا مشاوره واقعاً رایگان است؟',
+      'faq.a3':'بله، کاملاً رایگان. درباره کسب‌وکارتان، آنچه نیاز دارید و اینکه آیا من انتخاب مناسبی هستم صحبت می‌کنیم. بدون تعهد، بدون فشار، بدون فروش.',
+      'faq.q4':'به چه زبان‌هایی می‌توانیم صحبت کنیم؟',
+      'faq.a4':'پشتو، دری یا انگلیسی — هر کدام که راحت‌تر هستید. به همان زبانی که می‌نویسید پاسخ می‌دهم.',
+      'faq.q5':'آیا می‌توانم حضوری ملاقات کنم؟',
+      'faq.a5':'اگر در خوست هستید — بله، با وقت قبلی. فقط اول در واتس‌اپ پیام دهید تا زمانی که مناسب است پیدا کنیم.',
+      'footer.tag':'وب‌سایت و راه‌حل‌های دیجیتال','footer.made':'ساخته شده در خوست، افغانستان · بخشی از جامعه QMR'
+    }
+  };
+
+  let currentLang = store.get('ck-lang') || 'en';
+
+  function applyLang(lang){
+    const dict = i18n[lang] || i18n.en;
+    currentLang = lang;
+    document.documentElement.lang = lang === 'ps' ? 'ps' : lang === 'fa' ? 'fa' : 'en';
+    document.documentElement.dir = (lang === 'ps' || lang === 'fa') ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    store.set('ck-lang', lang);
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  /* Loader */
+  const loader = document.getElementById('loader');
+  function hideLoader(){
+    if (loader) loader.classList.add('hide');
+    setTimeout(() => loader && loader.remove(), 950);
+  }
+  if (document.readyState === 'complete') setTimeout(hideLoader, 650);
+  else {
+    window.addEventListener('load', () => setTimeout(hideLoader, 650));
+    setTimeout(hideLoader, 3800);
+  }
+
+  /* Theme */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const saved = store.get('ck-theme');
+  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+
+  function syncTheme(){
+    const dark = root.getAttribute('data-theme') === 'dark';
+    themeBtn.textContent = dark ? '🌙' : '☀️';
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', dark ? '#07070a' : '#fbfaf8');
+  }
+  syncTheme();
+
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store.set('ck-theme', next);
+    syncTheme();
+  });
+
+  /* Sticky nav */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  /* Mobile menu */
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  function setMenu(open){
+    navLinks.classList.toggle('open', open);
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('lock', open);
+  }
+  burger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  /* Reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+
+  /* FAQ */
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      faqItems.forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+  if (faqItems.length) {
+    faqItems[0].classList.add('open');
+    const firstA = faqItems[0].querySelector('.faq-a');
+    firstA.style.maxHeight = firstA.scrollHeight + 'px';
+  }
+
+  /* ---------- Contact form → WhatsApp ---------- */
+  const form = document.getElementById('contactForm');
+  const msg  = document.getElementById('formMsg');
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name    = form.name.value.trim();
+      const business= form.business.value.trim();
+      const contact = form.contact.value.trim();
+      const type    = form.type.value;
+      const text    = form.message.value.trim();
+
+      if (!name || !contact || !type || !text) {
+        msg.textContent = 'Please fill in the required fields. ✦';
+        msg.style.color = '#ff8a5c';
+        msg.classList.add('show');
+        return;
+      }
+
+      const waText = encodeURIComponent(
+        `Hi CodeKaar! I'd like a website.\n\n` +
+        `Name: ${name}\n` +
+        (business ? `Business: ${business}\n` : '') +
+        `Contact: ${contact}\n` +
+        `Type: ${type}\n\n` +
+        `Message: ${text}`
+      );
+
+      msg.textContent = `Thanks, ${name}! Opening WhatsApp… ✦`;
+      msg.style.color = '';
+      msg.classList.add('show');
+
+      setTimeout(() => {
+        window.open('https://wa.me/93776669400?text=' + waText, '_blank');
+      }, 600);
+
+      form.reset();
+      setTimeout(() => msg.classList.remove('show'), 5500);
+    });
+  }
+
+  /* Year */
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  applyLang(currentLang);
+})();
+</script>
+
+</body>
+</html>
