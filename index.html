@@ -4,8 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#ffffff" />
-<title>CodeKaar — A Brand New Tech solotions in Khost, Afghanistan</title>
-<meta name="description" content="CodeKaar builds fast, beautiful websites for businesses in Khost & across Afghanistan...">
+<title>CodeKaar — Websites that make people stop scrolling | Khost, Afghanistan</title>
 <meta name="google-site-verification" content="OzVo76E6riqWhCaf4AutLvA_gRK5HHUEvA38JJD9pOA" />
 <meta name="msvalidate.01" content="0F904892AC47CFC4974FCC29B81C6477" />
 <meta name="description" content="CodeKaar builds fast, beautiful websites for businesses in Khost & across Afghanistan. Part of QMR community. Cafés, photographers, restaurants, shops — get a website that actually brings customers." />
@@ -15,11 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ============================================================
-   1. TOKENS — Clean, readable, mobile-first
-   ============================================================ */
 :root{
-  /* Colors — light default */
   --bg:            #ffffff;
   --bg-2:          #f8f8fb;
   --bg-3:          #ffffff;
@@ -47,7 +42,6 @@
   --ease:          cubic-bezier(.22,1,.36,1);
   --max:           1120px;
 }
-
 html[data-theme="dark"]{
   --bg:            #0d0d10;
   --bg-2:          #141418;
@@ -66,10 +60,7 @@ html[data-theme="dark"]{
   --shadow-sm:     0 1px 3px rgba(0,0,0,.3);
   --shadow-md:     0 4px 14px rgba(0,0,0,.4);
   --shadow-lg:     0 12px 30px rgba(0,0,0,.5);
-  --whatsapp:      #25d366;
-  --whatsapp-dark: #128c7e;
 }
-
 *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
 html{
   scroll-behavior:smooth;
@@ -99,7 +90,7 @@ ul{ list-style:none; }
 .container{ width:min(var(--max), 92vw); margin-inline:auto; }
 .section{ padding:clamp(56px,8vw,100px) 0; position:relative; }
 
-/* Loader (simple, fast) */
+/* LOADER */
 .loader{
   position:fixed; inset:0; z-index:9999;
   display:grid; place-items:center;
@@ -127,7 +118,7 @@ ul{ list-style:none; }
 @keyframes load{ 0%{ transform:translateX(-100%) } 100%{ transform:translateX(350%) } }
 
 /* ============================================================
-   NAV
+   NAV — FIXED for mobile burger menu
    ============================================================ */
 .nav{
   position:fixed; top:0; left:0; right:0; z-index:900;
@@ -148,6 +139,7 @@ ul{ list-style:none; }
 .brand{
   display:inline-flex; align-items:center; gap:9px;
   font-size:1.15rem; font-weight:800; letter-spacing:-.03em;
+  flex-shrink:0;
 }
 .brand-mark{
   width:32px; height:32px; border-radius:9px;
@@ -170,7 +162,7 @@ ul{ list-style:none; }
 .nav-links a:hover{ background:var(--surface-2); color:var(--text); }
 .nav-links a.active{ color:var(--text); font-weight:600; }
 
-.nav-actions{ display:flex; align-items:center; gap:8px; }
+.nav-actions{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
 
 .lang-switch{
   display:flex; align-items:center;
@@ -201,12 +193,22 @@ ul{ list-style:none; }
   color:var(--text);
   font-size:1rem;
   transition:background .2s;
+  flex-shrink:0;
 }
 .icon-btn:hover{ background:var(--border); }
 
-.burger{ display:none; flex-direction:column; gap:5px; }
+.burger{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  width:38px;
+  height:38px;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
 .burger span{
-  display:block; width:18px; height:2px; border-radius:2px;
+  display:block; width:20px; height:2px; border-radius:2px;
   background:var(--text);
   transition:transform .3s var(--ease), opacity .2s;
 }
@@ -214,33 +216,62 @@ ul{ list-style:none; }
 .burger.open span:nth-child(2){ opacity:0; }
 .burger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
 
+/* Mobile nav */
 @media (max-width:900px){
   .nav-links{
-    position:fixed; top:var(--nav-h); left:0; right:0; bottom:0;
+    position:fixed;
+    top:var(--nav-h); left:0; right:0; bottom:0;
     flex-direction:column; align-items:stretch;
-    gap:0; padding:24px 6vw;
+    gap:0;
+    padding:16px 6vw 100px;
     background:var(--bg);
     transform:translateX(100%);
     transition:transform .35s var(--ease);
     overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
   }
   .nav-links.open{ transform:translateX(0); }
   .nav-links a{
     padding:18px 0;
-    font-size:1.25rem;
+    font-size:1.15rem;
     font-weight:600;
     border-bottom:1px solid var(--border);
     border-radius:0;
+    color:var(--text);
   }
   .nav-links a:last-child{ border-bottom:none; }
-  .nav-links a:hover{ background:transparent; color:var(--accent); }
-  .burger{ display:flex; }
-  .nav-cta{ display:none; }
+  .nav-links a:hover,
+  .nav-links a.active{ background:transparent; color:var(--accent); }
+
+  /* Show burger, hide big CTA */
+  .burger{ display:flex !important; }
+  .nav-cta{ display:none !important; }
+
+  /* Hide lang switcher text buttons on very small screens if needed */
+  .lang-switch button{
+    padding:6px 8px;
+    font-size:.7rem;
+    min-width:32px;
+  }
 }
 
-/* ============================================================
-   BUTTONS — only 3 styles
-   ============================================================ */
+@media (max-width:420px){
+  .lang-switch button{
+    padding:5px 6px;
+    font-size:.68rem;
+    min-width:28px;
+  }
+  .icon-btn{
+    width:34px; height:34px;
+  }
+  .burger{ width:34px; height:34px; }
+}
+@media (min-width:901px){
+  .nav-links{ clip-path:none !important; }
+  .burger{ display:none; }
+}
+
+/* BUTTONS */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
   padding:14px 24px;
@@ -254,38 +285,17 @@ ul{ list-style:none; }
   -webkit-tap-highlight-color:transparent;
 }
 .btn:active{ transform:scale(.97); }
-
-.btn-primary{
-  background:var(--accent);
-  color:#fff;
-}
+.btn-primary{ background:var(--accent); color:#fff; }
 .btn-primary:hover{ background:var(--accent-2); }
-
-.btn-outline{
-  background:transparent;
-  color:var(--text);
-  border-color:var(--border-2);
-}
+.btn-outline{ background:transparent; color:var(--text); border-color:var(--border-2); }
 .btn-outline:hover{ border-color:var(--text); }
-
-.btn-wa{
-  background:var(--whatsapp);
-  color:#fff;
-}
+.btn-wa{ background:var(--whatsapp); color:#fff; }
 .btn-wa:hover{ background:var(--whatsapp-dark); }
-
 .btn-lg{ padding:16px 28px; font-size:1rem; border-radius:12px; }
 
-/* ============================================================
-   HERO — simple, readable, mobile-first
-   ============================================================ */
-.hero{
-  padding:calc(var(--nav-h) + 40px) 0 60px;
-  position:relative;
-}
-.hero-inner{
-  max-width:720px;
-}
+/* HERO */
+.hero{ padding:calc(var(--nav-h) + 40px) 0 60px; position:relative; }
+.hero-inner{ max-width:720px; }
 .hero-badge{
   display:inline-flex; align-items:center; gap:8px;
   padding:7px 14px;
@@ -300,7 +310,6 @@ ul{ list-style:none; }
   background:#22c55e;
   box-shadow:0 0 0 3px rgba(34,197,94,.2);
 }
-
 .hero h1{
   font-size:clamp(2rem, 8vw, 3.4rem);
   font-weight:800;
@@ -310,7 +319,6 @@ ul{ list-style:none; }
   margin-bottom:20px;
 }
 .hero h1 .highlight{ color:var(--accent); }
-
 .hero-sub{
   font-size:clamp(1.05rem, 2.4vw, 1.2rem);
   color:var(--text-2);
@@ -319,12 +327,7 @@ ul{ list-style:none; }
   max-width:600px;
 }
 .hero-sub strong{ color:var(--text); font-weight:600; }
-
-.hero-ctas{
-  display:flex; flex-wrap:wrap; gap:12px;
-  margin-bottom:36px;
-}
-
+.hero-ctas{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:36px; }
 .hero-stats{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
@@ -341,15 +344,9 @@ ul{ list-style:none; }
   letter-spacing:-.02em;
   line-height:1.1;
 }
-.stat span{
-  font-size:.82rem;
-  color:var(--muted);
-  font-weight:500;
-}
+.stat span{ font-size:.82rem; color:var(--muted); font-weight:500; }
 
-/* ============================================================
-   MARQUEE (subtle)
-   ============================================================ */
+/* MARQUEE */
 .marquee{
   overflow:hidden;
   border-top:1px solid var(--border);
@@ -357,27 +354,16 @@ ul{ list-style:none; }
   background:var(--bg-2);
   padding:16px 0;
 }
-.marquee-track{
-  display:flex; width:max-content;
-  animation:marq 40s linear infinite;
-}
+.marquee-track{ display:flex; width:max-content; animation:marq 40s linear infinite; }
 .marquee-group{
   display:flex; align-items:center; gap:36px; padding-right:36px;
-  font-size:.9rem;
-  color:var(--muted);
-  white-space:nowrap;
-  font-weight:500;
+  font-size:.9rem; color:var(--muted); white-space:nowrap; font-weight:500;
 }
 .marquee-group b{ color:var(--border-2); font-weight:400; }
 @keyframes marq{ to{ transform:translateX(-50%) } }
 
-/* ============================================================
-   SECTION HEADERS — big, clear, easy to scan
-   ============================================================ */
-.sec-head{
-  max-width:640px;
-  margin-bottom:clamp(32px,5vw,52px);
-}
+/* SEC HEAD */
+.sec-head{ max-width:640px; margin-bottom:clamp(32px,5vw,52px); }
 .sec-head.center{ margin-inline:auto; text-align:center; }
 .sec-eyebrow{
   display:inline-block;
@@ -395,24 +381,11 @@ ul{ list-style:none; }
   color:var(--text);
   margin-bottom:14px;
 }
-.sec-head p{
-  font-size:1.05rem;
-  color:var(--text-2);
-  line-height:1.65;
-}
+.sec-head p{ font-size:1.05rem; color:var(--text-2); line-height:1.65; }
 
-/* ============================================================
-   VENTURES — clean cards, mobile-first
-   ============================================================ */
-.ventures-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:20px;
-}
-@media (max-width:800px){
-  .ventures-grid{ grid-template-columns:1fr; gap:14px; }
-}
-
+/* VENTURES */
+.ventures-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; }
+@media (max-width:800px){ .ventures-grid{ grid-template-columns:1fr; gap:14px; } }
 .venture-card{
   display:flex; flex-direction:column;
   padding:26px 24px;
@@ -421,14 +394,10 @@ ul{ list-style:none; }
   border:1.5px solid var(--border);
   transition:border-color .2s, transform .2s;
 }
-.venture-card:hover{
-  border-color:var(--border-2);
-  transform:translateY(-2px);
-}
+.venture-card:hover{ border-color:var(--border-2); transform:translateY(-2px); }
 .venture-logo{
   width:52px; height:52px;
-  border-radius:12px;
-  overflow:hidden;
+  border-radius:12px; overflow:hidden;
   background:var(--surface-2);
   margin-bottom:18px;
 }
@@ -441,38 +410,23 @@ ul{ list-style:none; }
   margin-bottom:8px;
 }
 .venture-card h3{
-  font-size:1.15rem;
-  font-weight:700;
-  letter-spacing:-.02em;
-  color:var(--text);
+  font-size:1.15rem; font-weight:700;
+  letter-spacing:-.02em; color:var(--text);
   margin-bottom:8px;
 }
 .venture-card p{
-  font-size:.95rem;
-  color:var(--text-2);
-  line-height:1.6;
-  margin-bottom:20px;
-  flex:1;
+  font-size:.95rem; color:var(--text-2); line-height:1.6;
+  margin-bottom:20px; flex:1;
 }
 .venture-card .link{
   display:inline-flex; align-items:center; gap:6px;
-  font-size:.92rem; font-weight:600;
-  color:var(--accent);
+  font-size:.92rem; font-weight:600; color:var(--accent);
 }
 .venture-card .link:hover{ gap:10px; }
 
-/* ============================================================
-   VALUE — big cards, easy to read
-   ============================================================ */
-.value-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:20px;
-}
-@media (max-width:800px){
-  .value-grid{ grid-template-columns:1fr; gap:14px; }
-}
-
+/* VALUE */
+.value-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; }
+@media (max-width:800px){ .value-grid{ grid-template-columns:1fr; gap:14px; } }
 .value-card{
   padding:28px 24px;
   border-radius:var(--radius);
@@ -480,10 +434,7 @@ ul{ list-style:none; }
   border:1.5px solid var(--border);
   transition:border-color .2s, transform .2s;
 }
-.value-card:hover{
-  border-color:var(--border-2);
-  transform:translateY(-2px);
-}
+.value-card:hover{ border-color:var(--border-2); transform:translateY(-2px); }
 .value-icon{
   width:48px; height:48px;
   border-radius:12px;
@@ -493,30 +444,15 @@ ul{ list-style:none; }
   margin-bottom:18px;
 }
 .value-card h3{
-  font-size:1.08rem;
-  font-weight:700;
-  letter-spacing:-.01em;
-  color:var(--text);
+  font-size:1.08rem; font-weight:700;
+  letter-spacing:-.01em; color:var(--text);
   margin-bottom:10px;
 }
-.value-card p{
-  font-size:.95rem;
-  color:var(--text-2);
-  line-height:1.65;
-}
+.value-card p{ font-size:.95rem; color:var(--text-2); line-height:1.65; }
 
-/* ============================================================
-   SERVICES — big cards, easy to scan
-   ============================================================ */
-.services-grid{
-  display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:20px;
-}
-@media (max-width:720px){
-  .services-grid{ grid-template-columns:1fr; gap:14px; }
-}
-
+/* SERVICES */
+.services-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; }
+@media (max-width:720px){ .services-grid{ grid-template-columns:1fr; gap:14px; } }
 .service-card{
   padding:28px 26px;
   border-radius:var(--radius);
@@ -525,14 +461,8 @@ ul{ list-style:none; }
   transition:border-color .2s, transform .2s;
   display:flex; flex-direction:column;
 }
-.service-card:hover{
-  border-color:var(--border-2);
-  transform:translateY(-2px);
-}
-.service-top{
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:16px;
-}
+.service-card:hover{ border-color:var(--border-2); transform:translateY(-2px); }
+.service-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
 .service-icon{
   width:48px; height:48px;
   border-radius:12px;
@@ -550,18 +480,11 @@ ul{ list-style:none; }
   color:var(--accent);
 }
 .service-card h3{
-  font-size:1.2rem;
-  font-weight:700;
-  letter-spacing:-.02em;
-  color:var(--text);
+  font-size:1.2rem; font-weight:700;
+  letter-spacing:-.02em; color:var(--text);
   margin-bottom:10px;
 }
-.service-card > p{
-  font-size:.95rem;
-  color:var(--text-2);
-  line-height:1.6;
-  margin-bottom:18px;
-}
+.service-card > p{ font-size:.95rem; color:var(--text-2); line-height:1.6; margin-bottom:18px; }
 .service-list{
   display:flex; flex-direction:column; gap:8px;
   margin-top:auto;
@@ -570,9 +493,7 @@ ul{ list-style:none; }
 }
 .service-list li{
   display:flex; align-items:flex-start; gap:10px;
-  font-size:.9rem;
-  color:var(--text-2);
-  line-height:1.5;
+  font-size:.9rem; color:var(--text-2); line-height:1.5;
 }
 .service-list li::before{
   content:'';
@@ -583,17 +504,10 @@ ul{ list-style:none; }
   background:var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c47ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/10px no-repeat;
 }
 
-/* ============================================================
-   DEMOS — clean images, simple cards
-   ============================================================ */
-.demos-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:18px;
-}
+/* DEMOS */
+.demos-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; }
 @media (max-width:860px){ .demos-grid{ grid-template-columns:repeat(2, 1fr); } }
 @media (max-width:560px){ .demos-grid{ grid-template-columns:1fr; } }
-
 .demo-card{
   border-radius:var(--radius);
   background:var(--surface);
@@ -602,56 +516,24 @@ ul{ list-style:none; }
   transition:border-color .2s, transform .2s;
   display:block;
 }
-.demo-card:hover{
-  border-color:var(--border-2);
-  transform:translateY(-2px);
-}
-.demo-thumb{
-  aspect-ratio:16/10;
-  overflow:hidden;
-  background:var(--surface-2);
-}
-.demo-thumb img{
-  width:100%; height:100%;
-  object-fit:cover;
-  transition:transform .4s var(--ease);
-}
+.demo-card:hover{ border-color:var(--border-2); transform:translateY(-2px); }
+.demo-thumb{ aspect-ratio:16/10; overflow:hidden; background:var(--surface-2); }
+.demo-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .4s var(--ease); }
 .demo-card:hover .demo-thumb img{ transform:scale(1.04); }
-.demo-info{
-  padding:18px 20px 20px;
-}
+.demo-info{ padding:18px 20px 20px; }
 .demo-info h4{
-  font-size:1rem;
-  font-weight:700;
-  letter-spacing:-.01em;
-  color:var(--text);
+  font-size:1rem; font-weight:700;
+  letter-spacing:-.01em; color:var(--text);
   margin-bottom:4px;
 }
-.demo-info p{
-  font-size:.88rem;
-  color:var(--muted);
-  line-height:1.5;
-}
-
-.demos-cta{
-  text-align:center;
-  margin-top:32px;
-  font-size:.95rem;
-  color:var(--muted);
-}
+.demo-info p{ font-size:.88rem; color:var(--muted); line-height:1.5; }
+.demos-cta{ text-align:center; margin-top:32px; font-size:.95rem; color:var(--muted); }
 .demos-cta a{ color:var(--accent); font-weight:600; }
 
-/* ============================================================
-   PROCESS — numbered, easy to follow
-   ============================================================ */
-.process-grid{
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:16px;
-}
+/* PROCESS */
+.process-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
 @media (max-width:800px){ .process-grid{ grid-template-columns:repeat(2, 1fr); } }
 @media (max-width:480px){ .process-grid{ grid-template-columns:1fr; } }
-
 .process-step{
   padding:24px 22px;
   border-radius:var(--radius);
@@ -668,31 +550,15 @@ ul{ list-style:none; }
   margin-bottom:14px;
 }
 .process-step h4{
-  font-size:1rem;
-  font-weight:700;
-  letter-spacing:-.01em;
-  color:var(--text);
+  font-size:1rem; font-weight:700;
+  letter-spacing:-.01em; color:var(--text);
   margin-bottom:6px;
 }
-.process-step p{
-  font-size:.9rem;
-  color:var(--text-2);
-  line-height:1.55;
-}
+.process-step p{ font-size:.9rem; color:var(--text-2); line-height:1.55; }
 
-/* ============================================================
-   PRICING — simple, mobile-first
-   ============================================================ */
-.pricing-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:18px;
-  align-items:stretch;
-}
-@media (max-width:860px){
-  .pricing-grid{ grid-template-columns:1fr; gap:14px; max-width:480px; margin-inline:auto; }
-}
-
+/* PRICING */
+.pricing-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; align-items:stretch; }
+@media (max-width:860px){ .pricing-grid{ grid-template-columns:1fr; gap:14px; max-width:480px; margin-inline:auto; } }
 .price-card{
   padding:30px 26px;
   border-radius:var(--radius);
@@ -701,61 +567,34 @@ ul{ list-style:none; }
   display:flex; flex-direction:column;
   position:relative;
 }
-.price-card.featured{
-  border-color:var(--accent);
-  border-width:2px;
-  box-shadow:var(--shadow-md);
-}
+.price-card.featured{ border-color:var(--accent); border-width:2px; box-shadow:var(--shadow-md); }
 .price-badge{
   position:absolute; top:-11px; left:50%; transform:translateX(-50%);
-  background:var(--accent);
-  color:#fff;
+  background:var(--accent); color:#fff;
   font-size:.7rem; font-weight:700;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  padding:4px 12px;
-  border-radius:99px;
-  white-space:nowrap;
+  letter-spacing:.06em; text-transform:uppercase;
+  padding:4px 12px; border-radius:99px; white-space:nowrap;
 }
 .price-name{
   font-size:.8rem; font-weight:700;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:12px;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:12px;
 }
 .price-amount{
-  font-size:2.2rem;
-  font-weight:800;
-  letter-spacing:-.03em;
-  color:var(--text);
-  line-height:1;
-  margin-bottom:6px;
+  font-size:2.2rem; font-weight:800;
+  letter-spacing:-.03em; color:var(--text);
+  line-height:1; margin-bottom:6px;
 }
-.price-amount small{
-  font-size:.9rem;
-  font-weight:500;
-  color:var(--muted);
-  margin-left:4px;
-}
-.price-desc{
-  font-size:.92rem;
-  color:var(--text-2);
-  line-height:1.5;
-  margin-bottom:22px;
-}
+.price-amount small{ font-size:.9rem; font-weight:500; color:var(--muted); margin-left:4px; }
+.price-desc{ font-size:.92rem; color:var(--text-2); line-height:1.5; margin-bottom:22px; }
 .price-features{
   display:flex; flex-direction:column; gap:10px;
-  margin-bottom:26px;
-  padding-top:20px;
-  border-top:1px solid var(--border);
-  flex:1;
+  margin-bottom:26px; padding-top:20px;
+  border-top:1px solid var(--border); flex:1;
 }
 .price-features li{
   display:flex; align-items:flex-start; gap:10px;
-  font-size:.9rem;
-  color:var(--text-2);
-  line-height:1.5;
+  font-size:.9rem; color:var(--text-2); line-height:1.5;
 }
 .price-features li::before{
   content:'';
@@ -766,79 +605,35 @@ ul{ list-style:none; }
   background:var(--accent-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c47ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/10px no-repeat;
 }
 .price-card .btn{ width:100%; }
-
-.pricing-note{
-  text-align:center;
-  margin-top:24px;
-  font-size:.92rem;
-  color:var(--muted);
-}
+.pricing-note{ text-align:center; margin-top:24px; font-size:.92rem; color:var(--muted); }
 .pricing-note a{ color:var(--accent); font-weight:600; }
 
-/* ============================================================
-   TESTIMONIALS — simple, easy to read
-   ============================================================ */
-.testi-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:18px;
-}
-@media (max-width:800px){
-  .testi-grid{ grid-template-columns:1fr; gap:14px; max-width:560px; margin-inline:auto; }
-}
-
+/* TESTIMONIALS */
+.testi-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; }
+@media (max-width:800px){ .testi-grid{ grid-template-columns:1fr; gap:14px; max-width:560px; margin-inline:auto; } }
 .testi-card{
   padding:26px 24px;
   border-radius:var(--radius);
   background:var(--surface);
   border:1.5px solid var(--border);
 }
-.testi-stars{
-  color:#f59e0b;
-  font-size:.9rem;
-  letter-spacing:2px;
-  margin-bottom:14px;
-}
-.testi-text{
-  font-size:.96rem;
-  color:var(--text-2);
-  line-height:1.65;
-  margin-bottom:18px;
-}
+.testi-stars{ color:#f59e0b; font-size:.9rem; letter-spacing:2px; margin-bottom:14px; }
+.testi-text{ font-size:.96rem; color:var(--text-2); line-height:1.65; margin-bottom:18px; }
 .testi-person{
   display:flex; align-items:center; gap:12px;
-  padding-top:16px;
-  border-top:1px solid var(--border);
+  padding-top:16px; border-top:1px solid var(--border);
 }
 .testi-avatar{
-  width:40px; height:40px;
-  border-radius:50%;
+  width:40px; height:40px; border-radius:50%;
   display:grid; place-items:center;
-  background:var(--accent-soft);
-  color:var(--accent);
-  font-weight:700;
-  flex:none;
-  font-size:.95rem;
+  background:var(--accent-soft); color:var(--accent);
+  font-weight:700; flex:none; font-size:.95rem;
 }
-.testi-person strong{
-  display:block;
-  font-size:.92rem;
-  font-weight:600;
-  color:var(--text);
-}
-.testi-person small{
-  font-size:.8rem;
-  color:var(--muted);
-}
+.testi-person strong{ display:block; font-size:.92rem; font-weight:600; color:var(--text); }
+.testi-person small{ font-size:.8rem; color:var(--muted); }
 
-/* ============================================================
-   FAQ — accordions, easy to use on mobile
-   ============================================================ */
-.faq-list{
-  max-width:720px;
-  margin-inline:auto;
-  display:flex; flex-direction:column; gap:10px;
-}
+/* FAQ */
+.faq-list{ max-width:720px; margin-inline:auto; display:flex; flex-direction:column; gap:10px; }
 .faq-item{
   background:var(--surface);
   border:1.5px solid var(--border);
@@ -848,19 +643,15 @@ ul{ list-style:none; }
 }
 .faq-item.open{ border-color:var(--accent); }
 .faq-q{
-  width:100%;
-  text-align:left;
+  width:100%; text-align:left;
   display:flex; align-items:center; justify-content:space-between; gap:16px;
   padding:18px 20px;
-  font-size:1rem;
-  font-weight:600;
-  letter-spacing:-.01em;
-  color:var(--text);
+  font-size:1rem; font-weight:600;
+  letter-spacing:-.01em; color:var(--text);
   line-height:1.4;
 }
 .faq-icon{
-  flex:none;
-  width:20px; height:20px;
+  flex:none; width:20px; height:20px;
   position:relative;
   transition:transform .3s var(--ease);
 }
@@ -877,21 +668,10 @@ ul{ list-style:none; }
 .faq-icon::before{ width:12px; height:2px; }
 .faq-icon::after{ width:2px; height:12px; }
 .faq-item.open .faq-icon::after{ transform:translate(-50%,-50%) rotate(90deg); }
-.faq-a{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .35s var(--ease);
-}
-.faq-a-inner{
-  padding:0 20px 20px;
-  font-size:.95rem;
-  color:var(--text-2);
-  line-height:1.65;
-}
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .35s var(--ease); }
+.faq-a-inner{ padding:0 20px 20px; font-size:.95rem; color:var(--text-2); line-height:1.65; }
 
-/* ============================================================
-   CONTACT — big WhatsApp CTA + form
-   ============================================================ */
+/* CONTACT */
 .contact-wa{
   display:flex; flex-direction:column; align-items:center;
   gap:18px;
@@ -903,29 +683,17 @@ ul{ list-style:none; }
 }
 .contact-wa h3{
   font-size:clamp(1.3rem, 4vw, 1.7rem);
-  font-weight:800;
-  letter-spacing:-.02em;
-  color:var(--text);
-  margin-bottom:6px;
+  font-weight:800; letter-spacing:-.02em;
+  color:var(--text); margin-bottom:6px;
 }
 .contact-wa p{
-  font-size:1rem;
-  color:var(--text-2);
-  max-width:420px;
-  line-height:1.6;
-  margin-bottom:8px;
+  font-size:1rem; color:var(--text-2);
+  max-width:420px; line-height:1.6; margin-bottom:8px;
 }
 .contact-wa .btn{ font-size:1rem; padding:15px 28px; }
-
-.contact-methods{
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:14px;
-  margin-bottom:40px;
-}
+.contact-methods{ display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; margin-bottom:40px; }
 @media (max-width:860px){ .contact-methods{ grid-template-columns:repeat(2, 1fr); } }
 @media (max-width:480px){ .contact-methods{ grid-template-columns:1fr; } }
-
 .contact-method{
   padding:20px 18px;
   border-radius:var(--radius-sm);
@@ -936,63 +704,36 @@ ul{ list-style:none; }
 }
 .contact-method:hover{ border-color:var(--border-2); }
 .contact-method .ico{
-  width:40px; height:40px;
-  border-radius:10px;
+  width:40px; height:40px; border-radius:10px;
   display:grid; place-items:center;
-  background:var(--accent-soft);
-  font-size:1.15rem;
+  background:var(--accent-soft); font-size:1.15rem;
   margin:0 auto 12px;
 }
 .contact-method h4{
   font-size:.75rem; font-weight:700;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:6px;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:6px;
 }
-.contact-method p{
-  font-size:.95rem;
-  font-weight:600;
-  color:var(--text);
-  word-break:break-word;
-}
+.contact-method p{ font-size:.95rem; font-weight:600; color:var(--text); word-break:break-word; }
 
 .contact-form{
-  max-width:640px;
-  margin-inline:auto;
+  max-width:640px; margin-inline:auto;
   padding:clamp(24px,4vw,36px);
   border-radius:var(--radius);
   background:var(--surface);
   border:1.5px solid var(--border);
 }
 .contact-form h3{
-  font-size:1.3rem;
-  font-weight:700;
-  letter-spacing:-.02em;
-  color:var(--text);
+  font-size:1.3rem; font-weight:700;
+  letter-spacing:-.02em; color:var(--text);
   margin-bottom:6px;
 }
-.contact-form > p{
-  font-size:.95rem;
-  color:var(--text-2);
-  margin-bottom:24px;
-}
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
+.contact-form > p{ font-size:.95rem; color:var(--text-2); margin-bottom:24px; }
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 @media (max-width:560px){ .form-row{ grid-template-columns:1fr; } }
-.field{
-  display:flex; flex-direction:column; gap:6px;
-  margin-bottom:14px;
-}
+.field{ display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
 .field.full{ grid-column:1 / -1; }
-.field label{
-  font-size:.85rem;
-  font-weight:600;
-  color:var(--text);
-}
+.field label{ font-size:.85rem; font-weight:600; color:var(--text); }
 .field input,
 .field textarea,
 .field select{
@@ -1027,19 +768,14 @@ ul{ list-style:none; }
 }
 .contact-form .btn{ width:100%; margin-top:6px; }
 .form-msg{
-  margin-top:14px;
-  text-align:center;
-  font-size:.92rem;
-  color:var(--accent);
-  opacity:0;
-  transform:translateY(4px);
+  margin-top:14px; text-align:center;
+  font-size:.92rem; color:var(--accent);
+  opacity:0; transform:translateY(4px);
   transition:opacity .3s, transform .3s;
 }
 .form-msg.show{ opacity:1; transform:none; }
 
-/* ============================================================
-   FINAL CTA
-   ============================================================ */
+/* CTA FINAL */
 .cta-final{
   text-align:center;
   padding:clamp(56px,10vw,100px) 24px;
@@ -1048,24 +784,16 @@ ul{ list-style:none; }
 }
 .cta-final h2{
   font-size:clamp(1.6rem, 5vw, 2.4rem);
-  font-weight:800;
-  letter-spacing:-.03em;
-  line-height:1.15;
-  color:var(--text);
-  max-width:640px;
-  margin:0 auto 16px;
+  font-weight:800; letter-spacing:-.03em;
+  line-height:1.15; color:var(--text);
+  max-width:640px; margin:0 auto 16px;
 }
 .cta-final p{
-  font-size:1rem;
-  color:var(--text-2);
-  max-width:480px;
-  margin:0 auto 28px;
-  line-height:1.6;
+  font-size:1rem; color:var(--text-2);
+  max-width:480px; margin:0 auto 28px; line-height:1.6;
 }
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
+/* FOOTER */
 .footer{
   padding:40px 0 100px;
   border-top:1px solid var(--border);
@@ -1078,29 +806,22 @@ ul{ list-style:none; }
   border-bottom:1px solid var(--border);
   margin-bottom:24px;
 }
-.footer-links{
-  display:flex; flex-wrap:wrap; gap:20px;
-}
+.footer-links{ display:flex; flex-wrap:wrap; gap:20px; }
 .footer-links a{
-  color:var(--text-2);
-  font-weight:500;
+  color:var(--text-2); font-weight:500;
   transition:color .2s;
 }
 .footer-links a:hover{ color:var(--accent); }
 .footer-bottom{
   display:flex; flex-wrap:wrap; gap:12px;
   align-items:center; justify-content:space-between;
-  color:var(--muted);
-  font-size:.85rem;
+  color:var(--muted); font-size:.85rem;
 }
 
-/* ============================================================
-   MOBILE STICKY BOTTOM BAR (WhatsApp + Call)
-   ============================================================ */
+/* MOBILE STICKY BAR */
 .mobile-bar{
   position:fixed;
-  left:0; right:0;
-  bottom:0;
+  left:0; right:0; bottom:0;
   z-index:850;
   display:none;
   background:var(--bg);
@@ -1109,9 +830,7 @@ ul{ list-style:none; }
   padding-bottom:calc(10px + env(safe-area-inset-bottom));
   gap:10px;
 }
-@media (max-width:720px){
-  .mobile-bar{ display:flex; }
-}
+@media (max-width:720px){ .mobile-bar{ display:flex; } }
 .mobile-bar a{
   flex:1;
   display:inline-flex; align-items:center; justify-content:center;
@@ -1123,19 +842,11 @@ ul{ list-style:none; }
   letter-spacing:-.01em;
   transition:background .2s;
 }
-.mobile-bar .m-wa{
-  background:var(--whatsapp);
-  color:#fff;
-}
+.mobile-bar .m-wa{ background:var(--whatsapp); color:#fff; }
 .mobile-bar .m-wa:hover{ background:var(--whatsapp-dark); }
-.mobile-bar .m-call{
-  background:var(--surface-2);
-  color:var(--text);
-}
+.mobile-bar .m-call{ background:var(--surface-2); color:var(--text); }
 
-/* ============================================================
-   FLOATING WHATSAPP (desktop only)
-   ============================================================ */
+/* FLOATING WHATSAPP */
 .wa-float{
   position:fixed;
   right:20px; bottom:20px;
@@ -1143,38 +854,23 @@ ul{ list-style:none; }
   width:56px; height:56px;
   border-radius:50%;
   display:grid; place-items:center;
-  background:var(--whatsapp);
-  color:#fff;
+  background:var(--whatsapp); color:#fff;
   box-shadow:0 8px 24px rgba(37,211,102,.4);
   transition:transform .2s var(--ease), box-shadow .2s;
 }
-.wa-float:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 32px rgba(37,211,102,.5);
-}
+.wa-float:hover{ transform:translateY(-2px); box-shadow:0 12px 32px rgba(37,211,102,.5); }
 .wa-float svg{ width:28px; height:28px; fill:#fff; }
 @media (max-width:720px){ .wa-float{ display:none; } }
 
-/* ============================================================
-   REVEAL — subtle, fast
-   ============================================================ */
+/* REVEAL */
 .reveal{
-  opacity:0;
-  transform:translateY(16px);
+  opacity:0; transform:translateY(16px);
   transition:opacity .5s var(--ease), transform .5s var(--ease);
   transition-delay:var(--d,0ms);
 }
-.reveal.in{
-  opacity:1;
-  transform:none;
-}
+.reveal.in{ opacity:1; transform:none; }
 
-/* Accessibility */
-:focus-visible{
-  outline:2px solid var(--accent);
-  outline-offset:2px;
-  border-radius:6px;
-}
+:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:6px; }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{
     animation-duration:.001ms !important;
@@ -1184,8 +880,6 @@ ul{ list-style:none; }
   }
   .reveal{ opacity:1; transform:none; }
 }
-
-/* RTL support */
 html[dir="rtl"]{ text-align:right; }
 html[dir="rtl"] .field select{
   background-position:left 14px center;
@@ -1197,7 +891,6 @@ html[dir="rtl"] .field select{
 
 <body>
 
-<!-- LOADER -->
 <div class="loader" id="loader">
   <div class="loader-inner">
     <div class="loader-logo">Code<em>Kaar</em></div>
@@ -1205,7 +898,6 @@ html[dir="rtl"] .field select{
   </div>
 </div>
 
-<!-- NAV -->
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand">
@@ -1242,611 +934,416 @@ html[dir="rtl"] .field select{
 
 <main>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-inner">
-        <span class="hero-badge reveal">
-          <span class="dot"></span>
-          <span data-i18n="hero.pill">Available for new projects</span>
-        </span>
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <span class="hero-badge reveal">
+        <span class="dot"></span>
+        <span data-i18n="hero.pill">Available for new projects</span>
+      </span>
 
-        <h1 class="reveal" style="--d:60ms">
-          <span data-i18n="hero.title1">Websites that make</span><br>
-          <span data-i18n="hero.title2a">people</span> <span class="highlight" data-i18n="hero.title2b">stop scrolling</span>.
-        </h1>
+      <h1 class="reveal" style="--d:60ms">
+        <span data-i18n="hero.title1">Websites that make</span><br>
+        <span data-i18n="hero.title2a">people</span> <span class="highlight" data-i18n="hero.title2b">stop scrolling</span>.
+      </h1>
 
-        <p class="hero-sub reveal" style="--d:120ms">
-          <span data-i18n="hero.sub2">I build fast, beautiful, mobile-perfect websites for local businesses across Afghanistan. Your customers are online.</span>
-          <strong data-i18n="hero.sub3">Let's put you there too.</strong>
-        </p>
+      <p class="hero-sub reveal" style="--d:120ms">
+        <span data-i18n="hero.sub2">I build fast, beautiful, mobile-perfect websites for local businesses across Afghanistan. Your customers are online.</span>
+        <strong data-i18n="hero.sub3">Let's put you there too.</strong>
+      </p>
 
-        <div class="hero-ctas reveal" style="--d:180ms">
-          <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation."
-             target="_blank" rel="noopener" class="btn btn-wa btn-lg">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
-            <span data-i18n="hero.btnWA">Chat on WhatsApp</span>
-          </a>
-          <a href="portfolio.html" class="btn btn-outline btn-lg" data-i18n="hero.btnDemos">See Live Demos</a>
-        </div>
-
-        <div class="hero-stats reveal" style="--d:240ms">
-          <div class="stat">
-            <b>10+</b>
-            <span data-i18n="hero.proof1">demo sites built</span>
-          </div>
-          <div class="stat">
-            <b>48h</b>
-            <span data-i18n="hero.proof2">avg. delivery</span>
-          </div>
-          <div class="stat">
-            <b>3</b>
-            <span data-i18n="hero.proof3">languages</span>
-          </div>
-        </div>
+      <div class="hero-ctas reveal" style="--d:180ms">
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation."
+           target="_blank" rel="noopener" class="btn btn-wa btn-lg">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
+          <span data-i18n="hero.btnWA">Chat on WhatsApp</span>
+        </a>
+        <a href="portfolio.html" class="btn btn-outline btn-lg" data-i18n="hero.btnDemos">See Live Demos</a>
       </div>
-    </div>
-  </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <div class="marquee-group">
-        <span>☕ Cafés</span><b>•</b>
-        <span>📸 Photographers</span><b>•</b>
-        <span>🍽️ Restaurants</span><b>•</b>
-        <span>👗 Clothing Shops</span><b>•</b>
-        <span>🏠 Real Estate</span><b>•</b>
-        <span>💪 Gyms</span><b>•</b>
-        <span>✈️ Travel Agencies</span><b>•</b>
-        <span>🎨 Creatives</span><b>•</b>
-      </div>
-      <div class="marquee-group">
-        <span>☕ Cafés</span><b>•</b>
-        <span>📸 Photographers</span><b>•</b>
-        <span>🍽️ Restaurants</span><b>•</b>
-        <span>👗 Clothing Shops</span><b>•</b>
-        <span>🏠 Real Estate</span><b>•</b>
-        <span>💪 Gyms</span><b>•</b>
-        <span>✈️ Travel Agencies</span><b>•</b>
-        <span>🎨 Creatives</span><b>•</b>
+      <div class="hero-stats reveal" style="--d:240ms">
+        <div class="stat"><b>10+</b><span data-i18n="hero.proof1">demo sites built</span></div>
+        <div class="stat"><b>48h</b><span data-i18n="hero.proof2">avg. delivery</span></div>
+        <div class="stat"><b>3</b><span data-i18n="hero.proof3">languages</span></div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- VENTURES -->
-  <section class="section" id="ventures">
-    <div class="container">
-      <header class="sec-head reveal">
-        <span class="sec-eyebrow" data-i18n="ventures.eyebrow">Our Ventures</span>
-        <h2 data-i18n="ventures.title1">Three projects, one mission</h2>
-        <p data-i18n="ventures.sub">CodeKaar is part of the QMR community — building digital tools and platforms for Afghanistan's next generation.</p>
-      </header>
-
-      <div class="ventures-grid">
-        <article class="venture-card reveal">
-          <div class="venture-logo">
-            <img src="assets/images/codekaar_logo.png" alt="CodeKaar logo">
-          </div>
-          <p class="venture-tag">01 — CodeKaar</p>
-          <h3 data-i18n="ventures.ck.title">Web Studio</h3>
-          <p data-i18n="ventures.ck.desc">Modern, mobile-first websites for local businesses in Afghanistan. Fast delivery, honest pricing, real results.</p>
-          <a href="services.html" class="link" data-i18n="ventures.ck.btn">See Services →</a>
-        </article>
-
-        <article class="venture-card reveal" style="--d:80ms">
-          <div class="venture-logo">
-            <img src="assets/images/qmr_logo.jpg" alt="QMR logo">
-          </div>
-          <p class="venture-tag">02 — QMR</p>
-          <h3 data-i18n="ventures.qmr.title">Quick Modern Revolution</h3>
-          <p data-i18n="ventures.qmr.desc">A community of young tech builders in Khost. We train, we build, and we grow together.</p>
-          <a href="qmr.html" class="link" data-i18n="ventures.qmr.btn">Explore QMR →</a>
-        </article>
-
-        <article class="venture-card reveal" style="--d:160ms">
-          <div class="venture-logo">
-            <img src="assets/images/pashtoons_logo.png" alt="Pashtoons logo">
-          </div>
-          <p class="venture-tag">03 — Pashtoons</p>
-          <h3 data-i18n="ventures.ps.title">Social Platform</h3>
-          <p data-i18n="ventures.ps.desc">A modern social media platform built for our people. Posts, chat, friends, and more — coming soon.</p>
-          <a href="pashtoons.html" class="link" data-i18n="ventures.ps.btn">Coming Soon →</a>
-        </article>
-      </div>
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span>☕ Cafés</span><b>•</b><span>📸 Photographers</span><b>•</b><span>🍽️ Restaurants</span><b>•</b>
+      <span>👗 Clothing Shops</span><b>•</b><span>🏠 Real Estate</span><b>•</b><span>💪 Gyms</span><b>•</b>
+      <span>✈️ Travel Agencies</span><b>•</b><span>🎨 Creatives</span><b>•</b>
     </div>
-  </section>
-
-  <!-- VALUE -->
-  <section class="section" style="background:var(--bg-2)">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="value.eyebrow">Why it matters</span>
-        <h2 data-i18n="value.title1">Your customers look you up online</h2>
-        <p data-i18n="value.sub">No website, or a bad one, means lost customers every single day. A great website means people trust you before they even walk in.</p>
-      </header>
-
-      <div class="value-grid">
-        <article class="value-card reveal">
-          <div class="value-icon">🔍</div>
-          <h3 data-i18n="value.c1.title">Get found on Google</h3>
-          <p data-i18n="value.c1.desc">When someone searches "coffee near me" or "photographer in Kabul" — your business should show up, not your competitor's.</p>
-        </article>
-
-        <article class="value-card reveal" style="--d:80ms">
-          <div class="value-icon">💎</div>
-          <h3 data-i18n="value.c2.title">Look professional instantly</h3>
-          <p data-i18n="value.c2.desc">People judge in 3 seconds. A clean, modern website makes you look like the best option in town — because you are.</p>
-        </article>
-
-        <article class="value-card reveal" style="--d:160ms">
-          <div class="value-icon">📈</div>
-          <h3 data-i18n="value.c3.title">Turn visitors into customers</h3>
-          <p data-i18n="value.c3.desc">WhatsApp buttons, booking forms, directions, contact info — every section is designed to bring you real business.</p>
-        </article>
-      </div>
+    <div class="marquee-group">
+      <span>☕ Cafés</span><b>•</b><span>📸 Photographers</span><b>•</b><span>🍽️ Restaurants</span><b>•</b>
+      <span>👗 Clothing Shops</span><b>•</b><span>🏠 Real Estate</span><b>•</b><span>💪 Gyms</span><b>•</b>
+      <span>✈️ Travel Agencies</span><b>•</b><span>🎨 Creatives</span><b>•</b>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- SERVICES -->
-  <section class="section">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="services.eyebrow">What I Do</span>
-        <h2 data-i18n="services.title1">Everything your business needs online</h2>
-        <p data-i18n="services.sub">From a single beautiful landing page to a full business presence — built fast, built right.</p>
-      </header>
+<section class="section" id="ventures">
+  <div class="container">
+    <header class="sec-head reveal">
+      <span class="sec-eyebrow" data-i18n="ventures.eyebrow">Our Ventures</span>
+      <h2 data-i18n="ventures.title1">Three projects, one mission</h2>
+      <p data-i18n="ventures.sub">CodeKaar is part of the QMR community — building digital tools and platforms for Afghanistan's next generation.</p>
+    </header>
 
-      <div class="services-grid">
-        <article class="service-card reveal">
-          <div class="service-top">
-            <div class="service-icon">🌐</div>
-            <span class="service-badge" data-i18n="services.badge1">Most Popular</span>
-          </div>
-          <h3 data-i18n="services.s1.title">Business Website</h3>
-          <p data-i18n="services.s1.desc">A complete, modern website for your business — designed to convert visitors into customers.</p>
-          <ul class="service-list">
-            <li data-i18n="services.s1.f1">Custom design tailored to your brand</li>
-            <li data-i18n="services.s1.f2">Mobile, tablet and desktop perfect</li>
-            <li data-i18n="services.s1.f3">Contact form + WhatsApp button</li>
-            <li data-i18n="services.s1.f4">Google Maps &amp; directions</li>
-            <li data-i18n="services.s1.f5">Delivered in 3–5 days</li>
-          </ul>
-        </article>
+    <div class="ventures-grid">
+      <article class="venture-card reveal">
+        <div class="venture-logo"><img src="assets/images/codekaar_logo.png" alt="CodeKaar logo"></div>
+        <p class="venture-tag">01 — CodeKaar</p>
+        <h3 data-i18n="ventures.ck.title">Web Studio</h3>
+        <p data-i18n="ventures.ck.desc">Modern, mobile-first websites for local businesses in Afghanistan. Fast delivery, honest pricing, real results.</p>
+        <a href="services.html" class="link" data-i18n="ventures.ck.btn">See Services →</a>
+      </article>
 
-        <article class="service-card reveal" style="--d:80ms">
-          <div class="service-top">
-            <div class="service-icon">⚡</div>
-            <span class="service-badge" data-i18n="services.badge2">Fast</span>
-          </div>
-          <h3 data-i18n="services.s2.title">Landing Page</h3>
-          <p data-i18n="services.s2.desc">One powerful page that sells a single product, service or event. Perfect for ads and social media traffic.</p>
-          <ul class="service-list">
-            <li data-i18n="services.s2.f1">Single-page, focused design</li>
-            <li data-i18n="services.s2.f2">Built for conversions</li>
-            <li data-i18n="services.s2.f3">Copy &amp; layout guidance included</li>
-            <li data-i18n="services.s2.f4">Delivered in 24–48 hours</li>
-          </ul>
-        </article>
+      <article class="venture-card reveal" style="--d:80ms">
+        <div class="venture-logo"><img src="assets/images/qmr_logo.jpg" alt="QMR logo"></div>
+        <p class="venture-tag">02 — QMR</p>
+        <h3 data-i18n="ventures.qmr.title">Quick Modern Revolution</h3>
+        <p data-i18n="ventures.qmr.desc">A community of young tech builders in Khost. We train, we build, and we grow together.</p>
+        <a href="qmr.html" class="link" data-i18n="ventures.qmr.btn">Explore QMR →</a>
+      </article>
 
-        <article class="service-card reveal">
-          <div class="service-top">
-            <div class="service-icon">🛒</div>
-            <span class="service-badge" data-i18n="services.badge3">E-commerce</span>
-          </div>
-          <h3 data-i18n="services.s3.title">Online Shop</h3>
-          <p data-i18n="services.s3.desc">Sell your products online with a simple, beautiful store. Products, cart, checkout — all handled.</p>
-          <ul class="service-list">
-            <li data-i18n="services.s3.f1">Product catalogue with images</li>
-            <li data-i18n="services.s3.f2">Shopping cart &amp; checkout flow</li>
-            <li data-i18n="services.s3.f3">Payment &amp; delivery info pages</li>
-            <li data-i18n="services.s3.f4">WhatsApp order option too</li>
-          </ul>
-        </article>
-
-        <article class="service-card reveal" style="--d:80ms">
-          <div class="service-top">
-            <div class="service-icon">🔧</div>
-            <span class="service-badge" data-i18n="services.badge4">Support</span>
-          </div>
-          <h3 data-i18n="services.s4.title">Redesign &amp; Care</h3>
-          <p data-i18n="services.s4.desc">Already have a website that looks outdated? I'll rebuild it — and keep it updated for you.</p>
-          <ul class="service-list">
-            <li data-i18n="services.s4.f1">Full redesign of existing site</li>
-            <li data-i18n="services.s4.f2">Speed &amp; mobile optimization</li>
-            <li data-i18n="services.s4.f3">Monthly content updates</li>
-            <li data-i18n="services.s4.f4">Backups &amp; security</li>
-          </ul>
-        </article>
-      </div>
+      <article class="venture-card reveal" style="--d:160ms">
+        <div class="venture-logo"><img src="assets/images/pashtoons_logo.png" alt="Pashtoons logo"></div>
+        <p class="venture-tag">03 — Pashtoons</p>
+        <h3 data-i18n="ventures.ps.title">Social Platform</h3>
+        <p data-i18n="ventures.ps.desc">A modern social media platform built for our people. Posts, chat, friends, and more — coming soon.</p>
+        <a href="pashtoons.html" class="link" data-i18n="ventures.ps.btn">Coming Soon →</a>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- DEMOS -->
-  <section class="section" style="background:var(--bg-2)">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="demos.eyebrow">Live Demos</span>
-        <h2 data-i18n="demos.title1">Real designs, built for real businesses</h2>
-        <p data-i18n="demos.sub">Click any demo to see the kind of website I can build for you. Every design is 100% custom.</p>
-      </header>
+<section class="section" style="background:var(--bg-2)">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="value.eyebrow">Why it matters</span>
+      <h2 data-i18n="value.title1">Your customers look you up online</h2>
+      <p data-i18n="value.sub">No website, or a bad one, means lost customers every single day. A great website means people trust you before they even walk in.</p>
+    </header>
 
-      <div class="demos-grid">
-        <a class="demo-card reveal" href="portfolio.html">
-          <div class="demo-thumb">
-            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=75" alt="Café website demo" loading="lazy">
-          </div>
-          <div class="demo-info">
-            <h4>Kabul Coffee</h4>
-            <p data-i18n="demos.d1">Modern café site with menu, gallery &amp; reservations.</p>
-          </div>
-        </a>
-
-        <a class="demo-card reveal" style="--d:60ms" href="portfolio.html">
-          <div class="demo-thumb">
-            <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=800&q=75" alt="Photography portfolio demo" loading="lazy">
-          </div>
-          <div class="demo-info">
-            <h4>Noor Photography</h4>
-            <p data-i18n="demos.d2">Full-screen portfolio with gallery &amp; booking form.</p>
-          </div>
-        </a>
-
-        <a class="demo-card reveal" style="--d:120ms" href="portfolio.html">
-          <div class="demo-thumb">
-            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=75" alt="Restaurant website demo" loading="lazy">
-          </div>
-          <div class="demo-info">
-            <h4>Restaurant</h4>
-            <p data-i18n="demos.d3">Elegant dark theme with menu, chef story &amp; bookings.</p>
-          </div>
-        </a>
-
-        <a class="demo-card reveal" href="portfolio.html">
-          <div class="demo-thumb">
-            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=75" alt="Clothing boutique demo" loading="lazy">
-          </div>
-          <div class="demo-info">
-            <h4>Clothing Boutique</h4>
-            <p data-i18n="demos.d4">Editorial lookbook with product grid &amp; shop page.</p>
-          </div>
-        </a>
-
-        <a class="demo-card reveal" style="--d:60ms" href="portfolio.html">
-          <div class="demo-thumb">
-            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=75" alt="Real estate website demo" loading="lazy">
-          </div>
-          <div class="demo-info">
-            <h4>Property Listings</h4>
-            <p data-i18n="demos.d5">Browse homes, filter by price &amp; contact agents.</p>
-          </div>
-        </a>
-
-        <a class="demo-card reveal" style="--d:120ms" href="portfolio.html">
-          <div class="demo-thumb">
-            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=75" alt="Gym website demo" loading="lazy">
-          </div>
-          <div class="demo-info">
-            <h4>Gym &amp; Fitness</h4>
-            <p data-i18n="demos.d6">Class schedule, trainers &amp; membership plans.</p>
-          </div>
-        </a>
-      </div>
-
-      <p class="demos-cta reveal">
-        <span data-i18n="demos.footer1">Want a demo for</span>
-        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20demo%20for%20my%20business." target="_blank" rel="noopener" data-i18n="demos.footer2">your business type</a>?
-        <span data-i18n="demos.footer3">Just ask — I'll build one free.</span>
-      </p>
+    <div class="value-grid">
+      <article class="value-card reveal">
+        <div class="value-icon">🔍</div>
+        <h3 data-i18n="value.c1.title">Get found on Google</h3>
+        <p data-i18n="value.c1.desc">When someone searches "coffee near me" or "photographer in Kabul" — your business should show up, not your competitor's.</p>
+      </article>
+      <article class="value-card reveal" style="--d:80ms">
+        <div class="value-icon">💎</div>
+        <h3 data-i18n="value.c2.title">Look professional instantly</h3>
+        <p data-i18n="value.c2.desc">People judge in 3 seconds. A clean, modern website makes you look like the best option in town — because you are.</p>
+      </article>
+      <article class="value-card reveal" style="--d:160ms">
+        <div class="value-icon">📈</div>
+        <h3 data-i18n="value.c3.title">Turn visitors into customers</h3>
+        <p data-i18n="value.c3.desc">WhatsApp buttons, booking forms, directions, contact info — every section is designed to bring you real business.</p>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PROCESS -->
-  <section class="section">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="process.eyebrow">How It Works</span>
-        <h2 data-i18n="process.title1">From idea to live in 4 simple steps</h2>
-      </header>
+<section class="section">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="services.eyebrow">What I Do</span>
+      <h2 data-i18n="services.title1">Everything your business needs online</h2>
+      <p data-i18n="services.sub">From a single beautiful landing page to a full business presence — built fast, built right.</p>
+    </header>
 
-      <div class="process-grid">
-        <div class="process-step reveal">
-          <div class="step-num">1</div>
-          <h4 data-i18n="process.p1.title">You message me</h4>
-          <p data-i18n="process.p1.desc">Tell me about your business on WhatsApp. No forms, no waiting. Just a chat.</p>
-        </div>
-        <div class="process-step reveal" style="--d:60ms">
-          <div class="step-num">2</div>
-          <h4 data-i18n="process.p2.title">I design it</h4>
-          <p data-i18n="process.p2.desc">I create a custom design for your brand and send it for your review.</p>
-        </div>
-        <div class="process-step reveal" style="--d:120ms">
-          <div class="step-num">3</div>
-          <h4 data-i18n="process.p3.title">You approve</h4>
-          <p data-i18n="process.p3.desc">Any changes? I'll adjust until you're happy. No limits on revisions.</p>
-        </div>
-        <div class="process-step reveal" style="--d:180ms">
-          <div class="step-num">4</div>
-          <h4 data-i18n="process.p4.title">It goes live</h4>
-          <p data-i18n="process.p4.desc">Your website launches, fully live and ready for customers. I handle everything.</p>
-        </div>
-      </div>
+    <div class="services-grid">
+      <article class="service-card reveal">
+        <div class="service-top"><div class="service-icon">🌐</div><span class="service-badge" data-i18n="services.badge1">Most Popular</span></div>
+        <h3 data-i18n="services.s1.title">Business Website</h3>
+        <p data-i18n="services.s1.desc">A complete, modern website for your business — designed to convert visitors into customers.</p>
+        <ul class="service-list">
+          <li data-i18n="services.s1.f1">Custom design tailored to your brand</li>
+          <li data-i18n="services.s1.f2">Mobile, tablet and desktop perfect</li>
+          <li data-i18n="services.s1.f3">Contact form + WhatsApp button</li>
+          <li data-i18n="services.s1.f4">Google Maps &amp; directions</li>
+          <li data-i18n="services.s1.f5">Delivered in 3–5 days</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal" style="--d:80ms">
+        <div class="service-top"><div class="service-icon">⚡</div><span class="service-badge" data-i18n="services.badge2">Fast</span></div>
+        <h3 data-i18n="services.s2.title">Landing Page</h3>
+        <p data-i18n="services.s2.desc">One powerful page that sells a single product, service or event. Perfect for ads and social media traffic.</p>
+        <ul class="service-list">
+          <li data-i18n="services.s2.f1">Single-page, focused design</li>
+          <li data-i18n="services.s2.f2">Built for conversions</li>
+          <li data-i18n="services.s2.f3">Copy &amp; layout guidance included</li>
+          <li data-i18n="services.s2.f4">Delivered in 24–48 hours</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal">
+        <div class="service-top"><div class="service-icon">🛒</div><span class="service-badge" data-i18n="services.badge3">E-commerce</span></div>
+        <h3 data-i18n="services.s3.title">Online Shop</h3>
+        <p data-i18n="services.s3.desc">Sell your products online with a simple, beautiful store. Products, cart, checkout — all handled.</p>
+        <ul class="service-list">
+          <li data-i18n="services.s3.f1">Product catalogue with images</li>
+          <li data-i18n="services.s3.f2">Shopping cart &amp; checkout flow</li>
+          <li data-i18n="services.s3.f3">Payment &amp; delivery info pages</li>
+          <li data-i18n="services.s3.f4">WhatsApp order option too</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal" style="--d:80ms">
+        <div class="service-top"><div class="service-icon">🔧</div><span class="service-badge" data-i18n="services.badge4">Support</span></div>
+        <h3 data-i18n="services.s4.title">Redesign &amp; Care</h3>
+        <p data-i18n="services.s4.desc">Already have a website that looks outdated? I'll rebuild it — and keep it updated for you.</p>
+        <ul class="service-list">
+          <li data-i18n="services.s4.f1">Full redesign of existing site</li>
+          <li data-i18n="services.s4.f2">Speed &amp; mobile optimization</li>
+          <li data-i18n="services.s4.f3">Monthly content updates</li>
+          <li data-i18n="services.s4.f4">Backups &amp; security</li>
+        </ul>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PRICING -->
-  <section class="section" style="background:var(--bg-2)">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="pricing.eyebrow">Pricing</span>
-        <h2 data-i18n="pricing.title1">Simple, honest packages</h2>
-        <p data-i18n="pricing.sub">No hidden fees. No surprises. Just a great website at a fair price.</p>
-      </header>
+<section class="section" style="background:var(--bg-2)">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="demos.eyebrow">Live Demos</span>
+      <h2 data-i18n="demos.title1">Real designs, built for real businesses</h2>
+      <p data-i18n="demos.sub">Click any demo to see the kind of website I can build for you. Every design is 100% custom.</p>
+    </header>
 
-      <div class="pricing-grid">
-        <article class="price-card reveal">
-          <div class="price-name" data-i18n="pricing.p1.name">Starter</div>
-          <div class="price-amount">$149 <small data-i18n="pricing.oneTime">one-time</small></div>
-          <p class="price-desc" data-i18n="pricing.p1.desc">Perfect for a simple, beautiful one-page presence.</p>
-          <ul class="price-features">
-            <li data-i18n="pricing.p1.f1">Single-page website</li>
-            <li data-i18n="pricing.p1.f2">Mobile-perfect design</li>
-            <li data-i18n="pricing.p1.f3">Contact form + WhatsApp</li>
-            <li data-i18n="pricing.p1.f4">Google Maps embed</li>
-            <li data-i18n="pricing.p1.f5">Delivery in 48 hours</li>
-          </ul>
-          <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20the%20Starter%20package." target="_blank" rel="noopener" class="btn btn-outline" data-i18n="pricing.getStarted">Get Started</a>
-        </article>
-
-        <article class="price-card featured reveal" style="--d:80ms">
-          <span class="price-badge" data-i18n="pricing.popular">Most Popular</span>
-          <div class="price-name" data-i18n="pricing.p2.name">Business</div>
-          <div class="price-amount">$349 <small data-i18n="pricing.oneTime">one-time</small></div>
-          <p class="price-desc" data-i18n="pricing.p2.desc">The full package — everything a growing business needs.</p>
-          <ul class="price-features">
-            <li data-i18n="pricing.p2.f1">Multi-section website (5–7 sections)</li>
-            <li data-i18n="pricing.p2.f2">Custom design for your brand</li>
-            <li data-i18n="pricing.p2.f3">Gallery, menu or services pages</li>
-            <li data-i18n="pricing.p2.f4">Contact form, WhatsApp, maps</li>
-            <li data-i18n="pricing.p2.f5">Basic SEO setup</li>
-            <li data-i18n="pricing.p2.f6">1 year free updates</li>
-            <li data-i18n="pricing.p2.f7">Delivery in 3–5 days</li>
-          </ul>
-          <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20the%20Business%20package." target="_blank" rel="noopener" class="btn btn-primary" data-i18n="pricing.getStarted">Get Started</a>
-        </article>
-
-        <article class="price-card reveal" style="--d:160ms">
-          <div class="price-name" data-i18n="pricing.p3.name">E-commerce</div>
-          <div class="price-amount">$599 <small data-i18n="pricing.oneTime">one-time</small></div>
-          <p class="price-desc" data-i18n="pricing.p3.desc">Sell products online with a full store setup.</p>
-          <ul class="price-features">
-            <li data-i18n="pricing.p3.f1">Everything in Business</li>
-            <li data-i18n="pricing.p3.f2">Product catalogue + cart</li>
-            <li data-i18n="pricing.p3.f3">Checkout flow</li>
-            <li data-i18n="pricing.p3.f4">Order management</li>
-            <li data-i18n="pricing.p3.f5">Payment integration guidance</li>
-            <li data-i18n="pricing.p3.f6">Delivery in 7–10 days</li>
-          </ul>
-          <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20the%20E-commerce%20package." target="_blank" rel="noopener" class="btn btn-outline" data-i18n="pricing.getStarted">Get Started</a>
-        </article>
-      </div>
-
-      <p class="pricing-note reveal">
-        <span data-i18n="pricing.note1">Not sure which is right for you?</span>
-        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%20need%20help%20choosing%20a%20package." target="_blank" rel="noopener" data-i18n="pricing.note2">Message me</a>
-        <span data-i18n="pricing.note3">and I'll help you choose free.</span>
-      </p>
+    <div class="demos-grid">
+      <a class="demo-card reveal" href="portfolio.html">
+        <div class="demo-thumb"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=75" alt="Café website demo" loading="lazy"></div>
+        <div class="demo-info"><h4>Kabul Coffee</h4><p data-i18n="demos.d1">Modern café site with menu, gallery &amp; reservations.</p></div>
+      </a>
+      <a class="demo-card reveal" style="--d:60ms" href="portfolio.html">
+        <div class="demo-thumb"><img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=800&q=75" alt="Photography portfolio demo" loading="lazy"></div>
+        <div class="demo-info"><h4>Noor Photography</h4><p data-i18n="demos.d2">Full-screen portfolio with gallery &amp; booking form.</p></div>
+      </a>
+      <a class="demo-card reveal" style="--d:120ms" href="portfolio.html">
+        <div class="demo-thumb"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=75" alt="Restaurant website demo" loading="lazy"></div>
+        <div class="demo-info"><h4>Restaurant</h4><p data-i18n="demos.d3">Elegant dark theme with menu, chef story &amp; bookings.</p></div>
+      </a>
+      <a class="demo-card reveal" href="portfolio.html">
+        <div class="demo-thumb"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=75" alt="Clothing boutique demo" loading="lazy"></div>
+        <div class="demo-info"><h4>Clothing Boutique</h4><p data-i18n="demos.d4">Editorial lookbook with product grid &amp; shop page.</p></div>
+      </a>
+      <a class="demo-card reveal" style="--d:60ms" href="portfolio.html">
+        <div class="demo-thumb"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=75" alt="Real estate website demo" loading="lazy"></div>
+        <div class="demo-info"><h4>Property Listings</h4><p data-i18n="demos.d5">Browse homes, filter by price &amp; contact agents.</p></div>
+      </a>
+      <a class="demo-card reveal" style="--d:120ms" href="portfolio.html">
+        <div class="demo-thumb"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=75" alt="Gym website demo" loading="lazy"></div>
+        <div class="demo-info"><h4>Gym &amp; Fitness</h4><p data-i18n="demos.d6">Class schedule, trainers &amp; membership plans.</p></div>
+      </a>
     </div>
-  </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="testi.eyebrow">Client Love</span>
-        <h2 data-i18n="testi.title1">What clients say</h2>
-      </header>
+    <p class="demos-cta reveal">
+      <span data-i18n="demos.footer1">Want a demo for</span>
+      <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20demo%20for%20my%20business." target="_blank" rel="noopener" data-i18n="demos.footer2">your business type</a>?
+      <span data-i18n="demos.footer3">Just ask — I'll build one free.</span>
+    </p>
+  </div>
+</section>
 
-      <div class="testi-grid">
-        <article class="testi-card reveal">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text" data-i18n="testi.t1">"I got more customers in the first week than in the last three months. Best money I've spent on my business."</p>
-          <div class="testi-person">
-            <div class="testi-avatar">A</div>
-            <div>
-              <strong>Ahmad R.</strong>
-              <small data-i18n="testi.p1.role">Café Owner · Kabul</small>
-            </div>
-          </div>
-        </article>
+<section class="section">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="process.eyebrow">How It Works</span>
+      <h2 data-i18n="process.title1">From idea to live in 4 simple steps</h2>
+    </header>
 
-        <article class="testi-card reveal" style="--d:80ms">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text" data-i18n="testi.t2">"My photography bookings have doubled. The site is so beautiful my clients think I hired an agency."</p>
-          <div class="testi-person">
-            <div class="testi-avatar">N</div>
-            <div>
-              <strong>Noor S.</strong>
-              <small data-i18n="testi.p2.role">Photographer · Kabul</small>
-            </div>
-          </div>
-        </article>
-
-        <article class="testi-card reveal" style="--d:160ms">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text" data-i18n="testi.t3">"Fast, professional, and the price was honest. I finally have a website I'm proud to share."</p>
-          <div class="testi-person">
-            <div class="testi-avatar">F</div>
-            <div>
-              <strong>Fatima K.</strong>
-              <small data-i18n="testi.p3.role">Boutique Owner · Herat</small>
-            </div>
-          </div>
-        </article>
-      </div>
+    <div class="process-grid">
+      <div class="process-step reveal"><div class="step-num">1</div><h4 data-i18n="process.p1.title">You message me</h4><p data-i18n="process.p1.desc">Tell me about your business on WhatsApp. No forms, no waiting. Just a chat.</p></div>
+      <div class="process-step reveal" style="--d:60ms"><div class="step-num">2</div><h4 data-i18n="process.p2.title">I design it</h4><p data-i18n="process.p2.desc">I create a custom design for your brand and send it for your review.</p></div>
+      <div class="process-step reveal" style="--d:120ms"><div class="step-num">3</div><h4 data-i18n="process.p3.title">You approve</h4><p data-i18n="process.p3.desc">Any changes? I'll adjust until you're happy. No limits on revisions.</p></div>
+      <div class="process-step reveal" style="--d:180ms"><div class="step-num">4</div><h4 data-i18n="process.p4.title">It goes live</h4><p data-i18n="process.p4.desc">Your website launches, fully live and ready for customers. I handle everything.</p></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FAQ -->
-  <section class="section" style="background:var(--bg-2)">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="faq.eyebrow">FAQ</span>
-        <h2 data-i18n="faq.title1">Common questions</h2>
-      </header>
+<section class="section" style="background:var(--bg-2)">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="pricing.eyebrow">Pricing</span>
+      <h2 data-i18n="pricing.title1">Simple, honest packages</h2>
+      <p data-i18n="pricing.sub">No hidden fees. No surprises. Just a great website at a fair price.</p>
+    </header>
 
-      <div class="faq-list">
-        <div class="faq-item reveal">
-          <button class="faq-q" aria-expanded="false">
-            <span data-i18n="faq.q1">How long does it take?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a1">Most websites are delivered in 3–5 days. A single landing page can be ready in 24–48 hours. E-commerce stores take 7–10 days depending on the number of products.</div></div>
-        </div>
+    <div class="pricing-grid">
+      <article class="price-card reveal">
+        <div class="price-name" data-i18n="pricing.p1.name">Starter</div>
+        <div class="price-amount">$149 <small data-i18n="pricing.oneTime">one-time</small></div>
+        <p class="price-desc" data-i18n="pricing.p1.desc">Perfect for a simple, beautiful one-page presence.</p>
+        <ul class="price-features">
+          <li data-i18n="pricing.p1.f1">Single-page website</li>
+          <li data-i18n="pricing.p1.f2">Mobile-perfect design</li>
+          <li data-i18n="pricing.p1.f3">Contact form + WhatsApp</li>
+          <li data-i18n="pricing.p1.f4">Google Maps embed</li>
+          <li data-i18n="pricing.p1.f5">Delivery in 48 hours</li>
+        </ul>
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20the%20Starter%20package." target="_blank" rel="noopener" class="btn btn-outline" data-i18n="pricing.getStarted">Get Started</a>
+      </article>
 
-        <div class="faq-item reveal" style="--d:40ms">
-          <button class="faq-q" aria-expanded="false">
-            <span data-i18n="faq.q2">Do I need to provide content?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a2">Just the basics — your business name, what you do, and any photos you have. If you don't have photos, I'll use high-quality stock images that match your brand. I'll also help write the text.</div></div>
-        </div>
+      <article class="price-card featured reveal" style="--d:80ms">
+        <span class="price-badge" data-i18n="pricing.popular">Most Popular</span>
+        <div class="price-name" data-i18n="pricing.p2.name">Business</div>
+        <div class="price-amount">$349 <small data-i18n="pricing.oneTime">one-time</small></div>
+        <p class="price-desc" data-i18n="pricing.p2.desc">The full package — everything a growing business needs.</p>
+        <ul class="price-features">
+          <li data-i18n="pricing.p2.f1">Multi-section website (5–7 sections)</li>
+          <li data-i18n="pricing.p2.f2">Custom design for your brand</li>
+          <li data-i18n="pricing.p2.f3">Gallery, menu or services pages</li>
+          <li data-i18n="pricing.p2.f4">Contact form, WhatsApp, maps</li>
+          <li data-i18n="pricing.p2.f5">Basic SEO setup</li>
+          <li data-i18n="pricing.p2.f6">1 year free updates</li>
+          <li data-i18n="pricing.p2.f7">Delivery in 3–5 days</li>
+        </ul>
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20the%20Business%20package." target="_blank" rel="noopener" class="btn btn-primary" data-i18n="pricing.getStarted">Get Started</a>
+      </article>
 
-        <div class="faq-item reveal" style="--d:80ms">
-          <button class="faq-q" aria-expanded="false">
-            <span data-i18n="faq.q3">Will it work on mobile?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a3">Absolutely — every website I build is designed mobile-first. Most of your customers will visit from a phone, so that's the version I perfect first.</div></div>
-        </div>
-
-        <div class="faq-item reveal" style="--d:120ms">
-          <button class="faq-q" aria-expanded="false">
-            <span data-i18n="faq.q4">Do you handle hosting and domain?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a4">Yes. I'll set up everything — domain name, hosting, and getting your site live. You don't need to touch anything technical.</div></div>
-        </div>
-
-        <div class="faq-item reveal" style="--d:160ms">
-          <button class="faq-q" aria-expanded="false">
-            <span data-i18n="faq.q5">Can I update it myself later?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a5">For simple text and image changes, yes — I'll show you how. For bigger updates, you can always message me. The Business package includes a year of free updates.</div></div>
-        </div>
-
-        <div class="faq-item reveal" style="--d:200ms">
-          <button class="faq-q" aria-expanded="false">
-            <span data-i18n="faq.q6">How do I pay?</span>
-            <span class="faq-icon"></span>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a6">50% deposit to start, 50% when you're happy and the site goes live. I accept bank transfer, mobile money, and other local payment methods. Details on WhatsApp.</div></div>
-        </div>
-      </div>
+      <article class="price-card reveal" style="--d:160ms">
+        <div class="price-name" data-i18n="pricing.p3.name">E-commerce</div>
+        <div class="price-amount">$599 <small data-i18n="pricing.oneTime">one-time</small></div>
+        <p class="price-desc" data-i18n="pricing.p3.desc">Sell products online with a full store setup.</p>
+        <ul class="price-features">
+          <li data-i18n="pricing.p3.f1">Everything in Business</li>
+          <li data-i18n="pricing.p3.f2">Product catalogue + cart</li>
+          <li data-i18n="pricing.p3.f3">Checkout flow</li>
+          <li data-i18n="pricing.p3.f4">Order management</li>
+          <li data-i18n="pricing.p3.f5">Payment integration guidance</li>
+          <li data-i18n="pricing.p3.f6">Delivery in 7–10 days</li>
+        </ul>
+        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20interested%20in%20the%20E-commerce%20package." target="_blank" rel="noopener" class="btn btn-outline" data-i18n="pricing.getStarted">Get Started</a>
+      </article>
     </div>
-  </section>
 
-  <!-- CONTACT -->
-  <section class="section">
-    <div class="container">
-      <header class="sec-head center reveal">
-        <span class="sec-eyebrow" data-i18n="contact.eyebrow">Let's Talk</span>
-        <h2 data-i18n="contact.title1">Ready to build something great?</h2>
-        <p data-i18n="contact.sub">Free consultation. No pressure. Just a conversation about your business.</p>
-      </header>
+    <p class="pricing-note reveal">
+      <span data-i18n="pricing.note1">Not sure which is right for you?</span>
+      <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%20need%20help%20choosing%20a%20package." target="_blank" rel="noopener" data-i18n="pricing.note2">Message me</a>
+      <span data-i18n="pricing.note3">and I'll help you choose free.</span>
+    </p>
+  </div>
+</section>
 
-      <div class="contact-wa reveal">
-        <h3 data-i18n="contact.wa">Chat on WhatsApp</h3>
-        <p data-i18n="contact.side.desc">The fastest way to reach me. I usually reply within an hour.</p>
-        <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation." target="_blank" rel="noopener" class="btn btn-wa btn-lg">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
-          <span>+93 77 666 9400</span>
-        </a>
-      </div>
+<section class="section">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="testi.eyebrow">Client Love</span>
+      <h2 data-i18n="testi.title1">What clients say</h2>
+    </header>
 
-      <div class="contact-methods">
-        <div class="contact-method reveal">
-          <div class="ico">📧</div>
-          <h4 data-i18n="contact.email">Email</h4>
-          <p>qmr.community@gmail.com</p>
-        </div>
-        <div class="contact-method reveal" style="--d:60ms">
-          <div class="ico">📍</div>
-          <h4 data-i18n="contact.address">Location</h4>
-          <p data-i18n="contact.addressVal">Alisher, Khost</p>
-        </div>
-        <div class="contact-method reveal" style="--d:120ms">
-          <div class="ico">📸</div>
-          <h4 data-i18n="contact.insta">Instagram</h4>
-          <p>@codekaar.dev</p>
-        </div>
-        <div class="contact-method reveal" style="--d:180ms">
-          <div class="ico">⏰</div>
-          <h4 data-i18n="contact.waNote">Response</h4>
-          <p>Under 1 hour</p>
-        </div>
-      </div>
-
-      <div class="contact-form reveal">
-        <h3 data-i18n="contact.form.title1">Or send a message</h3>
-        <p data-i18n="contact.form.sub">Fill this out and I'll get back to you within 24 hours.</p>
-
-        <form id="contactForm" novalidate>
-          <div class="form-row">
-            <div class="field">
-              <label for="cName" data-i18n="contact.form.name">Your Name</label>
-              <input id="cName" name="name" type="text" placeholder="Ahmad" required>
-            </div>
-            <div class="field">
-              <label for="cBiz" data-i18n="contact.form.biz">Business Name</label>
-              <input id="cBiz" name="business" type="text" placeholder="Kabul Coffee">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="field">
-              <label for="cEmail" data-i18n="contact.form.contact">Email or Phone</label>
-              <input id="cEmail" name="contact" type="text" placeholder="you@example.com" required>
-            </div>
-            <div class="field">
-              <label for="cType" data-i18n="contact.form.type">I need a…</label>
-              <select id="cType" name="type" required>
-                <option value="" disabled selected data-i18n="contact.form.choose">Choose…</option>
-                <option data-i18n="contact.form.opt1">Business Website</option>
-                <option data-i18n="contact.form.opt2">Landing Page</option>
-                <option data-i18n="contact.form.opt3">Online Shop</option>
-                <option data-i18n="contact.form.opt4">Redesign</option>
-                <option data-i18n="contact.form.opt5">Not sure yet</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field full">
-            <label for="cMsg" data-i18n="contact.form.msg">Tell me about your project</label>
-            <textarea id="cMsg" name="message" placeholder="I run a café and need a website with our menu…" required></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary" data-i18n="contact.form.send">Send Message</button>
-          <p class="form-msg" id="formMsg" data-i18n="contact.form.thanks">Thanks! I'll be in touch within 24 hours. ✦</p>
-        </form>
-      </div>
+    <div class="testi-grid">
+      <article class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text" data-i18n="testi.t1">"I got more customers in the first week than in the last three months. Best money I've spent on my business."</p>
+        <div class="testi-person"><div class="testi-avatar">A</div><div><strong>Ahmad R.</strong><small data-i18n="testi.p1.role">Café Owner · Kabul</small></div></div>
+      </article>
+      <article class="testi-card reveal" style="--d:80ms">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text" data-i18n="testi.t2">"My photography bookings have doubled. The site is so beautiful my clients think I hired an agency."</p>
+        <div class="testi-person"><div class="testi-avatar">N</div><div><strong>Noor S.</strong><small data-i18n="testi.p2.role">Photographer · Kabul</small></div></div>
+      </article>
+      <article class="testi-card reveal" style="--d:160ms">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text" data-i18n="testi.t3">"Fast, professional, and the price was honest. I finally have a website I'm proud to share."</p>
+        <div class="testi-person"><div class="testi-avatar">F</div><div><strong>Fatima K.</strong><small data-i18n="testi.p3.role">Boutique Owner · Herat</small></div></div>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FINAL CTA -->
-  <section class="cta-final">
-    <h2 class="reveal" data-i18n="cta.title1">Your business deserves a website that actually works.</h2>
-    <p class="reveal" style="--d:60ms" data-i18n="cta.sub">Free consultation · Fast delivery · Honest pricing</p>
-    <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20ready%20to%20build%20my%20website." target="_blank" rel="noopener" class="btn btn-wa btn-lg reveal" style="--d:120ms">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
-      <span data-i18n="cta.btn">Message on WhatsApp</span>
-    </a>
-  </section>
+<section class="section" style="background:var(--bg-2)">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="faq.eyebrow">FAQ</span>
+      <h2 data-i18n="faq.title1">Common questions</h2>
+    </header>
+
+    <div class="faq-list">
+      <div class="faq-item reveal"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q1">How long does it take?</span><span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a1">Most websites are delivered in 3–5 days. A single landing page can be ready in 24–48 hours. E-commerce stores take 7–10 days depending on the number of products.</div></div></div>
+      <div class="faq-item reveal" style="--d:40ms"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q2">Do I need to provide content?</span><span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a2">Just the basics — your business name, what you do, and any photos you have. If you don't have photos, I'll use high-quality stock images that match your brand. I'll also help write the text.</div></div></div>
+      <div class="faq-item reveal" style="--d:80ms"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q3">Will it work on mobile?</span><span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a3">Absolutely — every website I build is designed mobile-first. Most of your customers will visit from a phone, so that's the version I perfect first.</div></div></div>
+      <div class="faq-item reveal" style="--d:120ms"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q4">Do you handle hosting and domain?</span><span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a4">Yes. I'll set up everything — domain name, hosting, and getting your site live. You don't need to touch anything technical.</div></div></div>
+      <div class="faq-item reveal" style="--d:160ms"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q5">Can I update it myself later?</span><span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a5">For simple text and image changes, yes — I'll show you how. For bigger updates, you can always message me. The Business package includes a year of free updates.</div></div></div>
+      <div class="faq-item reveal" style="--d:200ms"><button class="faq-q" aria-expanded="false"><span data-i18n="faq.q6">How do I pay?</span><span class="faq-icon"></span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a6">50% deposit to start, 50% when you're happy and the site goes live. I accept bank transfer, mobile money, and other local payment methods. Details on WhatsApp.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="sec-head center reveal">
+      <span class="sec-eyebrow" data-i18n="contact.eyebrow">Let's Talk</span>
+      <h2 data-i18n="contact.title1">Ready to build something great?</h2>
+      <p data-i18n="contact.sub">Free consultation. No pressure. Just a conversation about your business.</p>
+    </header>
+
+    <div class="contact-wa reveal">
+      <h3 data-i18n="contact.wa">Chat on WhatsApp</h3>
+      <p data-i18n="contact.side.desc">The fastest way to reach me. I usually reply within an hour.</p>
+      <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20free%20consultation." target="_blank" rel="noopener" class="btn btn-wa btn-lg">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
+        <span>+93 77 666 9400</span>
+      </a>
+    </div>
+
+    <div class="contact-methods">
+      <div class="contact-method reveal"><div class="ico">📧</div><h4 data-i18n="contact.email">Email</h4><p>qmr.community@gmail.com</p></div>
+      <div class="contact-method reveal" style="--d:60ms"><div class="ico">📍</div><h4 data-i18n="contact.address">Location</h4><p data-i18n="contact.addressVal">Alisher, Khost</p></div>
+      <div class="contact-method reveal" style="--d:120ms"><div class="ico">📸</div><h4 data-i18n="contact.insta">Instagram</h4><p>@codekaar.dev</p></div>
+      <div class="contact-method reveal" style="--d:180ms"><div class="ico">⏰</div><h4 data-i18n="contact.waNote">Response</h4><p>Under 1 hour</p></div>
+    </div>
+
+    <div class="contact-form reveal">
+      <h3 data-i18n="contact.form.title1">Or send a message</h3>
+      <p data-i18n="contact.form.sub">Fill this out and I'll get back to you within 24 hours.</p>
+
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="field"><label for="cName" data-i18n="contact.form.name">Your Name</label><input id="cName" name="name" type="text" placeholder="Ahmad" required></div>
+          <div class="field"><label for="cBiz" data-i18n="contact.form.biz">Business Name</label><input id="cBiz" name="business" type="text" placeholder="Kabul Coffee"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="cEmail" data-i18n="contact.form.contact">Email or Phone</label><input id="cEmail" name="contact" type="text" placeholder="you@example.com" required></div>
+          <div class="field">
+            <label for="cType" data-i18n="contact.form.type">I need a…</label>
+            <select id="cType" name="type" required>
+              <option value="" disabled selected data-i18n="contact.form.choose">Choose…</option>
+              <option data-i18n="contact.form.opt1">Business Website</option>
+              <option data-i18n="contact.form.opt2">Landing Page</option>
+              <option data-i18n="contact.form.opt3">Online Shop</option>
+              <option data-i18n="contact.form.opt4">Redesign</option>
+              <option data-i18n="contact.form.opt5">Not sure yet</option>
+            </select>
+          </div>
+        </div>
+        <div class="field full"><label for="cMsg" data-i18n="contact.form.msg">Tell me about your project</label><textarea id="cMsg" name="message" placeholder="I run a café and need a website with our menu…" required></textarea></div>
+        <button type="submit" class="btn btn-primary" data-i18n="contact.form.send">Send Message</button>
+        <p class="form-msg" id="formMsg" data-i18n="contact.form.thanks">Thanks! I'll be in touch within 24 hours. ✦</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <h2 class="reveal" data-i18n="cta.title1">Your business deserves a website that actually works.</h2>
+  <p class="reveal" style="--d:60ms" data-i18n="cta.sub">Free consultation · Fast delivery · Honest pricing</p>
+  <a href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27m%20ready%20to%20build%20my%20website." target="_blank" rel="noopener" class="btn btn-wa btn-lg reveal" style="--d:120ms">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
+    <span data-i18n="cta.btn">Message on WhatsApp</span>
+  </a>
+</section>
 
 </main>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-top">
@@ -1871,19 +1368,14 @@ html[dir="rtl"] .field select{
   </div>
 </footer>
 
-<!-- MOBILE STICKY BAR -->
 <div class="mobile-bar">
   <a class="m-wa" href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20website." target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
     <span>WhatsApp</span>
   </a>
-  <a class="m-call" href="tel:+93776669400">
-    <span>📞</span>
-    <span>Call Now</span>
-  </a>
+  <a class="m-call" href="tel:+93776669400"><span>📞</span><span>Call Now</span></a>
 </div>
 
-<!-- FLOATING WHATSAPP (desktop) -->
 <a class="wa-float" href="https://wa.me/93776669400?text=Hi%20CodeKaar!%20I%27d%20like%20a%20website." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
 </a>
