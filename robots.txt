@@ -1,0 +1,12 @@
+# robots.txt for CodeKaar
+# https://codekaar.dpdns.org
+
+# Allow all search engines to crawl the whole site
+User-agent: *
+Allow: /
+
+# Block nothing — everything is public
+Disallow:
+
+# Sitemap location
+Sitemap: https://codekaar.dpdns.org/sitemap.xml

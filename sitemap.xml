@@ -4,65 +4,65 @@
 
   <!-- ============ HOMEPAGE ============ -->
   <url>
-    <loc>https://codekaar.dev/</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://codekaar.dev/index.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/index.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- ============ MAIN PAGES ============ -->
   <url>
-    <loc>https://codekaar.dev/services.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/services.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://codekaar.dev/portfolio.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/portfolio.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://codekaar.dev/pricing.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/pricing.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://codekaar.dev/about.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/about.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://codekaar.dev/contact.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/contact.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- ============ VENTURES / FLAGSHIP PROJECTS ============ -->
   <url>
-    <loc>https://codekaar.dev/qmr.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/qmr.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://codekaar.dev/pashtoons.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://codekaar.dpdns.org/pashtoons.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
